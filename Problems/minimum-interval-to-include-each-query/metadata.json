@@ -1,0 +1,16 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 1851,
+  "lang": "python3",
+  "latest_submission_id": 2063829158,
+  "memory": "63.9 MB",
+  "memory_percentile": 43.43859999999993,
+  "paid_only": false,
+  "question_id": 1977,
+  "runtime": "332 ms",
+  "runtime_percentile": 28.438199999999945,
+  "timestamp": 1783770852,
+  "title": "Minimum Interval to Include Each Query",
+  "title_slug": "minimum-interval-to-include-each-query",
+  "url": "https://leetcode.com/problems/minimum-interval-to-include-each-query/"
+}
