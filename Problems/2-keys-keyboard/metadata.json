@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 650,
+  "lang": "python3",
+  "latest_submission_id": 2063867170,
+  "memory": "62.7 MB",
+  "memory_percentile": 5.0939000000000245,
+  "paid_only": false,
+  "question_id": 650,
+  "runtime": "127 ms",
+  "runtime_percentile": 38.581300000000056,
+  "timestamp": 1783773666,
+  "title": "2 Keys Keyboard",
+  "title_slug": "2-keys-keyboard",
+  "url": "https://leetcode.com/problems/2-keys-keyboard/"
+}
