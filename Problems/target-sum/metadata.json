@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 494,
+  "lang": "python3",
+  "latest_submission_id": 2058275371,
+  "memory": "19.2 MB",
+  "memory_percentile": 91.3478,
+  "paid_only": false,
+  "question_id": 494,
+  "runtime": "15 ms",
+  "runtime_percentile": 97.89460000000003,
+  "timestamp": 1783354858,
+  "title": "Target Sum",
+  "title_slug": "target-sum",
+  "url": "https://leetcode.com/problems/target-sum/"
+}

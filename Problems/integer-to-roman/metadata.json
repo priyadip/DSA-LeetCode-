@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 12,
+  "lang": "python",
+  "latest_submission_id": 1257905928,
+  "memory": "11.6 MB",
+  "memory_percentile": 100.0,
+  "paid_only": false,
+  "question_id": 12,
+  "runtime": "19 ms",
+  "runtime_percentile": 6.7059,
+  "timestamp": 1715698838,
+  "title": "Integer to Roman",
+  "title_slug": "integer-to-roman",
+  "url": "https://leetcode.com/problems/integer-to-roman/"
+}

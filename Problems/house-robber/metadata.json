@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 198,
+  "lang": "python3",
+  "latest_submission_id": 1988887334,
+  "memory": "19.3 MB",
+  "memory_percentile": 60.699300000000015,
+  "paid_only": false,
+  "question_id": 198,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1777230027,
+  "title": "House Robber",
+  "title_slug": "house-robber",
+  "url": "https://leetcode.com/problems/house-robber/"
+}

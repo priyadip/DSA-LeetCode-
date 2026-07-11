@@ -1,0 +1,16 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 600,
+  "lang": "python3",
+  "latest_submission_id": 1988894070,
+  "memory": "19.3 MB",
+  "memory_percentile": 79.93919999999999,
+  "paid_only": false,
+  "question_id": 600,
+  "runtime": "4 ms",
+  "runtime_percentile": 48.632200000000005,
+  "timestamp": 1777230708,
+  "title": "Non-negative Integers without Consecutive Ones",
+  "title_slug": "non-negative-integers-without-consecutive-ones",
+  "url": "https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/"
+}

@@ -1,0 +1,16 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 879,
+  "lang": "python3",
+  "latest_submission_id": 2059540985,
+  "memory": "711.2 MB",
+  "memory_percentile": 18.806900000000095,
+  "paid_only": false,
+  "question_id": 911,
+  "runtime": "2956 ms",
+  "runtime_percentile": 21.792900000000156,
+  "timestamp": 1783441761,
+  "title": "Profitable Schemes",
+  "title_slug": "profitable-schemes",
+  "url": "https://leetcode.com/problems/profitable-schemes/"
+}

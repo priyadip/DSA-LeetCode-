@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 7,
+  "lang": "python",
+  "latest_submission_id": 1257899700,
+  "memory": "11.6 MB",
+  "memory_percentile": 100.0,
+  "paid_only": false,
+  "question_id": 7,
+  "runtime": "13 ms",
+  "runtime_percentile": 82.6558,
+  "timestamp": 1715698364,
+  "title": "Reverse Integer",
+  "title_slug": "reverse-integer",
+  "url": "https://leetcode.com/problems/reverse-integer/"
+}

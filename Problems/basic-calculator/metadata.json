@@ -1,0 +1,16 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 224,
+  "lang": "python",
+  "latest_submission_id": 1257919921,
+  "memory": "13.5 MB",
+  "memory_percentile": 11.52500000000001,
+  "paid_only": false,
+  "question_id": 224,
+  "runtime": "61 ms",
+  "runtime_percentile": 99.8836,
+  "timestamp": 1715699907,
+  "title": "Basic Calculator",
+  "title_slug": "basic-calculator",
+  "url": "https://leetcode.com/problems/basic-calculator/"
+}

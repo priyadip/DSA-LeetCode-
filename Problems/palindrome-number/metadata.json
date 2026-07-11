@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 9,
+  "lang": "python",
+  "latest_submission_id": 1257433670,
+  "memory": "11.6 MB",
+  "memory_percentile": 100.0,
+  "paid_only": false,
+  "question_id": 9,
+  "runtime": "27 ms",
+  "runtime_percentile": 7.1708000000000025,
+  "timestamp": 1715654851,
+  "title": "Palindrome Number",
+  "title_slug": "palindrome-number",
+  "url": "https://leetcode.com/problems/palindrome-number/"
+}

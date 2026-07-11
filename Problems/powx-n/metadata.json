@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 50,
+  "lang": "python",
+  "latest_submission_id": 1257729559,
+  "memory": "11.7 MB",
+  "memory_percentile": 100.0,
+  "paid_only": false,
+  "question_id": 50,
+  "runtime": "8 ms",
+  "runtime_percentile": 0.4223000000000017,
+  "timestamp": 1715683019,
+  "title": "Pow(x, n)",
+  "title_slug": "powx-n",
+  "url": "https://leetcode.com/problems/powx-n/"
+}
