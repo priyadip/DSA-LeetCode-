@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 1979,
+  "lang": "python3",
+  "latest_submission_id": 2072273831,
+  "memory": "19.4 MB",
+  "memory_percentile": 11.570900000000016,
+  "paid_only": false,
+  "question_id": 2106,
+  "runtime": "1 ms",
+  "runtime_percentile": 26.3767,
+  "timestamp": 1784382811,
+  "title": "Find Greatest Common Divisor of Array",
+  "title_slug": "find-greatest-common-divisor-of-array",
+  "url": "https://leetcode.com/problems/find-greatest-common-divisor-of-array/"
+}

@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 1331,
+  "lang": "python3",
+  "latest_submission_id": 2065196849,
+  "memory": "37.7 MB",
+  "memory_percentile": 39.65579999999998,
+  "paid_only": false,
+  "question_id": 1256,
+  "runtime": "32 ms",
+  "runtime_percentile": 82.3475,
+  "timestamp": 1783873214,
+  "title": "Rank Transform of an Array",
+  "title_slug": "rank-transform-of-an-array",
+  "url": "https://leetcode.com/problems/rank-transform-of-an-array/"
+}

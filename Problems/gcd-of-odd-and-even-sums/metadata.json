@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3658,
+  "lang": "python3",
+  "latest_submission_id": 2068933926,
+  "memory": "19.2 MB",
+  "memory_percentile": 88.13399999999999,
+  "paid_only": false,
+  "question_id": 3995,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1784135994,
+  "title": "GCD of Odd and Even Sums",
+  "title_slug": "gcd-of-odd-and-even-sums",
+  "url": "https://leetcode.com/problems/gcd-of-odd-and-even-sums/"
+}

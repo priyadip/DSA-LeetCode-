@@ -1,0 +1,16 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 3312,
+  "lang": "python3",
+  "latest_submission_id": 2071340104,
+  "memory": "40.1 MB",
+  "memory_percentile": 44.767499999999984,
+  "paid_only": false,
+  "question_id": 3583,
+  "runtime": "435 ms",
+  "runtime_percentile": 70.56349999999985,
+  "timestamp": 1784305906,
+  "title": "Sorted GCD Pair Queries",
+  "title_slug": "sorted-gcd-pair-queries",
+  "url": "https://leetcode.com/problems/sorted-gcd-pair-queries/"
+}

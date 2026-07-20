@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 1260,
+  "lang": "python3",
+  "latest_submission_id": 2074636863,
+  "memory": "19.5 MB",
+  "memory_percentile": 96.7077,
+  "paid_only": false,
+  "question_id": 1386,
+  "runtime": "5 ms",
+  "runtime_percentile": 66.461,
+  "timestamp": 1784555924,
+  "title": "Shift 2D Grid",
+  "title_slug": "shift-2d-grid",
+  "url": "https://leetcode.com/problems/shift-2d-grid/"
+}

@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3867,
+  "lang": "python3",
+  "latest_submission_id": 2069840459,
+  "memory": "33.2 MB",
+  "memory_percentile": 98.99059999999996,
+  "paid_only": false,
+  "question_id": 4242,
+  "runtime": "197 ms",
+  "runtime_percentile": 56.29939999999994,
+  "timestamp": 1784204459,
+  "title": "Sum of GCD of Formed Pairs",
+  "title_slug": "sum-of-gcd-of-formed-pairs",
+  "url": "https://leetcode.com/problems/sum-of-gcd-of-formed-pairs/"
+}

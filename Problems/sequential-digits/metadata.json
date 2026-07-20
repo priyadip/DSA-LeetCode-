@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 1291,
+  "lang": "python3",
+  "latest_submission_id": 2066039662,
+  "memory": "19.2 MB",
+  "memory_percentile": 89.9996,
+  "paid_only": false,
+  "question_id": 1212,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1783940608,
+  "title": "Sequential Digits",
+  "title_slug": "sequential-digits",
+  "url": "https://leetcode.com/problems/sequential-digits/"
+}

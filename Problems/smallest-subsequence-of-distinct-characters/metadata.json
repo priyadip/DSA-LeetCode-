@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 1081,
+  "lang": "python3",
+  "latest_submission_id": 2073536411,
+  "memory": "19.5 MB",
+  "memory_percentile": 12.052700000000009,
+  "paid_only": false,
+  "question_id": 1159,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1784469827,
+  "title": "Smallest Subsequence of Distinct Characters",
+  "title_slug": "smallest-subsequence-of-distinct-characters",
+  "url": "https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/"
+}

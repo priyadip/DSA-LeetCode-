@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 1,
+  "lang": "python3",
+  "latest_submission_id": 2066072746,
+  "memory": "20.5 MB",
+  "memory_percentile": 17.519099999999973,
+  "paid_only": false,
+  "question_id": 1,
+  "runtime": "1 ms",
+  "runtime_percentile": 61.4141,
+  "timestamp": 1783942864,
+  "title": "Two Sum",
+  "title_slug": "two-sum",
+  "url": "https://leetcode.com/problems/two-sum/"
+}
