@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3513,
+  "lang": "python3",
+  "latest_submission_id": 2077810204,
+  "memory": "34 MB",
+  "memory_percentile": 35.593500000000006,
+  "paid_only": false,
+  "question_id": 3824,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1784777960,
+  "title": "Number of Unique XOR Triplets I",
+  "title_slug": "number-of-unique-xor-triplets-i",
+  "url": "https://leetcode.com/problems/number-of-unique-xor-triplets-i/"
+}

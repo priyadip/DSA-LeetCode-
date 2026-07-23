@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3499,
+  "lang": "python3",
+  "latest_submission_id": 2075949671,
+  "memory": "34.8 MB",
+  "memory_percentile": 5.690199999999965,
+  "paid_only": false,
+  "question_id": 3805,
+  "runtime": "1547 ms",
+  "runtime_percentile": 5.000899999999193,
+  "timestamp": 1784644968,
+  "title": "Maximize Active Section with Trade I",
+  "title_slug": "maximize-active-section-with-trade-i",
+  "url": "https://leetcode.com/problems/maximize-active-section-with-trade-i/"
+}
