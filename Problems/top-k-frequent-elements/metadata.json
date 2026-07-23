@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 347,
+  "lang": "python3",
+  "latest_submission_id": 2078799065,
+  "memory": "22.8 MB",
+  "memory_percentile": 80.21960000000001,
+  "paid_only": false,
+  "question_id": 347,
+  "runtime": "3 ms",
+  "runtime_percentile": 89.7472,
+  "timestamp": 1784833062,
+  "title": "Top K Frequent Elements",
+  "title_slug": "top-k-frequent-elements",
+  "url": "https://leetcode.com/problems/top-k-frequent-elements/"
+}

@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 394,
+  "lang": "python3",
+  "latest_submission_id": 2078821131,
+  "memory": "19.1 MB",
+  "memory_percentile": 95.78319999999998,
+  "paid_only": false,
+  "question_id": 394,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1784834684,
+  "title": "Decode String",
+  "title_slug": "decode-string",
+  "url": "https://leetcode.com/problems/decode-string/"
+}
