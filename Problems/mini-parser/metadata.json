@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 385,
+  "lang": "python3",
+  "latest_submission_id": 2078831716,
+  "memory": "22.1 MB",
+  "memory_percentile": 13.395600000000014,
+  "paid_only": false,
+  "question_id": 385,
+  "runtime": "5 ms",
+  "runtime_percentile": 94.85979999999999,
+  "timestamp": 1784835563,
+  "title": "Mini Parser",
+  "title_slug": "mini-parser",
+  "url": "https://leetcode.com/problems/mini-parser/"
+}
