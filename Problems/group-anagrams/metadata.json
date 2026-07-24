@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 49,
+  "lang": "python3",
+  "latest_submission_id": 2080084406,
+  "memory": "24 MB",
+  "memory_percentile": 16.658600000000014,
+  "paid_only": false,
+  "question_id": 49,
+  "runtime": "15 ms",
+  "runtime_percentile": 41.43039999999999,
+  "timestamp": 1784928726,
+  "title": "Group Anagrams",
+  "title_slug": "group-anagrams",
+  "url": "https://leetcode.com/problems/group-anagrams/"
+}

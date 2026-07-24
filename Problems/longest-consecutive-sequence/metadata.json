@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 128,
+  "lang": "python3",
+  "latest_submission_id": 2080094625,
+  "memory": "36.7 MB",
+  "memory_percentile": 19.848399999999987,
+  "paid_only": false,
+  "question_id": 128,
+  "runtime": "40 ms",
+  "runtime_percentile": 90.28819999999996,
+  "timestamp": 1784930629,
+  "title": "Longest Consecutive Sequence",
+  "title_slug": "longest-consecutive-sequence",
+  "url": "https://leetcode.com/problems/longest-consecutive-sequence/"
+}

@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 242,
+  "lang": "python3",
+  "latest_submission_id": 2080077791,
+  "memory": "19.3 MB",
+  "memory_percentile": 75.15180000000004,
+  "paid_only": false,
+  "question_id": 242,
+  "runtime": "8 ms",
+  "runtime_percentile": 82.57990000000001,
+  "timestamp": 1784927653,
+  "title": "Valid Anagram",
+  "title_slug": "valid-anagram",
+  "url": "https://leetcode.com/problems/valid-anagram/"
+}

@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 217,
+  "lang": "python3",
+  "latest_submission_id": 2079747838,
+  "memory": "32.3 MB",
+  "memory_percentile": 30.100399999999993,
+  "paid_only": false,
+  "question_id": 217,
+  "runtime": "19 ms",
+  "runtime_percentile": 33.3445,
+  "timestamp": 1784907176,
+  "title": "Contains Duplicate",
+  "title_slug": "contains-duplicate",
+  "url": "https://leetcode.com/problems/contains-duplicate/"
+}
