@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3536,
+  "lang": "python3",
+  "latest_submission_id": 2080463533,
+  "memory": "19.2 MB",
+  "memory_percentile": 88.69390000000001,
+  "paid_only": false,
+  "question_id": 3859,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1784966084,
+  "title": "Maximum Product of Two Digits",
+  "title_slug": "maximum-product-of-two-digits",
+  "url": "https://leetcode.com/problems/maximum-product-of-two-digits/"
+}
