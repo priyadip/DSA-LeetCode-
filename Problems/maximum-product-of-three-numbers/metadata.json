@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 628,
+  "lang": "python3",
+  "latest_submission_id": 2082364359,
+  "memory": "20.2 MB",
+  "memory_percentile": 78.1293,
+  "paid_only": false,
+  "question_id": 628,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1785086386,
+  "title": "Maximum Product of Three Numbers",
+  "title_slug": "maximum-product-of-three-numbers",
+  "url": "https://leetcode.com/problems/maximum-product-of-three-numbers/"
+}
