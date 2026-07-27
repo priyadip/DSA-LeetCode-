@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 1464,
+  "lang": "python3",
+  "latest_submission_id": 2083131597,
+  "memory": "19.3 MB",
+  "memory_percentile": 68.0409,
+  "paid_only": false,
+  "question_id": 1574,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1785144035,
+  "title": "Maximum Product of Two Elements in an Array",
+  "title_slug": "maximum-product-of-two-elements-in-an-array",
+  "url": "https://leetcode.com/problems/maximum-product-of-two-elements-in-an-array/"
+}

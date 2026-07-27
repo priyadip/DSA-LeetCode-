@@ -1,30 +1,22 @@
 class Solution:
     def decodeString(self, s: str) -> str:
         self.i = 0 
-
         def dfs():
             ans = ''
             num = 0 
-
             while self.i <len(s):
                 ch = s[self.i]
-
                 if ch.isdigit():
                     num = num*10 + int(ch)
-
                 elif ch == '[':
                     self.i += 1
                     ans += dfs()*num
                     num = 0
-
                 elif ch == ']':
                     return ans
-
                 else:
                     ans += ch
-
                 self.i += 1
-                
             return ans
         return dfs()
 
