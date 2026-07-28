@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3517,
+  "lang": "python3",
+  "latest_submission_id": 2084283160,
+  "memory": "20.5 MB",
+  "memory_percentile": 99.07839999999999,
+  "paid_only": false,
+  "question_id": 3812,
+  "runtime": "240 ms",
+  "runtime_percentile": 62.67299999999991,
+  "timestamp": 1785218468,
+  "title": "Smallest Palindromic Rearrangement I",
+  "title_slug": "smallest-palindromic-rearrangement-i",
+  "url": "https://leetcode.com/problems/smallest-palindromic-rearrangement-i/"
+}
