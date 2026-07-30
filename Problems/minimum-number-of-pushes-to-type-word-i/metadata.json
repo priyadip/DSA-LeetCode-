@@ -1,0 +1,16 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3014,
+  "lang": "python3",
+  "latest_submission_id": 2087496620,
+  "memory": "19.3 MB",
+  "memory_percentile": 48.74210000000001,
+  "paid_only": false,
+  "question_id": 3275,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1785415678,
+  "title": "Minimum Number of Pushes to Type Word I",
+  "title_slug": "minimum-number-of-pushes-to-type-word-i",
+  "url": "https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-i/"
+}
