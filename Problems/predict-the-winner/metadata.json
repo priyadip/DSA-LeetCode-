@@ -1,0 +1,16 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 486,
+  "lang": "python3",
+  "latest_submission_id": 2089407726,
+  "memory": "19.1 MB",
+  "memory_percentile": 98.6263,
+  "paid_only": false,
+  "question_id": 486,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1785554975,
+  "title": "Predict the Winner",
+  "title_slug": "predict-the-winner",
+  "url": "https://leetcode.com/problems/predict-the-winner/"
+}
