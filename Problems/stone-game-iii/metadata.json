@@ -1,0 +1,16 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 1406,
+  "lang": "python3",
+  "latest_submission_id": 2092102134,
+  "memory": "23.8 MB",
+  "memory_percentile": 88.31159999999998,
+  "paid_only": false,
+  "question_id": 1522,
+  "runtime": "678 ms",
+  "runtime_percentile": 66.07479999999988,
+  "timestamp": 1785733361,
+  "title": "Stone Game III",
+  "title_slug": "stone-game-iii",
+  "url": "https://leetcode.com/problems/stone-game-iii/"
+}
