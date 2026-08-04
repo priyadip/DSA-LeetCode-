@@ -19,17 +19,24 @@ import sys
 from pathlib import Path
 from typing import Any
 
-# LeetCode's judge preloads these into every submission's namespace, so stored solutions
-# routinely use `List[int]` etc. with no import. Executing such a file as-is raises
-# NameError, so the same names have to be provided here.
-from collections import Counter, defaultdict, deque  # noqa: F401
-from typing import Deque, Dict, List, Optional, Set, Tuple  # noqa: F401,UP035
+# LeetCode's judge preloads a large namespace into every submission, so stored solutions
+# routinely use `List[int]`, `gcd(...)` or `bisect_left(...)` with no import at all.
+# Executing such a file as-is raises NameError, so the same names are rebuilt here.
 import bisect  # noqa: F401
+import collections  # noqa: F401
+import functools  # noqa: F401
 import heapq  # noqa: F401
 import itertools  # noqa: F401
 import math  # noqa: F401
 import re  # noqa: F401
 import string  # noqa: F401
+from bisect import bisect, bisect_left, bisect_right, insort  # noqa: F401
+from collections import Counter, OrderedDict, defaultdict, deque  # noqa: F401
+from functools import cache, cmp_to_key, lru_cache, reduce  # noqa: F401
+from heapq import heapify, heappop, heappush, heappushpop, nlargest, nsmallest  # noqa: F401
+from itertools import accumulate, combinations, permutations, product  # noqa: F401
+from math import ceil, comb, factorial, floor, gcd, inf, isqrt, lcm, perm, sqrt  # noqa: F401
+from typing import Deque, Dict, List, Optional, Set, Tuple  # noqa: F401,UP035
 
 
 class ListNode:
@@ -51,46 +58,67 @@ class TreeNode:
         self.right = right
 
 
-_PRELOADED: dict[str, Any] = {
-    "List": List,
-    "Dict": Dict,
-    "Set": Set,
-    "Tuple": Tuple,
-    "Optional": Optional,
-    "Deque": Deque,
-    "deque": deque,
-    "defaultdict": defaultdict,
-    "Counter": Counter,
-    "heapq": heapq,
-    "bisect": bisect,
-    "math": math,
-    "itertools": itertools,
-    "re": re,
-    "string": string,
-    "ListNode": ListNode,
-    "TreeNode": TreeNode,
-}
+def _build_namespace() -> dict[str, Any]:
+    """Everything LeetCode's judge makes available without an import."""
+    names: dict[str, Any] = {
+        "ListNode": ListNode,
+        "TreeNode": TreeNode,
+        "inf": inf,
+    }
+    for obj in (
+        List, Dict, Set, Tuple, Optional, Deque,
+        Counter, OrderedDict, defaultdict, deque,
+        bisect_left, bisect_right, insort,
+        cache, cmp_to_key, lru_cache, reduce,
+        heapify, heappop, heappush, heappushpop, nlargest, nsmallest,
+        accumulate, combinations, permutations, product,
+        ceil, comb, factorial, floor, gcd, isqrt, lcm, perm, sqrt,
+    ):
+        name = getattr(obj, "__name__", None) or getattr(obj, "_name", None)
+        if name:
+            names[name] = obj
 
-# Param types that are plain JSON and so can be passed straight through.
-_SIMPLE_TYPES = {
-    "integer",
-    "long",
-    "double",
-    "float",
-    "string",
-    "boolean",
-    "character",
-    "integer[]",
-    "integer[][]",
-    "string[]",
-    "string[][]",
-    "double[]",
-    "boolean[]",
-    "list<integer>",
-    "list<string>",
-    "list<list<integer>>",
-    "list<list<string>>",
-}
+    # Bind module names last and from sys.modules: `from bisect import bisect` above binds
+    # the *function* to the name `bisect`, which would otherwise shadow the module and
+    # break any solution calling `bisect.bisect_right(...)`.
+    for module_name in (
+        "bisect", "collections", "functools", "heapq", "itertools", "math", "re", "string",
+    ):
+        names[module_name] = sys.modules[module_name]
+    # Optional third-party module LeetCode also provides; absent locally unless installed.
+    try:
+        import sortedcontainers  # noqa: F401
+
+        names["SortedList"] = sortedcontainers.SortedList
+        names["SortedDict"] = sortedcontainers.SortedDict
+        names["SortedSet"] = sortedcontainers.SortedSet
+    except ImportError:
+        pass
+    return names
+
+
+_PRELOADED: dict[str, Any] = _build_namespace()
+
+# Types LeetCode encodes as plain JSON, so an example input decodes straight into the
+# argument. Anything else (ListNode, TreeNode, ...) needs real construction and is refused
+# rather than silently mis-run.
+_SCALAR_TYPES = {"integer", "long", "double", "float", "string", "boolean", "character"}
+
+
+def _is_json_type(type_name: str) -> bool:
+    """True for scalars and any nesting of them: `integer[]`, `character[][]`,
+    `list<list<string>>` and so on."""
+    t = type_name.strip().lower()
+    while True:
+        if t in _SCALAR_TYPES:
+            return True
+        if t.endswith("[]"):
+            t = t[:-2].strip()
+            continue
+        if t.startswith("list<") and t.endswith(">"):
+            t = t[5:-1].strip()
+            continue
+        return False
 
 
 def _load_solution(problem_dir: Path) -> Any:
@@ -147,7 +175,7 @@ def run(problem_dir: Path) -> int:
         print("so it can't be driven automatically. Run it manually instead.")
         return 0
 
-    unsupported = [t for t in params if t not in _SIMPLE_TYPES]
+    unsupported = [t for t in params if not _is_json_type(t)]
     if unsupported:
         print(f"Parameter type(s) {unsupported} need custom construction")
         print("(e.g. linked lists or trees), so inputs can't be built automatically.")
@@ -169,6 +197,14 @@ def run(problem_dir: Path) -> int:
         rendered = ", ".join(json.dumps(a) for a in args)
         try:
             result = method(*args)
+        except NameError as exc:
+            # Some problems depend on an interface class that exists only inside
+            # LeetCode's judge (NestedInteger, Robot, ...). There's nothing to run
+            # against locally, so say that plainly instead of repeating it per example.
+            print(f"  {exc}")
+            print("  This problem relies on a class that only exists in LeetCode's")
+            print("  judge, so it can't be run outside LeetCode.")
+            return 0
         except Exception as exc:  # noqa: BLE001 - report, don't crash the whole run
             print(f"Example {i}: {rendered}")
             print(f"  raised {type(exc).__name__}: {exc}\n")
