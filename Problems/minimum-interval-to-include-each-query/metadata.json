@@ -7,6 +7,14 @@
   "memory_percentile": 49.14169999999993,
   "paid_only": false,
   "question_id": 1977,
+  "runner": {
+    "example_testcases": "[[1,4],[2,4],[3,6],[4,4]]\n[2,3,4,5]\n[[2,3],[2,5],[1,8],[20,25]]\n[2,19,5,22]",
+    "method": "minInterval",
+    "param_types": [
+      "integer[][]",
+      "integer[]"
+    ]
+  },
   "runtime": "279 ms",
   "runtime_percentile": 61.40689999999994,
   "timestamp": 1783772050,

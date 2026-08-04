@@ -7,6 +7,14 @@
   "memory_percentile": 96.7077,
   "paid_only": false,
   "question_id": 1386,
+  "runner": {
+    "example_testcases": "[[1,2,3],[4,5,6],[7,8,9]]\n1\n[[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]]\n4\n[[1,2,3],[4,5,6],[7,8,9]]\n9",
+    "method": "shiftGrid",
+    "param_types": [
+      "integer[][]",
+      "integer"
+    ]
+  },
   "runtime": "5 ms",
   "runtime_percentile": 66.461,
   "timestamp": 1784555924,

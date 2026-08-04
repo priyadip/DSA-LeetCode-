@@ -7,6 +7,13 @@
   "memory_percentile": 100.0,
   "paid_only": false,
   "question_id": 9,
+  "runner": {
+    "example_testcases": "121\n-121\n10",
+    "method": "isPalindrome",
+    "param_types": [
+      "integer"
+    ]
+  },
   "runtime": "27 ms",
   "runtime_percentile": 7.1708000000000025,
   "timestamp": 1715654851,

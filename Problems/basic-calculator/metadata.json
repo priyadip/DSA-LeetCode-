@@ -7,6 +7,13 @@
   "memory_percentile": 11.52500000000001,
   "paid_only": false,
   "question_id": 224,
+  "runner": {
+    "example_testcases": "\"1 + 1\"\n\" 2-1 + 2 \"\n\"(1+(4+5+2)-3)+(6+8)\"",
+    "method": "calculate",
+    "param_types": [
+      "string"
+    ]
+  },
   "runtime": "61 ms",
   "runtime_percentile": 99.8836,
   "timestamp": 1715699907,

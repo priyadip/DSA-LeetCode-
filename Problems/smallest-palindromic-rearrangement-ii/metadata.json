@@ -7,6 +7,14 @@
   "memory_percentile": 90.2655,
   "paid_only": false,
   "question_id": 3813,
+  "runner": {
+    "example_testcases": "\"abba\"\n2\n\"aa\"\n2\n\"bacab\"\n1",
+    "method": "smallestPalindrome",
+    "param_types": [
+      "string",
+      "integer"
+    ]
+  },
   "runtime": "322 ms",
   "runtime_percentile": 76.99029999999988,
   "timestamp": 1785325616,

@@ -7,6 +7,13 @@
   "memory_percentile": 68.0409,
   "paid_only": false,
   "question_id": 1574,
+  "runner": {
+    "example_testcases": "[3,4,5,2]\n[1,5,4,5]\n[3,7]",
+    "method": "maxProduct",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1785144035,

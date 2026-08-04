@@ -7,6 +7,13 @@
   "memory_percentile": 48.74210000000001,
   "paid_only": false,
   "question_id": 3275,
+  "runner": {
+    "example_testcases": "\"abcde\"\n\"xycdefghij\"",
+    "method": "minimumPushes",
+    "param_types": [
+      "string"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1785415678,

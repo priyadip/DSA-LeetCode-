@@ -7,6 +7,14 @@
   "memory_percentile": 75.15180000000004,
   "paid_only": false,
   "question_id": 242,
+  "runner": {
+    "example_testcases": "\"anagram\"\n\"nagaram\"\n\"rat\"\n\"car\"",
+    "method": "isAnagram",
+    "param_types": [
+      "string",
+      "string"
+    ]
+  },
   "runtime": "8 ms",
   "runtime_percentile": 82.57990000000001,
   "timestamp": 1784927653,

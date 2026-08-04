@@ -7,6 +7,13 @@
   "memory_percentile": 38.605199999999996,
   "paid_only": false,
   "question_id": 394,
+  "runner": {
+    "example_testcases": "\"3[a]2[bc]\"\n\"3[a2[c]]\"\n\"2[abc]3[cd]ef\"",
+    "method": "decodeString",
+    "param_types": [
+      "string"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1785097979,

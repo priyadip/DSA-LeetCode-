@@ -7,6 +7,13 @@
   "memory_percentile": 39.65579999999998,
   "paid_only": false,
   "question_id": 1256,
+  "runner": {
+    "example_testcases": "[40,10,20,30]\n[100,100,100]\n[37,12,28,9,100,56,80,5,12]",
+    "method": "arrayRankTransform",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "32 ms",
   "runtime_percentile": 82.3475,
   "timestamp": 1783873214,

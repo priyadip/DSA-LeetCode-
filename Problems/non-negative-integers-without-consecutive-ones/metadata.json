@@ -7,6 +7,13 @@
   "memory_percentile": 79.93919999999999,
   "paid_only": false,
   "question_id": 600,
+  "runner": {
+    "example_testcases": "5\n1\n2",
+    "method": "findIntegers",
+    "param_types": [
+      "integer"
+    ]
+  },
   "runtime": "4 ms",
   "runtime_percentile": 48.632200000000005,
   "timestamp": 1777230708,

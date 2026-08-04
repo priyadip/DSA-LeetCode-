@@ -7,6 +7,13 @@
   "memory_percentile": 58.5707,
   "paid_only": false,
   "question_id": 3608,
+  "runner": {
+    "example_testcases": "[1,2,3,4]\n[10,20,30]\n[1,1,1,1]",
+    "method": "subsequencePairCount",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "1572 ms",
   "runtime_percentile": 83.63969999999934,
   "timestamp": 1784141121,

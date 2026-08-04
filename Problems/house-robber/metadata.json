@@ -7,6 +7,13 @@
   "memory_percentile": 60.699300000000015,
   "paid_only": false,
   "question_id": 198,
+  "runner": {
+    "example_testcases": "[1,2,3,1]\n[2,7,9,3,1]",
+    "method": "rob",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1777230027,

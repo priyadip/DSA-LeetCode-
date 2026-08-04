@@ -7,6 +7,13 @@
   "memory_percentile": 55.8656,
   "paid_only": false,
   "question_id": 909,
+  "runner": {
+    "example_testcases": "[5,3,4,5]\n[3,7,2,3]",
+    "method": "stoneGame",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1785676879,

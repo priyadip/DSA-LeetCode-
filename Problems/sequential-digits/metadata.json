@@ -7,6 +7,14 @@
   "memory_percentile": 89.9996,
   "paid_only": false,
   "question_id": 1212,
+  "runner": {
+    "example_testcases": "100\n300\n1000\n13000",
+    "method": "sequentialDigits",
+    "param_types": [
+      "integer",
+      "integer"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1783940608,

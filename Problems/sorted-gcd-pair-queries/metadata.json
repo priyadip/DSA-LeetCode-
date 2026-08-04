@@ -7,6 +7,14 @@
   "memory_percentile": 53.93609999999998,
   "paid_only": false,
   "question_id": 3583,
+  "runner": {
+    "example_testcases": "[2,3,4]\n[0,2,2]\n[4,4,2,1]\n[5,3,1,0]\n[2,2]\n[0,0]",
+    "method": "gcdValues",
+    "param_types": [
+      "integer[]",
+      "long[]"
+    ]
+  },
   "runtime": "427 ms",
   "runtime_percentile": 72.45599999999986,
   "timestamp": 1784567672,

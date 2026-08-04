@@ -7,6 +7,13 @@
   "memory_percentile": 88.31159999999998,
   "paid_only": false,
   "question_id": 1522,
+  "runner": {
+    "example_testcases": "[1,2,3,7]\n[1,2,3,-9]\n[1,2,3,6]",
+    "method": "stoneGameIII",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "678 ms",
   "runtime_percentile": 66.07479999999988,
   "timestamp": 1785733361,

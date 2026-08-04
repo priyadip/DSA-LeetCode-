@@ -7,6 +7,13 @@
   "memory_percentile": 11.570900000000016,
   "paid_only": false,
   "question_id": 2106,
+  "runner": {
+    "example_testcases": "[2,5,6,9,10]\n[7,5,6,8,3]\n[3,3]",
+    "method": "findGCD",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "1 ms",
   "runtime_percentile": 26.3767,
   "timestamp": 1784382811,

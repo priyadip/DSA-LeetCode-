@@ -7,6 +7,13 @@
   "memory_percentile": 88.13399999999999,
   "paid_only": false,
   "question_id": 3995,
+  "runner": {
+    "example_testcases": "4\n5",
+    "method": "gcdOfOddEvenSums",
+    "param_types": [
+      "integer"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1784135994,

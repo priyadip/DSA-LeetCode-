@@ -7,6 +7,13 @@
   "memory_percentile": 91.279,
   "paid_only": false,
   "question_id": 3820,
+  "runner": {
+    "example_testcases": "[1,3]\n[6,7,8,9]",
+    "method": "uniqueXorTriplets",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "4530 ms",
   "runtime_percentile": 85.46499999999995,
   "timestamp": 1784886517,

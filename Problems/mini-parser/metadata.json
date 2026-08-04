@@ -7,6 +7,13 @@
   "memory_percentile": 13.395600000000014,
   "paid_only": false,
   "question_id": 385,
+  "runner": {
+    "example_testcases": "\"324\"\n\"[123,[456,[789]]]\"",
+    "method": "deserialize",
+    "param_types": [
+      "string"
+    ]
+  },
   "runtime": "5 ms",
   "runtime_percentile": 94.85979999999999,
   "timestamp": 1784835563,

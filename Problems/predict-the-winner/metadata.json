@@ -7,6 +7,13 @@
   "memory_percentile": 98.6263,
   "paid_only": false,
   "question_id": 486,
+  "runner": {
+    "example_testcases": "[1,5,2]\n[1,5,233,7]",
+    "method": "predictTheWinner",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1785554975,

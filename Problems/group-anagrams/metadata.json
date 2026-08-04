@@ -7,6 +7,13 @@
   "memory_percentile": 87.887,
   "paid_only": false,
   "question_id": 49,
+  "runner": {
+    "example_testcases": "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]\n[\"\"]\n[\"a\"]",
+    "method": "groupAnagrams",
+    "param_types": [
+      "string[]"
+    ]
+  },
   "runtime": "3 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1785088218,

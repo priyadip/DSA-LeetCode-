@@ -7,6 +7,14 @@
   "memory_percentile": 5.855800000000175,
   "paid_only": false,
   "question_id": 219,
+  "runner": {
+    "example_testcases": "[1,2,3,1]\n3\n[1,0,1,1]\n1\n[1,2,3,1,2,3]\n2",
+    "method": "containsNearbyDuplicate",
+    "param_types": [
+      "integer[]",
+      "integer"
+    ]
+  },
   "runtime": "40 ms",
   "runtime_percentile": 27.94070000000003,
   "timestamp": 1784907967,

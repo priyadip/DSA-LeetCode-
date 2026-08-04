@@ -7,6 +7,13 @@
   "memory_percentile": 29.5405,
   "paid_only": false,
   "question_id": 3,
+  "runner": {
+    "example_testcases": "\"abcabcbb\"\n\"bbbbb\"\n\"pwwkew\"",
+    "method": "lengthOfLongestSubstring",
+    "param_types": [
+      "string"
+    ]
+  },
   "runtime": "7 ms",
   "runtime_percentile": 96.27120000000001,
   "timestamp": 1784941654,

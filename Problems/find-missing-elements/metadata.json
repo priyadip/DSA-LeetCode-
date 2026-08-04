@@ -7,6 +7,13 @@
   "memory_percentile": 55.74380000000001,
   "paid_only": false,
   "question_id": 4107,
+  "runner": {
+    "example_testcases": "[1,4,2,5]\n[7,8,6,9]\n[5,1]",
+    "method": "findMissingElements",
+    "param_types": [
+      "integer[]"
+    ]
+  },
   "runtime": "0 ms",
   "runtime_percentile": 100.0,
   "timestamp": 1785827736,

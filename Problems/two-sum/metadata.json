@@ -7,6 +7,14 @@
   "memory_percentile": 17.519099999999973,
   "paid_only": false,
   "question_id": 1,
+  "runner": {
+    "example_testcases": "[2,7,11,15]\n9\n[3,2,4]\n6\n[3,3]\n6",
+    "method": "twoSum",
+    "param_types": [
+      "integer[]",
+      "integer"
+    ]
+  },
   "runtime": "1 ms",
   "runtime_percentile": 61.4141,
   "timestamp": 1783942864,

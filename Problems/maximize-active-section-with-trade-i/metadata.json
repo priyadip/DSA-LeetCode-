@@ -7,6 +7,13 @@
   "memory_percentile": 5.690199999999965,
   "paid_only": false,
   "question_id": 3805,
+  "runner": {
+    "example_testcases": "\"01\"\n\"0100\"\n\"1000100\"\n\"01010\"",
+    "method": "maxActiveSectionsAfterTrade",
+    "param_types": [
+      "string"
+    ]
+  },
   "runtime": "1547 ms",
   "runtime_percentile": 5.000899999999193,
   "timestamp": 1784644968,
