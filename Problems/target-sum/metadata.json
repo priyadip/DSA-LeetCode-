@@ -20,5 +20,7 @@
   "timestamp": 1783354858,
   "title": "Target Sum",
   "title_slug": "target-sum",
+  "total_correct": 145,
+  "total_testcases": 145,
   "url": "https://leetcode.com/problems/target-sum/"
 }

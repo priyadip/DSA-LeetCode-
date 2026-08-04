@@ -20,5 +20,7 @@
   "timestamp": 1784555924,
   "title": "Shift 2D Grid",
   "title_slug": "shift-2d-grid",
+  "total_correct": 107,
+  "total_testcases": 107,
   "url": "https://leetcode.com/problems/shift-2d-grid/"
 }

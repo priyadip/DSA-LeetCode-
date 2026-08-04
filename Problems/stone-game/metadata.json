@@ -19,5 +19,7 @@
   "timestamp": 1785676879,
   "title": "Stone Game",
   "title_slug": "stone-game",
+  "total_correct": 46,
+  "total_testcases": 46,
   "url": "https://leetcode.com/problems/stone-game/"
 }

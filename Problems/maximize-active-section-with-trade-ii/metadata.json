@@ -20,5 +20,7 @@
   "timestamp": 1784738227,
   "title": "Maximize Active Section with Trade II",
   "title_slug": "maximize-active-section-with-trade-ii",
+  "total_correct": 592,
+  "total_testcases": 592,
   "url": "https://leetcode.com/problems/maximize-active-section-with-trade-ii/"
 }

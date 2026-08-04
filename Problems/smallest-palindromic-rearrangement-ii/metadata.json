@@ -20,5 +20,7 @@
   "timestamp": 1785325616,
   "title": "Smallest Palindromic Rearrangement II",
   "title_slug": "smallest-palindromic-rearrangement-ii",
+  "total_correct": 812,
+  "total_testcases": 812,
   "url": "https://leetcode.com/problems/smallest-palindromic-rearrangement-ii/"
 }

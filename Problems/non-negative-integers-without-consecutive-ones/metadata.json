@@ -19,5 +19,7 @@
   "timestamp": 1777230708,
   "title": "Non-negative Integers without Consecutive Ones",
   "title_slug": "non-negative-integers-without-consecutive-ones",
+  "total_correct": 527,
+  "total_testcases": 527,
   "url": "https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/"
 }

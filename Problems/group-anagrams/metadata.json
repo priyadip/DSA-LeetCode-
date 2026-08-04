@@ -19,5 +19,7 @@
   "timestamp": 1785088218,
   "title": "Group Anagrams",
   "title_slug": "group-anagrams",
+  "total_correct": 128,
+  "total_testcases": 128,
   "url": "https://leetcode.com/problems/group-anagrams/"
 }

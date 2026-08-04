@@ -19,5 +19,7 @@
   "timestamp": 1785554975,
   "title": "Predict the Winner",
   "title_slug": "predict-the-winner",
+  "total_correct": 62,
+  "total_testcases": 62,
   "url": "https://leetcode.com/problems/predict-the-winner/"
 }

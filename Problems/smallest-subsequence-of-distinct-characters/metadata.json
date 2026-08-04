@@ -19,5 +19,7 @@
   "timestamp": 1784469827,
   "title": "Smallest Subsequence of Distinct Characters",
   "title_slug": "smallest-subsequence-of-distinct-characters",
+  "total_correct": 68,
+  "total_testcases": 68,
   "url": "https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/"
 }

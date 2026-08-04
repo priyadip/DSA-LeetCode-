@@ -19,5 +19,7 @@
   "timestamp": 1777230027,
   "title": "House Robber",
   "title_slug": "house-robber",
+  "total_correct": 70,
+  "total_testcases": 70,
   "url": "https://leetcode.com/problems/house-robber/"
 }

@@ -19,5 +19,7 @@
   "timestamp": 1784141121,
   "title": "Find the Number of Subsequences With Equal GCD",
   "title_slug": "find-the-number-of-subsequences-with-equal-gcd",
+  "total_correct": 622,
+  "total_testcases": 622,
   "url": "https://leetcode.com/problems/find-the-number-of-subsequences-with-equal-gcd/"
 }

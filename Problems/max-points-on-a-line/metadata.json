@@ -19,5 +19,7 @@
   "timestamp": 1715699584,
   "title": "Max Points on a Line",
   "title_slug": "max-points-on-a-line",
+  "total_correct": 41,
+  "total_testcases": 41,
   "url": "https://leetcode.com/problems/max-points-on-a-line/"
 }

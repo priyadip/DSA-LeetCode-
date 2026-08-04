@@ -19,5 +19,7 @@
   "timestamp": 1785144035,
   "title": "Maximum Product of Two Elements in an Array",
   "title_slug": "maximum-product-of-two-elements-in-an-array",
+  "total_correct": 104,
+  "total_testcases": 104,
   "url": "https://leetcode.com/problems/maximum-product-of-two-elements-in-an-array/"
 }

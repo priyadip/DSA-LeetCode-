@@ -19,5 +19,7 @@
   "timestamp": 1785830198,
   "title": "Valid Sudoku",
   "title_slug": "valid-sudoku",
+  "total_correct": 507,
+  "total_testcases": 507,
   "url": "https://leetcode.com/problems/valid-sudoku/"
 }

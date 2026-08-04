@@ -19,5 +19,7 @@
   "timestamp": 1784930629,
   "title": "Longest Consecutive Sequence",
   "title_slug": "longest-consecutive-sequence",
+  "total_correct": 85,
+  "total_testcases": 85,
   "url": "https://leetcode.com/problems/longest-consecutive-sequence/"
 }

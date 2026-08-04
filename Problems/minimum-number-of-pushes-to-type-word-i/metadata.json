@@ -19,5 +19,7 @@
   "timestamp": 1785415678,
   "title": "Minimum Number of Pushes to Type Word I",
   "title_slug": "minimum-number-of-pushes-to-type-word-i",
+  "total_correct": 500,
+  "total_testcases": 500,
   "url": "https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-i/"
 }

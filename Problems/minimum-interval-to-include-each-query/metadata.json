@@ -20,5 +20,7 @@
   "timestamp": 1783772050,
   "title": "Minimum Interval to Include Each Query",
   "title_slug": "minimum-interval-to-include-each-query",
+  "total_correct": 42,
+  "total_testcases": 42,
   "url": "https://leetcode.com/problems/minimum-interval-to-include-each-query/"
 }

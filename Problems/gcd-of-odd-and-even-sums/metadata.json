@@ -19,5 +19,7 @@
   "timestamp": 1784135994,
   "title": "GCD of Odd and Even Sums",
   "title_slug": "gcd-of-odd-and-even-sums",
+  "total_correct": 1000,
+  "total_testcases": 1000,
   "url": "https://leetcode.com/problems/gcd-of-odd-and-even-sums/"
 }

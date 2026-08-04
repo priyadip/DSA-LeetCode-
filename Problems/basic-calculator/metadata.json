@@ -19,5 +19,7 @@
   "timestamp": 1715699907,
   "title": "Basic Calculator",
   "title_slug": "basic-calculator",
+  "total_correct": 46,
+  "total_testcases": 46,
   "url": "https://leetcode.com/problems/basic-calculator/"
 }

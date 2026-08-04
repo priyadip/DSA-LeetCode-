@@ -19,5 +19,7 @@
   "timestamp": 1784835563,
   "title": "Mini Parser",
   "title_slug": "mini-parser",
+  "total_correct": 58,
+  "total_testcases": 58,
   "url": "https://leetcode.com/problems/mini-parser/"
 }

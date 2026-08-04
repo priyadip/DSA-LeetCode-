@@ -19,5 +19,7 @@
   "timestamp": 1715698364,
   "title": "Reverse Integer",
   "title_slug": "reverse-integer",
+  "total_correct": 1045,
+  "total_testcases": 1045,
   "url": "https://leetcode.com/problems/reverse-integer/"
 }

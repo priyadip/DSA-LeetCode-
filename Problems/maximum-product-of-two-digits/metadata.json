@@ -19,5 +19,7 @@
   "timestamp": 1784966084,
   "title": "Maximum Product of Two Digits",
   "title_slug": "maximum-product-of-two-digits",
+  "total_correct": 1088,
+  "total_testcases": 1088,
   "url": "https://leetcode.com/problems/maximum-product-of-two-digits/"
 }

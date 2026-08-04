@@ -20,5 +20,7 @@
   "timestamp": 1784567672,
   "title": "Sorted GCD Pair Queries",
   "title_slug": "sorted-gcd-pair-queries",
+  "total_correct": 721,
+  "total_testcases": 721,
   "url": "https://leetcode.com/problems/sorted-gcd-pair-queries/"
 }

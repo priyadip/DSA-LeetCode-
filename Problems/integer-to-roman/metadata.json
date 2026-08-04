@@ -19,5 +19,7 @@
   "timestamp": 1715698838,
   "title": "Integer to Roman",
   "title_slug": "integer-to-roman",
+  "total_correct": 3999,
+  "total_testcases": 3999,
   "url": "https://leetcode.com/problems/integer-to-roman/"
 }

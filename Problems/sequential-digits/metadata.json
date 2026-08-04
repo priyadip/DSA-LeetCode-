@@ -20,5 +20,7 @@
   "timestamp": 1783940608,
   "title": "Sequential Digits",
   "title_slug": "sequential-digits",
+  "total_correct": 24,
+  "total_testcases": 24,
   "url": "https://leetcode.com/problems/sequential-digits/"
 }

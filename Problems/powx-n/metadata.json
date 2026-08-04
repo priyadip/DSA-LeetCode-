@@ -20,5 +20,7 @@
   "timestamp": 1715683019,
   "title": "Pow(x, n)",
   "title_slug": "powx-n",
+  "total_correct": 307,
+  "total_testcases": 307,
   "url": "https://leetcode.com/problems/powx-n/"
 }

@@ -19,5 +19,7 @@
   "timestamp": 1783775483,
   "title": "2 Keys Keyboard",
   "title_slug": "2-keys-keyboard",
+  "total_correct": 126,
+  "total_testcases": 126,
   "url": "https://leetcode.com/problems/2-keys-keyboard/"
 }

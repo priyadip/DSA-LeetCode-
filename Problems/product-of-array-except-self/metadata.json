@@ -19,5 +19,7 @@
   "timestamp": 1784929500,
   "title": "Product of Array Except Self",
   "title_slug": "product-of-array-except-self",
+  "total_correct": 24,
+  "total_testcases": 24,
   "url": "https://leetcode.com/problems/product-of-array-except-self/"
 }

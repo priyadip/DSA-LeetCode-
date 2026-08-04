@@ -19,5 +19,7 @@
   "timestamp": 1784382811,
   "title": "Find Greatest Common Divisor of Array",
   "title_slug": "find-greatest-common-divisor-of-array",
+  "total_correct": 215,
+  "total_testcases": 215,
   "url": "https://leetcode.com/problems/find-greatest-common-divisor-of-array/"
 }

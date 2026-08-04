@@ -20,5 +20,7 @@
   "timestamp": 1783942864,
   "title": "Two Sum",
   "title_slug": "two-sum",
+  "total_correct": 64,
+  "total_testcases": 64,
   "url": "https://leetcode.com/problems/two-sum/"
 }

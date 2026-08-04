@@ -19,5 +19,7 @@
   "timestamp": 1785086386,
   "title": "Maximum Product of Three Numbers",
   "title_slug": "maximum-product-of-three-numbers",
+  "total_correct": 93,
+  "total_testcases": 93,
   "url": "https://leetcode.com/problems/maximum-product-of-three-numbers/"
 }

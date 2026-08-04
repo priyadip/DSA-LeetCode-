@@ -19,5 +19,7 @@
   "timestamp": 1785097979,
   "title": "Decode String",
   "title_slug": "decode-string",
+  "total_correct": 34,
+  "total_testcases": 34,
   "url": "https://leetcode.com/problems/decode-string/"
 }

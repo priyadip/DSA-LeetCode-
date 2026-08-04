@@ -19,5 +19,7 @@
   "timestamp": 1785733361,
   "title": "Stone Game III",
   "title_slug": "stone-game-iii",
+  "total_correct": 185,
+  "total_testcases": 185,
   "url": "https://leetcode.com/problems/stone-game-iii/"
 }

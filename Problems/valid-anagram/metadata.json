@@ -20,5 +20,7 @@
   "timestamp": 1784927653,
   "title": "Valid Anagram",
   "title_slug": "valid-anagram",
+  "total_correct": 55,
+  "total_testcases": 55,
   "url": "https://leetcode.com/problems/valid-anagram/"
 }

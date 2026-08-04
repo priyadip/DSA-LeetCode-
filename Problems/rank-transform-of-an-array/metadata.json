@@ -19,5 +19,7 @@
   "timestamp": 1783873214,
   "title": "Rank Transform of an Array",
   "title_slug": "rank-transform-of-an-array",
+  "total_correct": 43,
+  "total_testcases": 43,
   "url": "https://leetcode.com/problems/rank-transform-of-an-array/"
 }

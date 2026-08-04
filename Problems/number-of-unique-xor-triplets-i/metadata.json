@@ -19,5 +19,7 @@
   "timestamp": 1784777960,
   "title": "Number of Unique XOR Triplets I",
   "title_slug": "number-of-unique-xor-triplets-i",
+  "total_correct": 785,
+  "total_testcases": 785,
   "url": "https://leetcode.com/problems/number-of-unique-xor-triplets-i/"
 }

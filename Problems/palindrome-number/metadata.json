@@ -19,5 +19,7 @@
   "timestamp": 1715654851,
   "title": "Palindrome Number",
   "title_slug": "palindrome-number",
+  "total_correct": 11511,
+  "total_testcases": 11511,
   "url": "https://leetcode.com/problems/palindrome-number/"
 }

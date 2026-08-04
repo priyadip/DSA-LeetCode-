@@ -22,5 +22,7 @@
   "timestamp": 1783441761,
   "title": "Profitable Schemes",
   "title_slug": "profitable-schemes",
+  "total_correct": 45,
+  "total_testcases": 45,
   "url": "https://leetcode.com/problems/profitable-schemes/"
 }

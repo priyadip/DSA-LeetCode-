@@ -19,5 +19,7 @@
   "timestamp": 1785827736,
   "title": "Find Missing Elements",
   "title_slug": "find-missing-elements",
+  "total_correct": 989,
+  "total_testcases": 989,
   "url": "https://leetcode.com/problems/find-missing-elements/"
 }

@@ -19,5 +19,7 @@
   "timestamp": 1784907176,
   "title": "Contains Duplicate",
   "title_slug": "contains-duplicate",
+  "total_correct": 79,
+  "total_testcases": 79,
   "url": "https://leetcode.com/problems/contains-duplicate/"
 }
