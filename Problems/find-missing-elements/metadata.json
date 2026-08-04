@@ -2,9 +2,9 @@
   "difficulty": "Easy",
   "frontend_id": 3731,
   "lang": "python3",
-  "latest_submission_id": 2093623187,
+  "latest_submission_id": 2094252994,
   "memory": "19.3 MB",
-  "memory_percentile": 55.74380000000001,
+  "memory_percentile": 18.85130000000001,
   "paid_only": false,
   "question_id": 4107,
   "runner": {
@@ -14,9 +14,9 @@
       "integer[]"
     ]
   },
-  "runtime": "0 ms",
-  "runtime_percentile": 100.0,
-  "timestamp": 1785827736,
+  "runtime": "1 ms",
+  "runtime_percentile": 79.3814,
+  "timestamp": 1785859788,
   "title": "Find Missing Elements",
   "title_slug": "find-missing-elements",
   "total_correct": 989,
