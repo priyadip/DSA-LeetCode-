@@ -1,5 +1,17 @@
 {
   "difficulty": "Medium",
+  "failed_testcases": [
+    {
+      "expected_output": "0",
+      "input": "[1]\n2",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "0",
+      "input": "[1,1,1,1]\n-1000",
+      "status": "Runtime Error"
+    }
+  ],
   "frontend_id": 494,
   "lang": "python3",
   "latest_submission_id": 2058275371,

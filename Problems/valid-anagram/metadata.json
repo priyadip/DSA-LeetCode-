@@ -1,5 +1,27 @@
 {
   "difficulty": "Easy",
+  "failed_testcases": [
+    {
+      "expected_output": "false",
+      "input": "\"aa\"\n\"a\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "false",
+      "input": "\"aacc\"\n\"ccac\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "false",
+      "input": "\"aa\"\n\"a\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "\"anagram\"\n\"nagaram\"",
+      "status": "Runtime Error"
+    }
+  ],
   "frontend_id": 242,
   "lang": "python3",
   "latest_submission_id": 2080077791,

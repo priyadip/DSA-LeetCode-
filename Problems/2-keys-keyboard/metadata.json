@@ -1,5 +1,12 @@
 {
   "difficulty": "Medium",
+  "failed_testcases": [
+    {
+      "expected_output": "3",
+      "input": "3",
+      "status": "Time Limit Exceeded"
+    }
+  ],
   "frontend_id": 650,
   "lang": "python3",
   "latest_submission_id": 2063892049,

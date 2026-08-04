@@ -1,5 +1,12 @@
 {
   "difficulty": "Easy",
+  "failed_testcases": [
+    {
+      "expected_output": "[3]",
+      "input": "[1,4,2,5]",
+      "status": "Runtime Error"
+    }
+  ],
   "frontend_id": 3731,
   "lang": "python3",
   "latest_submission_id": 2094252994,

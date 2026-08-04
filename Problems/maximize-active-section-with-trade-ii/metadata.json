@@ -1,5 +1,22 @@
 {
   "difficulty": "Hard",
+  "failed_testcases": [
+    {
+      "expected_output": "[10,11]",
+      "input": "\"0101110001101\"\n[[0,7],[0,12]]",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "[10,11]",
+      "input": "\"0101110001101\"\n[[0,7],[0,12]]",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "[5,5,5,12,7]",
+      "input": "\"001000001001011\"\n[[3,8],[3,6],[14,14],[1,12],[10,12]]",
+      "status": "Wrong Answer"
+    }
+  ],
   "frontend_id": 3501,
   "lang": "python3",
   "latest_submission_id": 2077391023,
