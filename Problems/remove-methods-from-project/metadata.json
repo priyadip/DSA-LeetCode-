@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3310,
+  "lang": "python3",
+  "latest_submission_id": 2094852852,
+  "memory": "145.6 MB",
+  "memory_percentile": 31.817000000000117,
+  "paid_only": false,
+  "question_id": 3561,
+  "runner": null,
+  "runtime": "311 ms",
+  "runtime_percentile": 62.12010000000014,
+  "timestamp": 1785907440,
+  "title": "Remove Methods From Project",
+  "title_slug": "remove-methods-from-project",
+  "total_correct": 775,
+  "total_testcases": 775,
+  "url": "https://leetcode.com/problems/remove-methods-from-project/"
+}
