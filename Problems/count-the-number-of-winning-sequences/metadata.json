@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 3320,
+  "lang": "python3",
+  "latest_submission_id": 2095097016,
+  "memory": "19.7 MB",
+  "memory_percentile": 90.0,
+  "paid_only": false,
+  "question_id": 3588,
+  "runner": null,
+  "runtime": "2816 ms",
+  "runtime_percentile": 90.0,
+  "timestamp": 1785921087,
+  "title": "Count The Number of Winning Sequences",
+  "title_slug": "count-the-number-of-winning-sequences",
+  "total_correct": 691,
+  "total_testcases": 691,
+  "url": "https://leetcode.com/problems/count-the-number-of-winning-sequences/"
+}
