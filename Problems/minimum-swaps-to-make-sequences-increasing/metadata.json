@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 801,
+  "lang": "python3",
+  "latest_submission_id": 2096639131,
+  "memory": "36.2 MB",
+  "memory_percentile": 100.0,
+  "paid_only": false,
+  "question_id": 819,
+  "runner": null,
+  "runtime": "107 ms",
+  "runtime_percentile": 70.74059999999992,
+  "timestamp": 1786018639,
+  "title": "Minimum Swaps To Make Sequences Increasing",
+  "title_slug": "minimum-swaps-to-make-sequences-increasing",
+  "total_correct": 117,
+  "total_testcases": 117,
+  "url": "https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/"
+}

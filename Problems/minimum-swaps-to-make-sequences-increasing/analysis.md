@@ -1,0 +1,76 @@
+# 801. Minimum Swaps To Make Sequences Increasing - Solution Analysis
+
+## Problem Understanding
+We have two equal-length arrays `nums1` and `nums2`. At any index `i` we may swap the two elements. The goal is to make **both** arrays strictly increasing with the minimum number of swaps. The input guarantees at least one valid sequence of swaps exists. Length `n` can reach 10⁵, so an O(n) or O(n log n) algorithm is required; exponential search over all 2ⁿ swap patterns is impossible.
+
+## Approach
+**Dynamic Programming with two states per position.**  
+At each index `i` we only need to know whether we swapped at `i-1` or not, because the strict-increasing condition only compares adjacent elements. We maintain two values:
+- `keep`: minimum swaps up to `i` if we **do not** swap at `i`.
+- `swap`: minimum swaps up to `i` if we **do** swap at `i`.
+
+For each `i` we compute new values from the previous ones by checking the two cross-compatibility conditions:
+1. `nums1[i] > nums1[i-1]` and `nums2[i] > nums2[i-1]` (both kept or both swapped).
+2. `nums1[i] > nums2[i-1]` and `nums2[i] > nums1[i-1]` (one kept, the other swapped).
+
+The brute force would try all 2ⁿ swap combinations (O(2ⁿ)). The DP reduces this to O(n) time and O(1) space by collapsing the history into two scalars.  
+**Key insight:** The decision at index `i` depends only on the values at `i` and `i-1` and whether `i-1` was swapped.
+
+## Algorithm
+1. Initialise `keep = 0` (no swap at index 0) and `swap = 1` (swap at index 0).
+2. For each `i` from 1 to `n-1`:
+   a. Set `keep_new = inf`, `swap_new = inf`.
+   b. If `nums1[i] > nums1[i-1]` and `nums2[i] > nums2[i-1]`:
+      - `keep_new = keep` (continue keeping)
+      - `swap_new = swap + 1` (continue swapping)
+   c. If `nums1[i] > nums2[i-1]` and `nums2[i] > nums1[i-1]`:
+      - `keep_new = min(keep_new, swap)` (keep now, previously swapped)
+      - `swap_new = min(swap_new, keep + 1)` (swap now, previously kept)
+   d. Update `keep, swap = keep_new, swap_new`.
+3. Return `min(keep, swap)`.
+
+## Line-by-Line Explanation
+- `keep = 0`: Minimum swaps if we leave index 0 as-is.
+- `swap = 1`: Minimum swaps if we swap index 0.
+- `for i in range(1, len(nums1)):`: Iterate over remaining indices.
+- `keep_new = float("inf")`: Temporary holder for new `keep` value.
+- `swap_new = float("inf")`: Temporary holder for new `swap` value.
+- `if nums1[i] > nums1[i-1] and nums2[i] > nums2[i-1]:`: Both arrays increasing without cross-swap.
+- `keep_new = keep`: Staying in "keep" state adds no swap.
+- `swap_new = swap + 1`: Staying in "swap" state adds one swap at `i`.
+- `if nums1[i] > nums2[i-1] and nums2[i] > nums1[i-1]:`: Cross-condition: current kept matches previous swapped, or vice versa.
+- `keep_new = min(keep_new, swap)`: Transition from previous swap to current keep.
+- `swap_new = min(swap_new, keep + 1)`: Transition from previous keep to current swap (costs one more swap).
+- `keep, swap = keep_new, swap_new`: Commit the new state.
+- `return min(keep, swap)`: Answer is the cheaper of the two final states.
+
+## Dry Run
+Example 1: `nums1 = [1,3,5,4]`, `nums2 = [1,2,3,7]`
+
+| Step | i | nums1[i] | nums2[i] | Condition 1 | Condition 2 | keep_new | swap_new | keep | swap |
+|------|---|----------|----------|-------------|-------------|----------|----------|------|------|
+| init | - | - | - | - | - | - | - | 0 | 1 |
+| 1 | 1 | 3 | 2 | 3>1 & 2>1 ✓ | 3>1 & 2>1 ✓ | min(0,1)=0 | min(1+1,0+1)=1 | 0 | 1 |
+| 2 | 2 | 5 | 3 | 5>3 & 3>2 ✓ | 5>2 & 3>3 ✗ | 0 | 1+1=2 | 0 | 2 |
+| 3 | 3 | 4 | 7 | 4>5 ✗ | 4>3 & 7>5 ✓ | min(inf,2)=2 | min(inf,0+1)=1 | 2 | 1 |
+
+Final `min(2,1) = 1`. Matches expected output.
+
+## Complexity
+- **Time:** O(n) — single pass over the arrays, constant work per iteration.
+- **Space:** O(1) — only four integer variables (`keep`, `swap`, `keep_new`, `swap_new`) regardless of `n`.
+
+## Edge Cases
+- **n = 2:** Loop runs once; initial `keep=0, swap=1` correctly represents the two choices at index 0.
+- **Already strictly increasing without swaps:** Condition 1 holds at every step, `keep` stays 0, `swap` grows; answer 0.
+- **Must swap at index 0:** Initial `swap=1` captures that cost; subsequent transitions propagate it.
+- **Duplicate values:** Problem requires strictly increasing, so duplicates would break Condition 1/2; constraints guarantee a solution exists, so duplicates won't appear in valid positions.
+- **Large values (up to 2·10⁵):** Pure integer comparisons, no overflow risk in Python.
+- **Maximum n (10⁵):** O(n) time and O(1) space fit easily.
+
+## Possible Improvements
+The solution is already optimal in asymptotic complexity (O(n) time, O(1) space) for the given constraints. Variable names `keep`/`swap` are clear and idiomatic for this DP pattern. No redundant passes or data structures. A minor stylistic improvement would be to rename `keep_new`/`swap_new` to `new_keep`/`new_swap` for consistency, but this is purely cosmetic.
+
+---
+
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
