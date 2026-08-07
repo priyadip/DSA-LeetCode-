@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 3348,
+  "lang": "python3",
+  "latest_submission_id": 2097577159,
+  "memory": "54.8 MB",
+  "memory_percentile": 20.51290000000005,
+  "paid_only": false,
+  "question_id": 3635,
+  "runner": null,
+  "runtime": "1754 ms",
+  "runtime_percentile": 15.384700000000084,
+  "timestamp": 1786083669,
+  "title": "Smallest Divisible Digit Product II",
+  "title_slug": "smallest-divisible-digit-product-ii",
+  "total_correct": 954,
+  "total_testcases": 954,
+  "url": "https://leetcode.com/problems/smallest-divisible-digit-product-ii/"
+}
