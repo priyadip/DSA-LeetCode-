@@ -61,10 +61,14 @@ jobs:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
+          # --model is passed only when set. An empty one would override the provider's
+          # own default with nothing, and those defaults differ per provider.
+          ARGS=(--provider "${{ vars.LEETVAULT_AI_PROVIDER || 'gemini' }}")
+          MODEL="${{ vars.LEETVAULT_AI_MODEL }}"
+          if [ -n "$MODEL" ]; then ARGS+=(--model "$MODEL"); fi
           leetvault ask "${{ steps.ask.outputs.problem }}" \
             "${{ steps.ask.outputs.question }}" \
-            --provider "${{ vars.LEETVAULT_AI_PROVIDER || 'gemini' }}" \
-            --repo . --no-push | tee /tmp/answer.txt
+            "${ARGS[@]}" --repo . --no-push | tee /tmp/answer.txt
 
       - name: Comment with the answer
         uses: actions/github-script@v7
