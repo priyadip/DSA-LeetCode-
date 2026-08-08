@@ -39,17 +39,17 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
           COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
+          # Parsing lives in leetvault, not here: logic inlined in YAML cannot be tested,
+          # and the version that was inlined silently preferred an issue form's
+          # "_No response_" placeholder over the real question asked in the title.
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import os, re
-          title = os.environ.get("ISSUE_TITLE", "")
+          import os
+          from leetvault.bot import parse_issue
           body = os.environ.get("COMMENT_BODY") or os.environ.get("ISSUE_BODY") or ""
-          # "[3348] why is this greedy?" or "3348: why ..." or a bare slug in the title.
-          match = re.match(r"\s*[\[(]?\s*([A-Za-z0-9-]+)\s*[\])]?\s*[:\-]\s*(.*)", title)
-          problem = match.group(1) if match else title.strip()
-          question = (body.strip() or (match.group(2).strip() if match else ""))
+          problem, question = parse_issue(os.environ.get("ISSUE_TITLE", ""), body)
           print(f"problem={problem}")
           print("question<<EOF")
-          print(question or "Explain this solution.")
+          print(question)
           print("EOF")
           PY
 
