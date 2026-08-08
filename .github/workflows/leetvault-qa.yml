@@ -1,0 +1,91 @@
+# Answers questions asked as GitHub issues, using leetvault.
+# Installed by `leetvault bot --install`. Safe to edit or delete.
+name: leetvault Q&A
+
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  answer:
+    # Only the repository owner. Anyone can open an issue on a public repo, and every one
+    # of them would otherwise spend the owner's API quota.
+    if: >-
+      github.event.issue.user.login == github.repository_owner &&
+      !github.event.issue.pull_request &&
+      (github.event_name == 'issues' ||
+       github.event.comment.user.login == github.repository_owner)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install leetvault
+        run: pip install --quiet leetvault
+
+      - name: Work out what was asked
+        id: ask
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import os, re
+          title = os.environ.get("ISSUE_TITLE", "")
+          body = os.environ.get("COMMENT_BODY") or os.environ.get("ISSUE_BODY") or ""
+          # "[3348] why is this greedy?" or "3348: why ..." or a bare slug in the title.
+          match = re.match(r"\s*[\[(]?\s*([A-Za-z0-9-]+)\s*[\])]?\s*[:\-]\s*(.*)", title)
+          problem = match.group(1) if match else title.strip()
+          question = (body.strip() or (match.group(2).strip() if match else ""))
+          print(f"problem={problem}")
+          print("question<<EOF")
+          print(question or "Explain this solution.")
+          print("EOF")
+          PY
+
+      - name: Answer
+        id: answer
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          leetvault ask "${{ steps.ask.outputs.problem }}" \
+            "${{ steps.ask.outputs.question }}" \
+            --provider "${{ vars.LEETVAULT_AI_PROVIDER || 'gemini' }}" \
+            --repo . --no-push | tee /tmp/answer.txt
+
+      - name: Comment with the answer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = fs.readFileSync('/tmp/answer.txt', 'utf8').trim();
+            if (body.length > 65000) body = body.slice(0, 65000) + '\n\n_(truncated)_';
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body || '_No answer was produced. Check the workflow log._',
+            });
+
+      - name: Commit the Q&A log
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "Problems/*/qa.md" || true
+          git diff --staged --quiet || {
+            git commit -m "leetvault: answer issue #${{ github.event.issue.number }}"
+            git push
+          }

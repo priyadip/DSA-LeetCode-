@@ -1,0 +1,17 @@
+name: Ask about a problem
+description: Ask the leetvault bot a question about one of your solutions.
+title: "[problem-slug]: your question"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Put the problem's slug or number in the title, e.g. `[two-sum]: why a hash map?`
+        or `[3348]: is this really greedy?`. The answer is posted as a comment and saved
+        to that problem's `qa.md`. Replying in the thread asks a follow-up.
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Leave blank to get a general explanation of the solution.
+    validations:
+      required: false
