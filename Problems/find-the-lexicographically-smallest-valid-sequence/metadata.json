@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3302,
+  "lang": "python3",
+  "latest_submission_id": 2099248444,
+  "memory": "51.1 MB",
+  "memory_percentile": 34.78289999999996,
+  "paid_only": false,
+  "question_id": 3584,
+  "runner": null,
+  "runtime": "479 ms",
+  "runtime_percentile": 65.21759999999995,
+  "timestamp": 1786201819,
+  "title": "Find the Lexicographically Smallest Valid Sequence",
+  "title_slug": "find-the-lexicographically-smallest-valid-sequence",
+  "total_correct": 905,
+  "total_testcases": 905,
+  "url": "https://leetcode.com/problems/find-the-lexicographically-smallest-valid-sequence/"
+}
