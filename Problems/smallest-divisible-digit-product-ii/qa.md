@@ -41,3 +41,15 @@ That is a shortest-path computation on a directed graph (each edge = append one 
 LeetCode’s “Greedy” tag refers to the *suffix construction* (step 5 in the analysis), not the whole algorithm. The overall approach is **DP + greedy reconstruction**.
 
 _Answered 2026-08-08 20:06 UTC by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
+
+---
+
+## is this really greedy?
+
+But there is no line 176, program end in line 174
+
+You're right — the code ends at line 174. The suffix-construction loop is **lines 157–174** (the `for i in range(L - 1, -1, -1):` block). My previous answer miscounted by two lines.
+
+The greedy part is still exactly that loop: it scans right-to-left, picks the first position where a larger digit works, and returns immediately.
+
+_Answered 2026-08-09 05:56 UTC by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
