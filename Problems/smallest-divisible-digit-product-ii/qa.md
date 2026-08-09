@@ -53,3 +53,17 @@ You're right — the code ends at line 174. The suffix-construction loop is **li
 The greedy part is still exactly that loop: it scans right-to-left, picks the first position where a larger digit works, and returns immediately.
 
 _Answered 2026-08-09 05:56 UTC by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
+
+---
+
+## But this line  " for i in range(L - 1, -1, -1):" start in 148, not in 157?
+
+You're absolutely right — I miscounted. In the code you pasted, the greedy suffix loop starts at **line 148**:
+
+```python
+148:        for i in range(L - 1, -1, -1):
+```
+
+My previous answer said line 157 (off by 9 lines). The rest of the description still holds: that loop (lines 148–168) is the greedy reconstruction phase.
+
+_Answered 2026-08-09 06:26 UTC by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
