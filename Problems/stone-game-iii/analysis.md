@@ -1,96 +1,70 @@
 # 1406. Stone Game III - Solution Analysis
 
 ## Problem Understanding
-The problem involves a game played by Alice and Bob, where they take turns removing stones from a pile, with each stone having a certain value. The goal is to end with the highest score, and the winner is the player with the highest score. The constraints are that there are between 1 and 5 * 10^4 stones, and each stone's value is between -1000 and 1000. The game continues until all stones have been removed.
+Two players alternately take 1, 2, or 3 stones from the front of an array `stoneValue` (length `n`, 1 ≤ n ≤ 5·10⁴, values in [-1000, 1000]). Each player’s score is the sum of stones they take. Both play optimally to maximize their own final score. Return "Alice" (first player wins), "Bob" (second wins), or "Tie" (equal scores). The game is zero‑sum: the total sum is fixed, so maximizing one’s own score is equivalent to maximizing the score difference (current player minus opponent).
 
 ## Approach
-The solution uses dynamic programming to simulate the game, specifically a minimax approach. Alice tries to maximize her score, while Bob tries to minimize it. The dynamic programming approach allows the solution to explore all possible moves and determine the optimal strategy for Alice.
+The solution uses **Dynamic Programming** with a minimax formulation.  
+Brute force would explore all 3ⁿ move sequences – exponential.  
+The key insight: from any position `i`, the current player’s optimal score difference `dp[i]` equals the maximum over `k ∈ {1,2,3}` of `(sum of taken stones) - dp[i+k]`. After taking `k` stones, the opponent faces position `i+k` and will achieve a difference of `dp[i+k]` from their perspective, so the net difference for the current player is the taken sum minus that value. Computing `dp` backwards from the end yields an O(n) time and O(n) space algorithm.
 
 ## Algorithm
-Here are the steps involved in the solution:
-1. Initialize a dynamic programming array `dp` of size `n + 1`, where `n` is the number of stones.
-2. Iterate over the stones in reverse order, starting from the last stone.
-3. For each stone, try removing 1, 2, or 3 stones and calculate the score.
-4. Update the `dp` array with the maximum score that can be achieved by removing stones from the current position.
-5. Finally, compare the score at the first position `dp[0]` with 0 to determine the winner.
+1. Let `n = len(stoneValue)`. Create `dp` array of size `n+1` initialized to 0. `dp[n] = 0` (no stones left → difference 0).
+2. For `i` from `n-1` down to `0`:
+   - Set `dp[i] = -∞`.
+   - Initialize `take = 0`.
+   - For `k = 0, 1, 2` (representing taking 1, 2, 3 stones):
+        - If `i + k ≥ n`: break.
+        - `take += stoneValue[i + k]`.
+        - `dp[i] = max(dp[i], take - dp[i + k + 1])`.
+3. After the loop, `dp[0]` is Alice’s optimal score difference.
+4. Return "Alice" if `dp[0] > 0`, "Bob" if `dp[0] < 0`, else "Tie".
 
 ## Line-by-Line Explanation
-Here's a line-by-line explanation of the code:
-```python
-n = len(stoneValue)
-```
-This line calculates the number of stones.
-```python
-dp = [0] * (n + 1)
-```
-This line initializes the dynamic programming array with zeros.
-```python
-for i in range(n - 1, -1, -1):
-```
-This line starts iterating over the stones in reverse order.
-```python
-dp[i] = float('-inf')
-```
-This line initializes the current position in the `dp` array with negative infinity.
-```python
-take = 0
-```
-This line initializes the score for the current move.
-```python
-for k in range(3):
-```
-This line tries removing 1, 2, or 3 stones.
-```python
-if i + k >= n:
-    break
-```
-This line checks if removing `k` stones would exceed the number of stones left.
-```python
-take += stoneValue[i + k]
-```
-This line calculates the score for the current move.
-```python
-dp[i] = max(dp[i], take - dp[i + k + 1])
-```
-This line updates the `dp` array with the maximum score that can be achieved by removing stones from the current position.
-```python
-if dp[0] > 0:
-    return "Alice"
-elif dp[0] < 0:
-    return "Bob"
-else:
-    return "Tie"
-```
-These lines compare the score at the first position `dp[0]` with 0 to determine the winner.
+- `n = len(stoneValue)`: length of the stone array.
+- `dp = [0] * (n + 1)`: `dp[i]` stores the maximum score difference the current player can achieve starting at index `i`; `dp[n]=0` is the base case.
+- `for i in range(n - 1, -1, -1)`: process positions from the last stone backwards.
+- `dp[i] = float('-inf')`: initialize to negative infinity for max comparison.
+- `take = 0`: cumulative sum of stones taken in the current turn.
+- `for k in range(3)`: try taking 1, 2, or 3 stones (`k=0,1,2`).
+- `if i + k >= n: break`: stop if not enough stones remain.
+- `take += stoneValue[i + k]`: add the value of the next stone taken.
+- `dp[i] = max(dp[i], take - dp[i + k + 1])`: update best difference; `take` is gained now, `dp[i+k+1]` is the opponent’s optimal difference from the next position.
+- `if dp[0] > 0: return "Alice"`: positive difference → Alice wins.
+- `elif dp[0] < 0: return "Bob"`: negative difference → Bob wins.
+- `else: return "Tie"`: zero difference → tie.
 
 ## Dry Run
-Let's consider an example where `stoneValue = [1, 2, 3, 7]`. Here's a dry run of the algorithm:
-| i | take | dp[i] |
-| --- | --- | --- |
-| 3 | 0 | 7 |
-| 2 | 3, 6 | 6 |
-| 1 | 2, 5, 9 | 5 |
-| 0 | 1, 3, 6 | 6 |
+Example 1: `stoneValue = [1,2,3,7]`, `n=4`.
 
-In this example, the final score is 6, which is in favor of Bob.
+| Step | i | k | take | dp[i] (after update) | Action |
+|------|---|---|------|----------------------|--------|
+| 1 | 3 | 0 | 7 | 7 | take 7, dp[3]=7-0 |
+| 2 | 2 | 0 | 3 | -4 | take 3, dp[2]=3-7 |
+| 3 | 2 | 1 | 10 | 10 | take 3+7, dp[2]=10-0 |
+| 4 | 1 | 0 | 2 | -8 | take 2, dp[1]=2-10 |
+| 5 | 1 | 1 | 5 | -2 | take 2+3, dp[1]=5-7 |
+| 6 | 1 | 2 | 12 | 12 | take 2+3+7, dp[1]=12-0 |
+| 7 | 0 | 0 | 1 | -11 | take 1, dp[0]=1-12 |
+| 8 | 0 | 1 | 3 | -7 | take 1+2, dp[0]=3-10 |
+| 9 | 0 | 2 | 6 | -1 | take 1+2+3, dp[0]=6-7 |
+
+Final `dp[0] = -1` → return "Bob".
 
 ## Complexity
-The time complexity is O(n), where n is the number of stones. This is because the solution involves iterating over the stones once.
-The space complexity is O(n), where n is the number of stones. This is because the solution involves storing the dynamic programming array.
+- **Time**: O(n). The outer loop runs `n` times; the inner loop runs at most 3 times (constant). Each iteration does O(1) work.
+- **Space**: O(n) for the `dp` array of size `n+1`.
 
 ## Edge Cases
-The solution handles edge cases such as:
-* Empty input: The solution returns an error in this case, since there are no stones to play with.
-* Single element: The solution returns "Alice" in this case, since Alice can remove the only stone and win.
-* Duplicates: The solution handles duplicates correctly, since the dynamic programming approach considers all possible moves.
-* Overflow: The solution handles overflow correctly, since the dynamic programming approach uses a bounded range of values.
+- **Single stone (n=1)**: Alice takes it; `dp[0] = stoneValue[0]`. Correctly returns winner based on sign.
+- **All negative values**: Players may prefer taking fewer stones to avoid large negative sums. The recurrence handles negative `take` and negative `dp` values naturally.
+- **Maximum n (50,000)**: O(n) time and space easily fit within limits.
+- **Tie**: `dp[0] == 0` correctly returns "Tie".
+- The constraints guarantee `n ≥ 1`, so empty input is not possible.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints. However, there are some possible improvements:
-* Using a more efficient data structure: The solution uses a dynamic programming array, which has a time complexity of O(n). However, using a more efficient data structure such as a segment tree could reduce the time complexity.
-* Pruning the search space: The solution considers all possible moves, which can result in a large search space. However, pruning the search space using techniques such as alpha-beta pruning could reduce the time complexity.
-* Using a more efficient algorithm: The solution uses a dynamic programming approach, which has a time complexity of O(n). However, using a more efficient algorithm such as a recursive approach with memoization could reduce the time complexity.
+The solution is already optimal in asymptotic complexity (O(n) time, O(n) space) for the given constraints. Space could be reduced to O(1) by keeping only the last three `dp` values (`dp[i+1]`, `dp[i+2]`, `dp[i+3]`), but O(n) space is perfectly acceptable for n ≤ 50,000. Variable names are clear and the logic is straightforward. No redundant passes or structures exist.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
