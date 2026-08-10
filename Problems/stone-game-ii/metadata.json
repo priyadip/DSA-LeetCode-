@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 1140,
+  "lang": "python3",
+  "latest_submission_id": 2100727401,
+  "memory": "26.1 MB",
+  "memory_percentile": 49.10369999999999,
+  "paid_only": false,
+  "question_id": 1240,
+  "runner": null,
+  "runtime": "71 ms",
+  "runtime_percentile": 88.54590000000002,
+  "timestamp": 1786299735,
+  "title": "Stone Game II",
+  "title_slug": "stone-game-ii",
+  "total_correct": 92,
+  "total_testcases": 92,
+  "url": "https://leetcode.com/problems/stone-game-ii/"
+}
