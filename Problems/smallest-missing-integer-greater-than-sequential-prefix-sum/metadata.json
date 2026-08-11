@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 2996,
+  "lang": "python3",
+  "latest_submission_id": 2103297637,
+  "memory": "19.3 MB",
+  "memory_percentile": 17.675600000000003,
+  "paid_only": false,
+  "question_id": 3236,
+  "runner": null,
+  "runtime": "1 ms",
+  "runtime_percentile": 23.002399999999994,
+  "timestamp": 1786472247,
+  "title": "Smallest Missing Integer Greater Than Sequential Prefix Sum",
+  "title_slug": "smallest-missing-integer-greater-than-sequential-prefix-sum",
+  "total_correct": 616,
+  "total_testcases": 616,
+  "url": "https://leetcode.com/problems/smallest-missing-integer-greater-than-sequential-prefix-sum/"
+}

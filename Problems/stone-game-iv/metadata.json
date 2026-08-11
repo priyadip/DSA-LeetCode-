@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 1510,
+  "lang": "python3",
+  "latest_submission_id": 2103295503,
+  "memory": "20.2 MB",
+  "memory_percentile": 55.08979999999999,
+  "paid_only": false,
+  "question_id": 1617,
+  "runner": null,
+  "runtime": "586 ms",
+  "runtime_percentile": 62.574999999999626,
+  "timestamp": 1786472166,
+  "title": "Stone Game IV",
+  "title_slug": "stone-game-iv",
+  "total_correct": 72,
+  "total_testcases": 72,
+  "url": "https://leetcode.com/problems/stone-game-iv/"
+}
