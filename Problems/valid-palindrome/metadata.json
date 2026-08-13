@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 125,
+  "lang": "python3",
+  "latest_submission_id": 2105884011,
+  "memory": "19.5 MB",
+  "memory_percentile": 76.76309999999998,
+  "paid_only": false,
+  "question_id": 125,
+  "runner": null,
+  "runtime": "6 ms",
+  "runtime_percentile": 85.0632,
+  "timestamp": 1786647847,
+  "title": "Valid Palindrome",
+  "title_slug": "valid-palindrome",
+  "total_correct": 490,
+  "total_testcases": 490,
+  "url": "https://leetcode.com/problems/valid-palindrome/"
+}
