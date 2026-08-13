@@ -1,0 +1,26 @@
+{
+  "difficulty": "Hard",
+  "failed_testcases": [
+    {
+      "expected_output": "[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2]",
+      "input": "\"wjkwcubakkrhihzbrjja\"\n\"igyxlwcykydlnjqzjyesnjnqcarvwjynjtkslypqvsurwrgrletylvfswpllruiffniv\"\n[10,0,6,2,7,19,10,11,19,16,6,1,4,2,1,7,15,6,11,8,11,14,9,15,17,2,4,18,18,3,8,2,8,9,6,18,18,5,9,15,5,5,17,16,1,7,11,14,18,11,17,12,18,9,5,4,10,9,1,6,7,4,1,14,13,10,8,3]",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 2213,
+  "lang": "python3",
+  "latest_submission_id": 2105499012,
+  "memory": "113.1 MB",
+  "memory_percentile": 16.394999999999968,
+  "paid_only": false,
+  "question_id": 2319,
+  "runner": null,
+  "runtime": "2479 ms",
+  "runtime_percentile": 75.41049999999991,
+  "timestamp": 1786629517,
+  "title": "Longest Substring of One Repeating Character",
+  "title_slug": "longest-substring-of-one-repeating-character",
+  "total_correct": 57,
+  "total_testcases": 57,
+  "url": "https://leetcode.com/problems/longest-substring-of-one-repeating-character/"
+}
