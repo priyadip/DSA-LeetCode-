@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3090,
+  "lang": "python3",
+  "latest_submission_id": 2106604582,
+  "memory": "19.3 MB",
+  "memory_percentile": 21.079100000000004,
+  "paid_only": false,
+  "question_id": 3349,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1786712235,
+  "title": "Maximum Length Substring With Two Occurrences",
+  "title_slug": "maximum-length-substring-with-two-occurrences",
+  "total_correct": 709,
+  "total_testcases": 709,
+  "url": "https://leetcode.com/problems/maximum-length-substring-with-two-occurrences/"
+}
