@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 15,
+  "lang": "python3",
+  "latest_submission_id": 2106502602,
+  "memory": "22.4 MB",
+  "memory_percentile": 17.703800000000022,
+  "paid_only": false,
+  "question_id": 15,
+  "runner": null,
+  "runtime": "478 ms",
+  "runtime_percentile": 92.56879999999977,
+  "timestamp": 1786704532,
+  "title": "3Sum",
+  "title_slug": "3sum",
+  "total_correct": 316,
+  "total_testcases": 316,
+  "url": "https://leetcode.com/problems/3sum/"
+}
