@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 42,
+  "lang": "python3",
+  "latest_submission_id": 2106185859,
+  "memory": "21 MB",
+  "memory_percentile": 48.3092,
+  "paid_only": false,
+  "question_id": 42,
+  "runner": null,
+  "runtime": "5 ms",
+  "runtime_percentile": 79.31479999999999,
+  "timestamp": 1786684455,
+  "title": "Trapping Rain Water",
+  "title_slug": "trapping-rain-water",
+  "total_correct": 325,
+  "total_testcases": 325,
+  "url": "https://leetcode.com/problems/trapping-rain-water/"
+}

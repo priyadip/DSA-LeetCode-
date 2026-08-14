@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 11,
+  "lang": "python3",
+  "latest_submission_id": 2106160149,
+  "memory": "29.6 MB",
+  "memory_percentile": 37.58249999999999,
+  "paid_only": false,
+  "question_id": 11,
+  "runner": null,
+  "runtime": "44 ms",
+  "runtime_percentile": 94.65010000000004,
+  "timestamp": 1786682974,
+  "title": "Container With Most Water",
+  "title_slug": "container-with-most-water",
+  "total_correct": 65,
+  "total_testcases": 65,
+  "url": "https://leetcode.com/problems/container-with-most-water/"
+}
