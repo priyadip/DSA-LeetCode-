@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 2414,
+  "lang": "python3",
+  "latest_submission_id": 2106653367,
+  "memory": "20.1 MB",
+  "memory_percentile": 44.39030000000001,
+  "paid_only": false,
+  "question_id": 2492,
+  "runner": null,
+  "runtime": "132 ms",
+  "runtime_percentile": 73.17100000000008,
+  "timestamp": 1786715457,
+  "title": "Length of the Longest Alphabetical Continuous Substring",
+  "title_slug": "length-of-the-longest-alphabetical-continuous-substring",
+  "total_correct": 123,
+  "total_testcases": 123,
+  "url": "https://leetcode.com/problems/length-of-the-longest-alphabetical-continuous-substring/"
+}
