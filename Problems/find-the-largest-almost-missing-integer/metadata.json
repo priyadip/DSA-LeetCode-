@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3471,
+  "lang": "python3",
+  "latest_submission_id": 2111125661,
+  "memory": "19.3 MB",
+  "memory_percentile": 35.6557,
+  "paid_only": false,
+  "question_id": 3705,
+  "runner": null,
+  "runtime": "3 ms",
+  "runtime_percentile": 62.295,
+  "timestamp": 1787040292,
+  "title": "Find the Largest Almost Missing Integer",
+  "title_slug": "find-the-largest-almost-missing-integer",
+  "total_correct": 900,
+  "total_testcases": 900,
+  "url": "https://leetcode.com/problems/find-the-largest-almost-missing-integer/"
+}
