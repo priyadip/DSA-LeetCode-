@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3702,
+  "lang": "python3",
+  "latest_submission_id": 2111733477,
+  "memory": "33.1 MB",
+  "memory_percentile": 85.80059999999999,
+  "paid_only": false,
+  "question_id": 4033,
+  "runner": null,
+  "runtime": "25 ms",
+  "runtime_percentile": 78.42820000000002,
+  "timestamp": 1787072214,
+  "title": "Longest Subsequence With Non-Zero Bitwise XOR",
+  "title_slug": "longest-subsequence-with-non-zero-bitwise-xor",
+  "total_correct": 1002,
+  "total_testcases": 1002,
+  "url": "https://leetcode.com/problems/longest-subsequence-with-non-zero-bitwise-xor/"
+}
