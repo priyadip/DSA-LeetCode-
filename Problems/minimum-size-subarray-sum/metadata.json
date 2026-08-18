@@ -1,0 +1,46 @@
+{
+  "difficulty": "Medium",
+  "failed_testcases": [
+    {
+      "expected_output": "3",
+      "input": "11\n[1,2,3,4,5]",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "3",
+      "input": "11\n[1,2,3,4,5]",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "3",
+      "input": "11\n[1,2,3,4,5]",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "3",
+      "input": "11\n[1,2,3,4,5]",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "2",
+      "input": "7\n[2,3,1,2,4,3]",
+      "status": "Runtime Error"
+    }
+  ],
+  "frontend_id": 209,
+  "lang": "python3",
+  "latest_submission_id": 2111295223,
+  "memory": "30.5 MB",
+  "memory_percentile": 41.86810000000002,
+  "paid_only": false,
+  "question_id": 209,
+  "runner": null,
+  "runtime": "15 ms",
+  "runtime_percentile": 85.74910000000003,
+  "timestamp": 1787049784,
+  "title": "Minimum Size Subarray Sum",
+  "title_slug": "minimum-size-subarray-sum",
+  "total_correct": 23,
+  "total_testcases": 23,
+  "url": "https://leetcode.com/problems/minimum-size-subarray-sum/"
+}

@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 643,
+  "lang": "python3",
+  "latest_submission_id": 2111234353,
+  "memory": "29.3 MB",
+  "memory_percentile": 16.675100000000025,
+  "paid_only": false,
+  "question_id": 643,
+  "runner": null,
+  "runtime": "65 ms",
+  "runtime_percentile": 43.80400000000001,
+  "timestamp": 1787046454,
+  "title": "Maximum Average Subarray I",
+  "title_slug": "maximum-average-subarray-i",
+  "total_correct": 128,
+  "total_testcases": 128,
+  "url": "https://leetcode.com/problems/maximum-average-subarray-i/"
+}

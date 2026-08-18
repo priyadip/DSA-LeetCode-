@@ -2,9 +2,9 @@
   "difficulty": "Medium",
   "frontend_id": 3,
   "lang": "python3",
-  "latest_submission_id": 2080140789,
-  "memory": "19.3 MB",
-  "memory_percentile": 29.5405,
+  "latest_submission_id": 2111338626,
+  "memory": "19.8 MB",
+  "memory_percentile": 27.296000000000006,
   "paid_only": false,
   "question_id": 3,
   "runner": {
@@ -14,12 +14,12 @@
       "string"
     ]
   },
-  "runtime": "7 ms",
-  "runtime_percentile": 96.27120000000001,
-  "timestamp": 1784941654,
+  "runtime": "178 ms",
+  "runtime_percentile": 37.37780000000004,
+  "timestamp": 1787052454,
   "title": "Longest Substring Without Repeating Characters",
   "title_slug": "longest-substring-without-repeating-characters",
-  "total_correct": 988,
-  "total_testcases": 988,
+  "total_correct": 1036,
+  "total_testcases": 1036,
   "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
 }
