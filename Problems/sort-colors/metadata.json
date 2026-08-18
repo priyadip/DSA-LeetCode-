@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 75,
+  "lang": "python3",
+  "latest_submission_id": 2111800028,
+  "memory": "19.2 MB",
+  "memory_percentile": 62.11290000000001,
+  "paid_only": false,
+  "question_id": 75,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1787074761,
+  "title": "Sort Colors",
+  "title_slug": "sort-colors",
+  "total_correct": 90,
+  "total_testcases": 90,
+  "url": "https://leetcode.com/problems/sort-colors/"
+}
