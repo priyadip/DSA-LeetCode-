@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3069,
+  "lang": "python3",
+  "latest_submission_id": 2114036321,
+  "memory": "19.2 MB",
+  "memory_percentile": 61.538500000000006,
+  "paid_only": false,
+  "question_id": 3347,
+  "runner": null,
+  "runtime": "3 ms",
+  "runtime_percentile": 21.153799999999997,
+  "timestamp": 1787236234,
+  "title": "Distribute Elements Into Two Arrays I",
+  "title_slug": "distribute-elements-into-two-arrays-i",
+  "total_correct": 622,
+  "total_testcases": 622,
+  "url": "https://leetcode.com/problems/distribute-elements-into-two-arrays-i/"
+}
