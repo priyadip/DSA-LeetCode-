@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 3116,
+  "lang": "python3",
+  "latest_submission_id": 2114634573,
+  "memory": "19.5 MB",
+  "memory_percentile": 78.0488,
+  "paid_only": false,
+  "question_id": 3375,
+  "runner": null,
+  "runtime": "1560 ms",
+  "runtime_percentile": 10.976300000000055,
+  "timestamp": 1787287335,
+  "title": "Kth Smallest Amount With Single Denomination Combination",
+  "title_slug": "kth-smallest-amount-with-single-denomination-combination",
+  "total_correct": 561,
+  "total_testcases": 561,
+  "url": "https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/"
+}
