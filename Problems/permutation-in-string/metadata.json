@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 567,
+  "lang": "python3",
+  "latest_submission_id": 2116366397,
+  "memory": "19.4 MB",
+  "memory_percentile": 53.92259999999999,
+  "paid_only": false,
+  "question_id": 567,
+  "runner": null,
+  "runtime": "47 ms",
+  "runtime_percentile": 29.702599999999983,
+  "timestamp": 1787416256,
+  "title": "Permutation in String",
+  "title_slug": "permutation-in-string",
+  "total_correct": 111,
+  "total_testcases": 111,
+  "url": "https://leetcode.com/problems/permutation-in-string/"
+}
