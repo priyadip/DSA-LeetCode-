@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 424,
+  "lang": "python3",
+  "latest_submission_id": 2116346869,
+  "memory": "19.7 MB",
+  "memory_percentile": 51.69600000000002,
+  "paid_only": false,
+  "question_id": 424,
+  "runner": null,
+  "runtime": "80 ms",
+  "runtime_percentile": 65.99740000000004,
+  "timestamp": 1787415207,
+  "title": "Longest Repeating Character Replacement",
+  "title_slug": "longest-repeating-character-replacement",
+  "total_correct": 51,
+  "total_testcases": 51,
+  "url": "https://leetcode.com/problems/longest-repeating-character-replacement/"
+}
