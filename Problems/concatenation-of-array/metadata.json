@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 1929,
+  "lang": "python3",
+  "latest_submission_id": 2116588405,
+  "memory": "19.3 MB",
+  "memory_percentile": 78.56080000000003,
+  "paid_only": false,
+  "question_id": 2058,
+  "runner": null,
+  "runtime": "3 ms",
+  "runtime_percentile": 18.308899999999998,
+  "timestamp": 1787428882,
+  "title": "Concatenation of Array",
+  "title_slug": "concatenation-of-array",
+  "total_correct": 92,
+  "total_testcases": 92,
+  "url": "https://leetcode.com/problems/concatenation-of-array/"
+}

@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 1470,
+  "lang": "python3",
+  "latest_submission_id": 2116595661,
+  "memory": "19.4 MB",
+  "memory_percentile": 16.759800000000013,
+  "paid_only": false,
+  "question_id": 1580,
+  "runner": null,
+  "runtime": "65 ms",
+  "runtime_percentile": 48.80640000000002,
+  "timestamp": 1787429594,
+  "title": "Shuffle the Array",
+  "title_slug": "shuffle-the-array",
+  "total_correct": 53,
+  "total_testcases": 53,
+  "url": "https://leetcode.com/problems/shuffle-the-array/"
+}

@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 485,
+  "lang": "python3",
+  "latest_submission_id": 2116606261,
+  "memory": "21.9 MB",
+  "memory_percentile": 43.06050000000002,
+  "paid_only": false,
+  "question_id": 485,
+  "runner": null,
+  "runtime": "23 ms",
+  "runtime_percentile": 21.409699999999994,
+  "timestamp": 1787430718,
+  "title": "Max Consecutive Ones",
+  "title_slug": "max-consecutive-ones",
+  "total_correct": 45,
+  "total_testcases": 45,
+  "url": "https://leetcode.com/problems/max-consecutive-ones/"
+}
