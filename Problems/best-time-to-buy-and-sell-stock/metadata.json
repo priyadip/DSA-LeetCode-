@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 121,
+  "lang": "python3",
+  "latest_submission_id": 2116326046,
+  "memory": "28.6 MB",
+  "memory_percentile": 41.27559999999999,
+  "paid_only": false,
+  "question_id": 121,
+  "runner": null,
+  "runtime": "47 ms",
+  "runtime_percentile": 58.98100000000002,
+  "timestamp": 1787414050,
+  "title": "Best Time to Buy and Sell Stock",
+  "title_slug": "best-time-to-buy-and-sell-stock",
+  "total_correct": 213,
+  "total_testcases": 213,
+  "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"
+}
