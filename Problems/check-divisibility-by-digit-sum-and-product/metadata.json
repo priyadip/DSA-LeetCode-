@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3622,
+  "lang": "python3",
+  "latest_submission_id": 2116201131,
+  "memory": "19.3 MB",
+  "memory_percentile": 58.35189999999999,
+  "paid_only": false,
+  "question_id": 3918,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1787406863,
+  "title": "Check Divisibility by Digit Sum and Product",
+  "title_slug": "check-divisibility-by-digit-sum-and-product",
+  "total_correct": 636,
+  "total_testcases": 636,
+  "url": "https://leetcode.com/problems/check-divisibility-by-digit-sum-and-product/"
+}
