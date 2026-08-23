@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 645,
+  "lang": "python3",
+  "latest_submission_id": 2117042544,
+  "memory": "21 MB",
+  "memory_percentile": 26.65669999999999,
+  "paid_only": false,
+  "question_id": 645,
+  "runner": null,
+  "runtime": "7 ms",
+  "runtime_percentile": 86.74699999999999,
+  "timestamp": 1787468503,
+  "title": "Set Mismatch",
+  "title_slug": "set-mismatch",
+  "total_correct": 49,
+  "total_testcases": 49,
+  "url": "https://leetcode.com/problems/set-mismatch/"
+}
