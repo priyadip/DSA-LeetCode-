@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 1927,
+  "lang": "python3",
+  "latest_submission_id": 2117172058,
+  "memory": "19.8 MB",
+  "memory_percentile": 65.2941,
+  "paid_only": false,
+  "question_id": 2039,
+  "runner": null,
+  "runtime": "67 ms",
+  "runtime_percentile": 30.00039999999996,
+  "timestamp": 1787477882,
+  "title": "Sum Game",
+  "title_slug": "sum-game",
+  "total_correct": 95,
+  "total_testcases": 95,
+  "url": "https://leetcode.com/problems/sum-game/"
+}
