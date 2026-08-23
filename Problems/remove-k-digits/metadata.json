@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 402,
+  "lang": "python3",
+  "latest_submission_id": 2117757298,
+  "memory": "20.7 MB",
+  "memory_percentile": 18.41229999999998,
+  "paid_only": false,
+  "question_id": 402,
+  "runner": null,
+  "runtime": "19 ms",
+  "runtime_percentile": 78.58099999999999,
+  "timestamp": 1787512537,
+  "title": "Remove K Digits",
+  "title_slug": "remove-k-digits",
+  "total_correct": 44,
+  "total_testcases": 44,
+  "url": "https://leetcode.com/problems/remove-k-digits/"
+}
