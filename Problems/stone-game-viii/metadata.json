@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 1872,
+  "lang": "python3",
+  "latest_submission_id": 2118303830,
+  "memory": "33.1 MB",
+  "memory_percentile": 63.90539999999997,
+  "paid_only": false,
+  "question_id": 2002,
+  "runner": null,
+  "runtime": "665 ms",
+  "runtime_percentile": 73.96499999999993,
+  "timestamp": 1787566911,
+  "title": "Stone Game VIII",
+  "title_slug": "stone-game-viii",
+  "total_correct": 80,
+  "total_testcases": 80,
+  "url": "https://leetcode.com/problems/stone-game-viii/"
+}
