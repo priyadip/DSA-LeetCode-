@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 76,
+  "lang": "python3",
+  "latest_submission_id": 2118752981,
+  "memory": "19.6 MB",
+  "memory_percentile": 74.11,
+  "paid_only": false,
+  "question_id": 76,
+  "runner": null,
+  "runtime": "59 ms",
+  "runtime_percentile": 84.72179999999994,
+  "timestamp": 1787591992,
+  "title": "Minimum Window Substring",
+  "title_slug": "minimum-window-substring",
+  "total_correct": 268,
+  "total_testcases": 268,
+  "url": "https://leetcode.com/problems/minimum-window-substring/"
+}
