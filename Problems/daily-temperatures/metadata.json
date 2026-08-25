@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 739,
+  "lang": "python3",
+  "latest_submission_id": 2120047701,
+  "memory": "28.8 MB",
+  "memory_percentile": 30.54580000000001,
+  "paid_only": false,
+  "question_id": 739,
+  "runner": null,
+  "runtime": "82 ms",
+  "runtime_percentile": 91.3868,
+  "timestamp": 1787682282,
+  "title": "Daily Temperatures",
+  "title_slug": "daily-temperatures",
+  "total_correct": 48,
+  "total_testcases": 48,
+  "url": "https://leetcode.com/problems/daily-temperatures/"
+}
