@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 20,
+  "lang": "python3",
+  "latest_submission_id": 2120041396,
+  "memory": "19.2 MB",
+  "memory_percentile": 63.20890000000003,
+  "paid_only": false,
+  "question_id": 20,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1787681996,
+  "title": "Valid Parentheses",
+  "title_slug": "valid-parentheses",
+  "total_correct": 103,
+  "total_testcases": 103,
+  "url": "https://leetcode.com/problems/valid-parentheses/"
+}
