@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 853,
+  "lang": "python3",
+  "latest_submission_id": 2120051887,
+  "memory": "41.3 MB",
+  "memory_percentile": 77.46060000000004,
+  "paid_only": false,
+  "question_id": 883,
+  "runner": null,
+  "runtime": "143 ms",
+  "runtime_percentile": 86.52720000000004,
+  "timestamp": 1787682465,
+  "title": "Car Fleet",
+  "title_slug": "car-fleet",
+  "total_correct": 49,
+  "total_testcases": 49,
+  "url": "https://leetcode.com/problems/car-fleet/"
+}
