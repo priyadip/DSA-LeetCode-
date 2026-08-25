@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 150,
+  "lang": "python3",
+  "latest_submission_id": 2119773232,
+  "memory": "20.7 MB",
+  "memory_percentile": 10.257799999999971,
+  "paid_only": false,
+  "question_id": 150,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1787669360,
+  "title": "Evaluate Reverse Polish Notation",
+  "title_slug": "evaluate-reverse-polish-notation",
+  "total_correct": 22,
+  "total_testcases": 22,
+  "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/"
+}
