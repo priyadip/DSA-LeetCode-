@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 22,
+  "lang": "python3",
+  "latest_submission_id": 2119781423,
+  "memory": "19.4 MB",
+  "memory_percentile": 73.60710000000003,
+  "paid_only": false,
+  "question_id": 22,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1787669798,
+  "title": "Generate Parentheses",
+  "title_slug": "generate-parentheses",
+  "total_correct": 8,
+  "total_testcases": 8,
+  "url": "https://leetcode.com/problems/generate-parentheses/"
+}
