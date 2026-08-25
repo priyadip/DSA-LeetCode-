@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 84,
+  "lang": "python3",
+  "latest_submission_id": 2120061887,
+  "memory": "37.1 MB",
+  "memory_percentile": 8.343600000000036,
+  "paid_only": false,
+  "question_id": 84,
+  "runner": null,
+  "runtime": "111 ms",
+  "runtime_percentile": 83.17650000000008,
+  "timestamp": 1787682973,
+  "title": "Largest Rectangle in Histogram",
+  "title_slug": "largest-rectangle-in-histogram",
+  "total_correct": 99,
+  "total_testcases": 99,
+  "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/"
+}
