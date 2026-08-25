@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 155,
+  "lang": "python3",
+  "latest_submission_id": 2119501788,
+  "memory": "31 MB",
+  "memory_percentile": 87.66379999999997,
+  "paid_only": false,
+  "question_id": 155,
+  "runner": null,
+  "runtime": "70 ms",
+  "runtime_percentile": 94.09210000000002,
+  "timestamp": 1787652270,
+  "title": "Min Stack",
+  "title_slug": "min-stack",
+  "total_correct": 45,
+  "total_testcases": 45,
+  "url": "https://leetcode.com/problems/min-stack/"
+}
