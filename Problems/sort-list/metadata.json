@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 148,
+  "lang": "python3",
+  "latest_submission_id": 2120379485,
+  "memory": "40.8 MB",
+  "memory_percentile": 31.728699999999993,
+  "paid_only": false,
+  "question_id": 148,
+  "runner": null,
+  "runtime": "223 ms",
+  "runtime_percentile": 12.20430000000011,
+  "timestamp": 1787720766,
+  "title": "Sort List",
+  "title_slug": "sort-list",
+  "total_correct": 30,
+  "total_testcases": 30,
+  "url": "https://leetcode.com/problems/sort-list/"
+}
