@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 146,
+  "lang": "python3",
+  "latest_submission_id": 2120965563,
+  "memory": "29.4 MB",
+  "memory_percentile": 92.62550000000002,
+  "paid_only": false,
+  "question_id": 146,
+  "runner": null,
+  "runtime": "14 ms",
+  "runtime_percentile": 99.02309999999999,
+  "timestamp": 1787758381,
+  "title": "LRU Cache",
+  "title_slug": "lru-cache",
+  "total_correct": 23,
+  "total_testcases": 23,
+  "url": "https://leetcode.com/problems/lru-cache/"
+}
