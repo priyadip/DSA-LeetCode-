@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 2904,
+  "lang": "python3",
+  "latest_submission_id": 2120355257,
+  "memory": "19.2 MB",
+  "memory_percentile": 93.69359999999999,
+  "paid_only": false,
+  "question_id": 3150,
+  "runner": null,
+  "runtime": "3 ms",
+  "runtime_percentile": 53.1531,
+  "timestamp": 1787719064,
+  "title": "Shortest and Lexicographically Smallest Beautiful String",
+  "title_slug": "shortest-and-lexicographically-smallest-beautiful-string",
+  "total_correct": 674,
+  "total_testcases": 674,
+  "url": "https://leetcode.com/problems/shortest-and-lexicographically-smallest-beautiful-string/"
+}
