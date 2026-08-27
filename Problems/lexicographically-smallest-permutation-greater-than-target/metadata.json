@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3720,
+  "lang": "python3",
+  "latest_submission_id": 2121923227,
+  "memory": "19.4 MB",
+  "memory_percentile": 42.1053,
+  "paid_only": false,
+  "question_id": 4020,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1787836733,
+  "title": "Lexicographically Smallest Permutation Greater Than Target",
+  "title_slug": "lexicographically-smallest-permutation-greater-than-target",
+  "total_correct": 761,
+  "total_testcases": 761,
+  "url": "https://leetcode.com/problems/lexicographically-smallest-permutation-greater-than-target/"
+}
