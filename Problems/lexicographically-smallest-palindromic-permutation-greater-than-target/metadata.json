@@ -1,0 +1,41 @@
+{
+  "difficulty": "Hard",
+  "failed_testcases": [
+    {
+      "expected_output": "\"bbbb\"",
+      "input": "\"bbbb\"\n\"aaaa\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "\"abba\"",
+      "input": "\"aabb\"\n\"aaaa\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "\"bb\"",
+      "input": "\"bb\"\n\"aa\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "\"baab\"",
+      "input": "\"baba\"\n\"abba\"",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 3734,
+  "lang": "python3",
+  "latest_submission_id": 2122819049,
+  "memory": "19.5 MB",
+  "memory_percentile": 68.1818,
+  "paid_only": false,
+  "question_id": 4037,
+  "runner": null,
+  "runtime": "70 ms",
+  "runtime_percentile": 19.69600000000004,
+  "timestamp": 1787915878,
+  "title": "Lexicographically Smallest Palindromic Permutation Greater Than Target",
+  "title_slug": "lexicographically-smallest-palindromic-permutation-greater-than-target",
+  "total_correct": 1035,
+  "total_testcases": 1035,
+  "url": "https://leetcode.com/problems/lexicographically-smallest-palindromic-permutation-greater-than-target/"
+}
