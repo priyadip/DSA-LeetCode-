@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 2948,
+  "lang": "python3",
+  "latest_submission_id": 2123701779,
+  "memory": "46.5 MB",
+  "memory_percentile": 84.3280999999999,
+  "paid_only": false,
+  "question_id": 3219,
+  "runner": null,
+  "runtime": "357 ms",
+  "runtime_percentile": 31.342399999999895,
+  "timestamp": 1787997761,
+  "title": "Make Lexicographically Smallest Array by Swapping Elements",
+  "title_slug": "make-lexicographically-smallest-array-by-swapping-elements",
+  "total_correct": 523,
+  "total_testcases": 523,
+  "url": "https://leetcode.com/problems/make-lexicographically-smallest-array-by-swapping-elements/"
+}
