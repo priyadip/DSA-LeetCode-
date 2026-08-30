@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 875,
+  "lang": "python3",
+  "latest_submission_id": 2125031078,
+  "memory": "20.5 MB",
+  "memory_percentile": 81.52669999999998,
+  "paid_only": false,
+  "question_id": 907,
+  "runner": null,
+  "runtime": "196 ms",
+  "runtime_percentile": 18.743299999999877,
+  "timestamp": 1788093954,
+  "title": "Koko Eating Bananas",
+  "title_slug": "koko-eating-bananas",
+  "total_correct": 128,
+  "total_testcases": 128,
+  "url": "https://leetcode.com/problems/koko-eating-bananas/"
+}
