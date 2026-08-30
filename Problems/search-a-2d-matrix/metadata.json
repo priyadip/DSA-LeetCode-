@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 74,
+  "lang": "python3",
+  "latest_submission_id": 2125018240,
+  "memory": "19.5 MB",
+  "memory_percentile": 40.431700000000035,
+  "paid_only": false,
+  "question_id": 74,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788093062,
+  "title": "Search a 2D Matrix",
+  "title_slug": "search-a-2d-matrix",
+  "total_correct": 133,
+  "total_testcases": 133,
+  "url": "https://leetcode.com/problems/search-a-2d-matrix/"
+}
