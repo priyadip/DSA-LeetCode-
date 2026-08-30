@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 189,
+  "lang": "python3",
+  "latest_submission_id": 2125096597,
+  "memory": "35.3 MB",
+  "memory_percentile": 11.829699999999985,
+  "paid_only": false,
+  "question_id": 189,
+  "runner": null,
+  "runtime": "31 ms",
+  "runtime_percentile": 28.3139,
+  "timestamp": 1788098189,
+  "title": "Rotate Array",
+  "title_slug": "rotate-array",
+  "total_correct": 695,
+  "total_testcases": 695,
+  "url": "https://leetcode.com/problems/rotate-array/"
+}
