@@ -1,0 +1,86 @@
+# 981. Time Based Key-Value Store - Solution Analysis
+
+## Problem Understanding
+We need a data structure that stores key-value pairs with timestamps, where each key can have multiple values at different timestamps. The `set` operation adds a value for a key at a given timestamp, and timestamps for a given key are strictly increasing. The `get` operation returns the value associated with the largest timestamp that is ≤ the query timestamp, or an empty string if none exists. Constraints: up to 2·10⁵ total calls, timestamps up to 10⁷, keys/values length ≤ 100. The strictly increasing timestamps guarantee the list of values per key is sorted, which is the critical property enabling efficient retrieval.
+
+## Approach
+**Hash Map + Binary Search**.  
+A dictionary maps each key to a list of `(value, timestamp)` pairs. Because `set` is called with strictly increasing timestamps, each list is automatically sorted by timestamp. For `get`, we binary search the list to find the rightmost timestamp ≤ the query timestamp.  
+Brute force would scan the list linearly (O(n) per `get`), but binary search reduces it to O(log n). The key insight: **strictly increasing timestamps make the value list sorted, so binary search finds the floor timestamp in logarithmic time**.
+
+## Algorithm
+1. **Initialization**: Create an empty dictionary `store`.
+2. **`set(key, value, timestamp)`**:
+   - If `key` not in `store`, initialize `store[key]` to an empty list.
+   - Append `(value, timestamp)` to `store[key]`.
+3. **`get(key, timestamp)`**:
+   - If `key` not in `store`, return `""`.
+   - Let `values = store[key]`.
+   - Initialize `l = 0`, `r = len(values) - 1`, `res = ""`.
+   - While `l <= r`:
+     - `mid = l + (r - l) // 2`.
+     - If `values[mid][1] <= timestamp`:
+       - Update `res = values[mid][0]` (candidate found).
+       - Move `l = mid + 1` to search for a larger valid timestamp.
+     - Else:
+       - Move `r = mid - 1`.
+   - Return `res`.
+
+## Line-by-Line Explanation
+- `self.store = {}`: Dictionary mapping keys to lists of `(value, timestamp)`.
+- `if key not in self.store: self.store[key] = []`: Ensure a list exists for the key.
+- `self.store[key].append((value, timestamp))`: Append new entry; timestamps are strictly increasing so list stays sorted.
+- `if key not in self.store: return ''`: Key never set → no value.
+- `values = self.store[key]`: Retrieve the sorted list for this key.
+- `l = 0; r = len(values) - 1; res = ''`: Binary search bounds and default result.
+- `while l <= r:`: Standard binary search loop.
+- `mid = l + (r - l) // 2`: Midpoint avoiding overflow.
+- `if values[mid][1] <= timestamp:`: Current timestamp is a valid candidate.
+- `res = values[mid][0]`: Record its value (will be overwritten if a larger valid timestamp is found).
+- `l = mid + 1`: Search right half for a larger valid timestamp.
+- `else: r = mid - 1`: Current timestamp too large; search left half.
+- `return res`: After loop, `res` holds value of largest timestamp ≤ query, or `""` if none.
+
+## Dry Run
+Example from problem:
+```
+set("foo", "bar", 1)
+get("foo", 1) → "bar"
+get("foo", 3) → "bar"
+set("foo", "bar2", 4)
+get("foo", 4) → "bar2"
+get("foo", 5) → "bar2"
+```
+
+Trace `get("foo", 3)` after first `set`:
+`values = [("bar", 1)]`
+| Step | l | r | mid | values[mid] | values[mid][1] <= 3? | res | Action |
+|------|---|---|-----|-------------|----------------------|-----|--------|
+| 1    | 0 | 0 | 0   | ("bar", 1)  | True                 | "bar" | l = 1 |
+Loop ends (l=1, r=0). Return "bar".
+
+Trace `get("foo", 5)` after second `set`:
+`values = [("bar", 1), ("bar2", 4)]`
+| Step | l | r | mid | values[mid] | values[mid][1] <= 5? | res | Action |
+|------|---|---|-----|-------------|----------------------|-----|--------|
+| 1    | 0 | 1 | 0   | ("bar", 1)  | True                 | "bar" | l = 1 |
+| 2    | 1 | 1 | 1   | ("bar2", 4) | True                 | "bar2" | l = 2 |
+Loop ends. Return "bar2".
+
+## Complexity
+- **Time**: `set` O(1) amortized (list append). `get` O(log n) where n is the number of entries for that key (binary search). Across all calls, total time is O(Q log N) with Q ≤ 2·10⁵.
+- **Space**: O(N) where N is total number of `set` calls (each stores one tuple).
+
+## Edge Cases
+- **Key never set**: returns `""` immediately.
+- **Query timestamp smaller than all stored timestamps**: binary search never updates `res`, returns `""`.
+- **Multiple `set` for same key**: timestamps strictly increasing ensures list stays sorted; binary search works correctly.
+- **Maximum calls (2·10⁵)**: binary search depth ≤ 18, well within limits.
+- **Single entry**: binary search handles length-1 list correctly.
+
+## Possible Improvements
+The solution is already optimal for the given constraints. Using Python's `bisect` module could make the code slightly shorter but would not improve asymptotic complexity. Variable names are clear (`store`, `values`, `l`, `r`, `res`). No redundant passes or structures.
+
+---
+
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
