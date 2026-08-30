@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 1423,
+  "lang": "python3",
+  "latest_submission_id": 2124931367,
+  "memory": "30.6 MB",
+  "memory_percentile": 96.83620000000003,
+  "paid_only": false,
+  "question_id": 1538,
+  "runner": null,
+  "runtime": "18 ms",
+  "runtime_percentile": 70.89320000000001,
+  "timestamp": 1788086835,
+  "title": "Maximum Points You Can Obtain from Cards",
+  "title_slug": "maximum-points-you-can-obtain-from-cards",
+  "total_correct": 41,
+  "total_testcases": 41,
+  "url": "https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/"
+}
