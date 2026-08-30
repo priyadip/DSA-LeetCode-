@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 33,
+  "lang": "python3",
+  "latest_submission_id": 2125105038,
+  "memory": "19.4 MB",
+  "memory_percentile": 77.82780000000001,
+  "paid_only": false,
+  "question_id": 33,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788098692,
+  "title": "Search in Rotated Sorted Array",
+  "title_slug": "search-in-rotated-sorted-array",
+  "total_correct": 197,
+  "total_testcases": 197,
+  "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+}
