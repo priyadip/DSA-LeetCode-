@@ -1,0 +1,31 @@
+{
+  "difficulty": "Medium",
+  "failed_testcases": [
+    {
+      "expected_output": "11",
+      "input": "[-1,-53,93,-42,37,94,97,82,46,42,-99,56,-76,-66,-67,-13,10,66,85,-28]",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "11",
+      "input": "[-1,-53,93,-42,37,94,97,82,46,42,-99,56,-76,-66,-67,-13,10,66,85,-28]",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 2091,
+  "lang": "python3",
+  "latest_submission_id": 2124912831,
+  "memory": "34 MB",
+  "memory_percentile": 16.9185,
+  "paid_only": false,
+  "question_id": 2212,
+  "runner": null,
+  "runtime": "35 ms",
+  "runtime_percentile": 12.688899999999975,
+  "timestamp": 1788085513,
+  "title": "Removing Minimum and Maximum From Array",
+  "title_slug": "removing-minimum-and-maximum-from-array",
+  "total_correct": 62,
+  "total_testcases": 62,
+  "url": "https://leetcode.com/problems/removing-minimum-and-maximum-from-array/"
+}
