@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 704,
+  "lang": "python3",
+  "latest_submission_id": 2125009047,
+  "memory": "20.4 MB",
+  "memory_percentile": 76.74360000000001,
+  "paid_only": false,
+  "question_id": 792,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788092398,
+  "title": "Binary Search",
+  "title_slug": "binary-search",
+  "total_correct": 47,
+  "total_testcases": 47,
+  "url": "https://leetcode.com/problems/binary-search/"
+}
