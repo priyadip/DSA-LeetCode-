@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 4,
+  "lang": "python3",
+  "latest_submission_id": 2125666771,
+  "memory": "19.6 MB",
+  "memory_percentile": 42.58780000000002,
+  "paid_only": false,
+  "question_id": 4,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788150868,
+  "title": "Median of Two Sorted Arrays",
+  "title_slug": "median-of-two-sorted-arrays",
+  "total_correct": 2099,
+  "total_testcases": 2099,
+  "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/"
+}
