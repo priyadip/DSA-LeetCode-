@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3568,
+  "lang": "python3",
+  "latest_submission_id": 2126997208,
+  "memory": "58.7 MB",
+  "memory_percentile": 80.70159999999998,
+  "paid_only": false,
+  "question_id": 3870,
+  "runner": null,
+  "runtime": "2327 ms",
+  "runtime_percentile": 43.85919999999996,
+  "timestamp": 1788251636,
+  "title": "Minimum Moves to Clean the Classroom",
+  "title_slug": "minimum-moves-to-clean-the-classroom",
+  "total_correct": 799,
+  "total_testcases": 799,
+  "url": "https://leetcode.com/problems/minimum-moves-to-clean-the-classroom/"
+}
