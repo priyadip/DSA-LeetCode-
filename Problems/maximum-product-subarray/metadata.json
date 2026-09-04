@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 152,
+  "lang": "python3",
+  "latest_submission_id": 2131038070,
+  "memory": "19.7 MB",
+  "memory_percentile": 97.399,
+  "paid_only": false,
+  "question_id": 152,
+  "runner": null,
+  "runtime": "7 ms",
+  "runtime_percentile": 37.069399999999995,
+  "timestamp": 1788546305,
+  "title": "Maximum Product Subarray",
+  "title_slug": "maximum-product-subarray",
+  "total_correct": 191,
+  "total_testcases": 191,
+  "url": "https://leetcode.com/problems/maximum-product-subarray/"
+}

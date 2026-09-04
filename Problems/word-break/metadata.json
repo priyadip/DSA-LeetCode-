@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 139,
+  "lang": "python3",
+  "latest_submission_id": 2131039173,
+  "memory": "19.4 MB",
+  "memory_percentile": 26.515599999999996,
+  "paid_only": false,
+  "question_id": 139,
+  "runner": null,
+  "runtime": "3 ms",
+  "runtime_percentile": 72.00910000000002,
+  "timestamp": 1788546364,
+  "title": "Word Break",
+  "title_slug": "word-break",
+  "total_correct": 49,
+  "total_testcases": 49,
+  "url": "https://leetcode.com/problems/word-break/"
+}
