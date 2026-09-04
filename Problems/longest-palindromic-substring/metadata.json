@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 5,
+  "lang": "python3",
+  "latest_submission_id": 2131005107,
+  "memory": "19.4 MB",
+  "memory_percentile": 18.23619999999999,
+  "paid_only": false,
+  "question_id": 5,
+  "runner": null,
+  "runtime": "26 ms",
+  "runtime_percentile": 99.52929999999998,
+  "timestamp": 1788544572,
+  "title": "Longest Palindromic Substring",
+  "title_slug": "longest-palindromic-substring",
+  "total_correct": 144,
+  "total_testcases": 144,
+  "url": "https://leetcode.com/problems/longest-palindromic-substring/"
+}
