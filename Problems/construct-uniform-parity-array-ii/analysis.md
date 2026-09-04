@@ -1,0 +1,93 @@
+# 3876. Construct Uniform Parity Array II - Solution Analysis
+
+## Problem Understanding
+We are given an array `nums1` of `n` distinct positive integers. We must build an array `nums2` of the same length where every element has the same parity (all odd or all even). For each index `i` we may either keep `nums1[i]` or replace it with `nums1[i] - nums1[j]` (with `j ≠ i` and the difference ≥ 1). The question is whether such a `nums2` exists.
+
+The constraints (`n ≤ 10^5`, values up to `10^9`) demand an O(n) or O(n log n) solution. The distinctness of elements and the parity requirement are the only structural properties that matter.
+
+## Approach
+The solution uses a **greedy parity argument** based on the smallest odd element.
+
+**Key insight:** If the array contains at least one odd number, the *smallest* odd number can never become even (there is no smaller odd to subtract, and subtracting an even preserves oddness). Therefore the target parity *must* be odd. Consequently every even number must be turned odd by subtracting an odd number, which requires an odd strictly smaller than it. Since the smallest odd is the best candidate, we only need to check that every even element is greater than that minimum odd.
+
+If there are no odd numbers, the array is already all even and we are done.
+
+This avoids any brute-force search over pairs (which would be O(n²)) and reduces the problem to a single scan for the minimum odd followed by a validation pass.
+
+## Algorithm
+1. Scan `nums1` to find `min_odd`, the smallest odd value (or infinity if none exists).
+2. If `min_odd` is infinity (no odd numbers), return `True` – the array is already uniformly even.
+3. Scan `nums1` again. For each even element `x`, if `x ≤ min_odd`, return `False` (this even cannot be made odd because no smaller odd exists).
+4. If all evens pass the test, return `True`.
+
+## Line-by-Line Explanation
+```python
+min_odd = float('inf')
+```
+Initialises the minimum odd tracker to a sentinel larger than any possible input.
+
+```python
+for x in nums1:
+    if x & 1:
+        min_odd = min(min_odd, x)
+```
+First pass: updates `min_odd` whenever an odd number (`x & 1 == 1`) is seen.
+
+```python
+if min_odd == float('inf'):
+    return True
+```
+If no odd was found, the whole array is even – we can keep every element as is.
+
+```python
+for x in nums1:
+    if x & 1 == 0 and x <= min_odd:
+        return False
+```
+Second pass: checks every even number (`x & 1 == 0`). If an even is not strictly greater than `min_odd`, it cannot be reduced to an odd number (the only way to flip parity) because the required odd subtrahend would have to be `< x`, but the smallest available odd is `min_odd ≥ x`. Hence construction fails.
+
+```python
+return True
+```
+All evens are larger than `min_odd`; each can become odd by subtracting `min_odd` (or another smaller odd), and all odds can stay odd. A uniform odd array is achievable.
+
+## Dry Run
+Example 1: `nums1 = [1, 4, 7]`
+
+| Step | x   | min_odd after pass 1 | Pass 2 check (even x ≤ min_odd?) | Action |
+|------|-----|----------------------|----------------------------------|--------|
+| 1    | 1   | 1                    | –                                | update min_odd |
+| 2    | 4   | 1                    | 4 ≤ 1? False                     | continue |
+| 3    | 7   | 1                    | –                                | continue |
+| End  | –   | 1                    | no failure                       | return True |
+
+Example 2: `nums1 = [2, 3]`
+
+| Step | x   | min_odd after pass 1 | Pass 2 check | Action |
+|------|-----|----------------------|--------------|--------|
+| 1    | 2   | inf                  | –            | – |
+| 2    | 3   | 3                    | –            | update min_odd |
+| Pass 2: x=2 | 2 | 3 | 2 ≤ 3? True | return False |
+
+Example 3: `nums1 = [4, 6]` – first pass finds no odd, `min_odd` stays `inf`, immediate `True`.
+
+## Complexity
+- **Time:** O(n) – two linear passes over the array.
+- **Space:** O(1) – only a few scalar variables are used.
+
+Here `n = len(nums1)`.
+
+## Edge Cases
+- **All even:** handled by the `min_odd == inf` check.
+- **All odd:** `min_odd` is the smallest odd; there are no evens to check, so returns `True`.
+- **Single element:** if odd → `True`; if even → `True` (no odd exists).
+- **Even smaller than every odd:** e.g., `[2, 5, 7]` → `2 ≤ 5` triggers `False` (correct, 2 cannot become odd).
+- **Distinctness guaranteed** by constraints, so no equality between odd and even.
+- **Large values** up to `10^9` fit comfortably in Python integers; no overflow concerns.
+
+## Possible Improvements
+The solution is already optimal in both time (O(n)) and space (O(1)) for the given constraints. A single-pass version is possible by collecting evens in a list during the first scan and checking them after `min_odd` is known, but that would use O(n) extra space in the worst case (all evens) without improving asymptotic time. The current two-pass approach is clean and efficient.
+
+---
+
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
