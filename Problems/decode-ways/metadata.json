@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 91,
+  "lang": "python3",
+  "latest_submission_id": 2131026646,
+  "memory": "19.2 MB",
+  "memory_percentile": 71.07329999999999,
+  "paid_only": false,
+  "question_id": 91,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788545705,
+  "title": "Decode Ways",
+  "title_slug": "decode-ways",
+  "total_correct": 269,
+  "total_testcases": 269,
+  "url": "https://leetcode.com/problems/decode-ways/"
+}
