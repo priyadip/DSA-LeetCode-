@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 322,
+  "lang": "python3",
+  "latest_submission_id": 2131035622,
+  "memory": "19.6 MB",
+  "memory_percentile": 78.81289999999998,
+  "paid_only": false,
+  "question_id": 322,
+  "runner": null,
+  "runtime": "466 ms",
+  "runtime_percentile": 72.19749999999982,
+  "timestamp": 1788546176,
+  "title": "Coin Change",
+  "title_slug": "coin-change",
+  "total_correct": 189,
+  "total_testcases": 189,
+  "url": "https://leetcode.com/problems/coin-change/"
+}
