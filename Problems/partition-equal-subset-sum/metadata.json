@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 416,
+  "lang": "python3",
+  "latest_submission_id": 2131043794,
+  "memory": "19.3 MB",
+  "memory_percentile": 84.52310000000001,
+  "paid_only": false,
+  "question_id": 416,
+  "runner": null,
+  "runtime": "651 ms",
+  "runtime_percentile": 63.77610000000111,
+  "timestamp": 1788546612,
+  "title": "Partition Equal Subset Sum",
+  "title_slug": "partition-equal-subset-sum",
+  "total_correct": 149,
+  "total_testcases": 149,
+  "url": "https://leetcode.com/problems/partition-equal-subset-sum/"
+}

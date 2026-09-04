@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 300,
+  "lang": "python3",
+  "latest_submission_id": 2131041231,
+  "memory": "19.5 MB",
+  "memory_percentile": 58.91690000000001,
+  "paid_only": false,
+  "question_id": 300,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788546473,
+  "title": "Longest Increasing Subsequence",
+  "title_slug": "longest-increasing-subsequence",
+  "total_correct": 56,
+  "total_testcases": 56,
+  "url": "https://leetcode.com/problems/longest-increasing-subsequence/"
+}
