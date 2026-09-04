@@ -1,0 +1,26 @@
+{
+  "difficulty": "Easy",
+  "failed_testcases": [
+    {
+      "expected_output": "15",
+      "input": "[10,15,20]",
+      "status": "Runtime Error"
+    }
+  ],
+  "frontend_id": 746,
+  "lang": "python3",
+  "latest_submission_id": 2130801768,
+  "memory": "19.2 MB",
+  "memory_percentile": 96.51800000000001,
+  "paid_only": false,
+  "question_id": 747,
+  "runner": null,
+  "runtime": "3 ms",
+  "runtime_percentile": 61.0773,
+  "timestamp": 1788532714,
+  "title": "Min Cost Climbing Stairs",
+  "title_slug": "min-cost-climbing-stairs",
+  "total_correct": 286,
+  "total_testcases": 286,
+  "url": "https://leetcode.com/problems/min-cost-climbing-stairs/"
+}

@@ -1,0 +1,26 @@
+{
+  "difficulty": "Easy",
+  "failed_testcases": [
+    {
+      "expected_output": "1",
+      "input": "1",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 70,
+  "lang": "python3",
+  "latest_submission_id": 2130776977,
+  "memory": "19.2 MB",
+  "memory_percentile": 87.1774,
+  "paid_only": false,
+  "question_id": 70,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788531149,
+  "title": "Climbing Stairs",
+  "title_slug": "climbing-stairs",
+  "total_correct": 45,
+  "total_testcases": 45,
+  "url": "https://leetcode.com/problems/climbing-stairs/"
+}
