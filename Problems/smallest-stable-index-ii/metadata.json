@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 3904,
+  "lang": "python3",
+  "latest_submission_id": 2131883696,
+  "memory": "31.6 MB",
+  "memory_percentile": 90.9092,
+  "paid_only": false,
+  "question_id": 4285,
+  "runner": null,
+  "runtime": "153 ms",
+  "runtime_percentile": 72.72840000000011,
+  "timestamp": 1788623374,
+  "title": "Smallest Stable Index II",
+  "title_slug": "smallest-stable-index-ii",
+  "total_correct": 928,
+  "total_testcases": 928,
+  "url": "https://leetcode.com/problems/smallest-stable-index-ii/"
+}
