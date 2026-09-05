@@ -1,0 +1,91 @@
+{
+  "difficulty": "Easy",
+  "failed_testcases": [
+    {
+      "expected_output": "false",
+      "input": "[1,0,0,0,0,1]\n2",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[1,0,1,0,1,0,1]\n0",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[0,0,1,0,1]\n1",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[1,0,0,0,1]\n1",
+      "status": "Runtime Error"
+    },
+    {
+      "expected_output": "true",
+      "input": "[1,0,0,0,1,0,0]\n2",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[0]\n1",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[0]\n1",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[0,0,1,0,0]\n1",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "false",
+      "input": "[0,0]\n2",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "false",
+      "input": "[0,0,0,0]\n3",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[1,0,1,0,1,0,1]\n0",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[0,0,0,0,0,1,0,0]\n0",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[1,0,0,0,1,0,0]\n2",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "true",
+      "input": "[0,0,0,0,0,1,0,0]\n0",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 605,
+  "lang": "python3",
+  "latest_submission_id": 2131928961,
+  "memory": "19.5 MB",
+  "memory_percentile": 53.157300000000006,
+  "paid_only": false,
+  "question_id": 605,
+  "runner": null,
+  "runtime": "7 ms",
+  "runtime_percentile": 78.9837,
+  "timestamp": 1788626067,
+  "title": "Can Place Flowers",
+  "title_slug": "can-place-flowers",
+  "total_correct": 130,
+  "total_testcases": 130,
+  "url": "https://leetcode.com/problems/can-place-flowers/"
+}
