@@ -1,0 +1,41 @@
+{
+  "difficulty": "Easy",
+  "failed_testcases": [
+    {
+      "expected_output": "\"cadf\"",
+      "input": "\"cdf\"\n\"a\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "\"apbqrs\"",
+      "input": "\"ab\"\n\"pqrs\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "\"apbqcd\"",
+      "input": "\"abcd\"\n\"pq\"",
+      "status": "Wrong Answer"
+    },
+    {
+      "expected_output": "\"cadf\"",
+      "input": "\"cdf\"\n\"a\"",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 1768,
+  "lang": "python3",
+  "latest_submission_id": 2132001626,
+  "memory": "19.3 MB",
+  "memory_percentile": 18.745800000000003,
+  "paid_only": false,
+  "question_id": 1894,
+  "runner": null,
+  "runtime": "36 ms",
+  "runtime_percentile": 94.71650000000001,
+  "timestamp": 1788629974,
+  "title": "Merge Strings Alternately",
+  "title_slug": "merge-strings-alternately",
+  "total_correct": 108,
+  "total_testcases": 108,
+  "url": "https://leetcode.com/problems/merge-strings-alternately/"
+}
