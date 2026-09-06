@@ -1,0 +1,26 @@
+{
+  "difficulty": "Easy",
+  "failed_testcases": [
+    {
+      "expected_output": "\"ABAB\"",
+      "input": "\"ABABABAB\"\n\"ABAB\"",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 1071,
+  "lang": "python3",
+  "latest_submission_id": 2132736336,
+  "memory": "19.2 MB",
+  "memory_percentile": 74.38490000000002,
+  "paid_only": false,
+  "question_id": 1146,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788691078,
+  "title": "Greatest Common Divisor of Strings",
+  "title_slug": "greatest-common-divisor-of-strings",
+  "total_correct": 129,
+  "total_testcases": 129,
+  "url": "https://leetcode.com/problems/greatest-common-divisor-of-strings/"
+}
