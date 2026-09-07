@@ -1,49 +1,57 @@
 # 3310. Remove Methods From Project - Solution Analysis
 
 ## Problem Understanding
-The problem involves a project with `n` methods numbered from `0` to `n - 1`, where each method can invoke other methods. A method `k` has a bug and is considered suspicious, along with any method invoked by it directly or indirectly. The goal is to remove all suspicious methods if possible, but only if no method outside the suspicious group invokes any method within it. The input includes the number of methods `n`, the index of the suspicious method `k`, and a list of invocations between methods.
+We have `n` methods (0 to n-1) and a directed invocation graph given by `invocations` where `[a, b]` means method `a` calls method `b`. Method `k` has a bug. The **suspicious** set consists of `k` and every method reachable from `k` via invocations (directly or indirectly). We can remove the entire suspicious set **only if** no method outside the set invokes any method inside the set. If that condition fails, we remove nothing and return all methods. Otherwise we return the non-suspicious methods. Constraints: `n ≤ 10^5`, `invocations.length ≤ 2·10^5`, so an O(n + m) solution is required.
 
 ## Approach
-This solution uses a Depth-First Search (DFS) algorithmic pattern to traverse the graph of method invocations. It first constructs the invocation graph, then uses DFS to mark all suspicious methods (i.e., methods reachable from the known buggy method `k`). After marking the suspicious methods, it checks if any method outside the suspicious group invokes a method within the group. If such a case is found, it returns all methods as it's not possible to remove the suspicious methods without violating the condition. Otherwise, it returns all methods that are not marked as suspicious.
+The solution uses **graph traversal (DFS)** to find all nodes reachable from `k`, marking them as suspicious. It then scans all edges once to check whether any edge goes from a non-suspicious node to a suspicious node. If such an edge exists, the removal condition is violated and all methods are returned; otherwise the non-suspicious nodes are returned.
+
+Brute force would compute transitive closure or test every subset, which is infeasible. DFS from a single source gives the exact suspicious set in O(n+m). The key insight: *the suspicious set is precisely the nodes reachable from `k`, and the removal condition is equivalent to “there is no incoming edge to this reachable set from outside”.*
 
 ## Algorithm
-1. Construct the invocation graph from the given list of invocations.
-2. Perform DFS from the method `k` to mark all suspicious methods.
-3. Iterate over the invocations to check if any method outside the suspicious group invokes a method within the group.
-4. If such a case is found, return all methods; otherwise, return the methods that are not marked as suspicious.
+1. Build an adjacency list `graph` from `invocations`.
+2. Initialize `visited` array of size `n` (all `False`).
+3. Define recursive `dfs(node)` that marks `node` visited and recurses on all unvisited neighbors.
+4. Call `dfs(k)` to mark the entire suspicious set.
+5. Iterate over every invocation `[u, v]`. If `visited[u]` is `False` and `visited[v]` is `True`, return `list(range(n))` (removal impossible).
+6. Collect all indices `i` where `visited[i]` is `False` and return them.
 
 ## Line-by-Line Explanation
-The line `graph = [[] for _ in range(n)]` initializes an empty graph where each method is a node with an empty list of invocations.
-The loop `for a,b in invocations: graph[a].append(b)` populates the graph based on the given invocations.
-The `visited` list is used to keep track of visited methods during DFS.
-The `dfs` function recursively visits all methods reachable from a given node.
-The loop `for u,v in invocations: if not visited[u] and visited[v]: return list(range(n))` checks if any method outside the suspicious group invokes a method within the group.
-If no such invocation is found, the loop `for i in range(n): if not visited[i]: ans.append(i)` constructs the list of remaining methods by including all methods that were not marked as suspicious during DFS.
+- `graph = [[] for _ in range(n)]`: adjacency list for n nodes.
+- `for a,b in invocations: graph[a].append(b)`: populate directed edges.
+- `visited = [False]*n`: tracks nodes reachable from `k`.
+- `def dfs(node): ...`: standard recursive DFS with visited guard.
+- `dfs(k)`: starts traversal from the buggy method.
+- `for u,v in invocations:`: checks each edge for outside→inside violation.
+- `if not visited[u] and visited[v]: return list(range(n))`: violation found → keep all methods.
+- `ans = []; for i in range(n): if not visited[i]: ans.append(i)`: collect safe methods.
+- `return ans`: return remaining methods after removal.
 
 ## Dry Run
-Let's consider an example with `n = 5`, `k = 0`, and `invocations = [[1,2],[0,2],[0,1],[3,4]]`.
+Example 1: `n=4, k=1, invocations=[[1,2],[0,1],[3,2]]`
 
-| Step | Invocation Graph | Visited | Remaining Methods |
-| --- | --- | --- | --- |
-| Initialize | {0:[1,2], 1:[2], 3:[4]} | [False]*5 | [] |
-| DFS from k=0 | - | [True, True, True, False, False] | - |
-| Check invocations | - | - | [] |
-| Construct remaining methods | - | - | [3,4] |
+| Step | i | u | v | visited[u] | visited[v] | Action |
+|------|---|---|---|------------|------------|--------|
+| DFS  | - | - | - | after dfs: [F, T, T, F] | - | - |
+| Edge 1 | - | 1 | 2 | T | T | ok |
+| Edge 2 | - | 0 | 1 | F | T | violation → return [0,1,2,3] |
+
+Output matches `[0,1,2,3]`.
 
 ## Complexity
-The time complexity is O(n + m), where n is the number of methods and m is the number of invocations, because in the worst case, we visit each method and each invocation once.
-The space complexity is also O(n + m), where n is the space needed for the visited array and m is the space needed for the graph, because we store the invocation graph and the visited status of each method.
+- **Time**: O(n + m) where m = len(invocations). Building graph O(m), DFS visits each node/edge once O(n+m), edge scan O(m).
+- **Space**: O(n + m) for adjacency list and visited array. Recursion stack can reach O(n) in worst case.
 
 ## Edge Cases
-This solution handles the following edge cases:
-- Empty input: The code will correctly handle an empty list of invocations.
-- Single element: If there is only one method, the solution will return the method itself if it's not the suspicious method, or an empty list if it is.
-- Duplicates: The problem statement guarantees that there are no duplicate invocations, so the solution does not need to handle this case.
-- Overflow: The solution should not overflow for the given constraints, as the maximum number of methods and invocations is bounded.
+- **All nodes suspicious** (Example 3): DFS visits all, no violating edge, returns `[]`.
+- **No invocations**: suspicious set = `{k}`, no edges to violate, returns all except `k`.
+- **Single node (n=1)**: returns `[]` if k=0 (only node suspicious) because no outside caller exists.
+- **Deep recursion**: With n up to 10^5, recursive DFS may hit Python's recursion limit (default ~1000) and raise `RecursionError` on deep chains. The solution is accepted likely because test cases avoid deep recursion, but it is fragile under the given constraints.
 
 ## Possible Improvements
-One possible improvement could be to use a more efficient data structure for the graph, such as an adjacency list with indices, to reduce memory usage for sparse graphs. However, given the constraints of the problem, the current implementation is already efficient and optimal in terms of time and space complexity.
+- **Replace recursive DFS with iterative stack or BFS** to avoid recursion depth issues. This is the only material improvement needed; the algorithmic complexity is already optimal.
+- Minor: rename `nxt` to `neighbor` for clarity.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
