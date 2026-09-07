@@ -1,76 +1,55 @@
 # 3536. Maximum Product of Two Digits - Solution Analysis
 
 ## Problem Understanding
-The problem involves finding the maximum product of any two digits in a given positive integer `n`. The integer `n` can range from 10 to 10^9. The goal is to extract the digits from `n` and find the maximum possible product of any two digits, considering that the same digit can be used twice if it appears more than once in `n`.
+Given a positive integer `n` (10 ≤ n ≤ 10⁹), return the maximum product of any two digits from its decimal representation. Digits may be reused if they appear more than once. The answer is simply the product of the two largest digits in `n`. The number of digits is at most 10, so any linear scan is effectively constant time.
 
 ## Approach
-The solution uses a monotonic approach, where it keeps track of the two maximum digits encountered so far. This approach fits the problem because it only requires keeping track of the two largest digits to calculate the maximum product, rather than considering all possible pairs of digits.
+The solution uses a **single-pass scan to find the two maximum values** (a classic "top‑k" pattern with k=2). This suits the problem because we only need the two largest digits; extracting all digits and sorting would be O(d log d) with d ≤ 10, while the scan is O(d) time and O(1) space. The key insight: the maximum product of two digits is always the product of the two largest digits present.
 
 ## Algorithm
-Here are the steps involved in the solution:
-1. Initialize variables `first` and `second` to store the two maximum digits encountered so far.
-2. Loop through the digits of the input integer `n` from right to left (using the modulo operator to extract the last digit).
-3. Compare the current digit with `first` and update `first` and `second` accordingly.
-4. Continue looping until all digits have been processed.
-5. Calculate and return the product of `first` and `second`.
+1. Initialize `first = -1`, `second = -1` to hold the largest and second‑largest digits seen.
+2. While `n > 0`:
+   - Extract the last digit `d = n % 10`.
+   - If `d >= first`: shift `first` to `second`, then set `first = d`.
+   - Else if `d > second`: set `second = d`.
+   - Remove the last digit: `n //= 10`.
+3. Return `first * second`.
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def maxProduct(self, n: int) -> int:
-```
-This line defines a class named `Solution` with a method `maxProduct` that takes an integer `n` as input and returns an integer. 
-```python
-first = -1
-second = -1
-```
-These lines initialize variables `first` and `second` to store the two maximum digits encountered so far. The initial values are set to -1 to ensure that the first digit encountered is always greater than the initial values.
-```python
-while n:
-    d = n % 10
-```
-This loop extracts the last digit of the input integer `n` using the modulo operator.
-```python
-if d >= first:
-    second = first
-    first = d
-elif d > second:
-    second = d
-```
-These lines update `first` and `second` based on the current digit `d`. If `d` is greater than or equal to `first`, `second` is updated to the old value of `first`, and `first` is updated to `d`. If `d` is not greater than or equal to `first` but is greater than `second`, `second` is updated to `d`.
-```python
-n //= 10
-```
-This line removes the last digit from the input integer `n` by performing integer division by 10.
-```python
-return first * second
-```
-This line calculates and returns the product of `first` and `second`, which represents the maximum possible product of any two digits in the input integer `n`.
+- `first = -1; second = -1`: Sentinels lower than any digit (0‑9) so the first two digits always become the initial top two.
+- `while n:`: Loop until all digits are processed.
+- `d = n % 10`: Isolate the least significant digit.
+- `if d >= first:`: Current digit is at least as large as the current maximum.
+- `second = first; first = d`: The old maximum becomes the second maximum; the new digit becomes the maximum. Using `>=` ensures that when the same digit appears again it can occupy both slots (e.g., `22` → first=2, second=2).
+- `elif d > second:`: Digit is between `first` and `second`; update only the second maximum.
+- `n //= 10`: Discard the processed digit.
+- `return first * second`: Product of the two largest digits found.
 
 ## Dry Run
-Let's consider an example input `n = 124`. Here's how the state evolves over the loop:
+Example: `n = 124`
 
-| Iteration | n  | d  | first | second |
-| --- | --- | --- | --- | --- |
-| 0    | 124 | 4 | -1   | -1   |
-| 1    | 12  | 2 | 4    | -1   |
-| 2    | 1   | 1 | 4    | 2    |
-| 3    | 0   | - | 4    | 2    |
-
-After the loop completes, the product of `first` and `second` is calculated and returned: `4 * 2 = 8`.
+| Step | n   | d | first | second | Action                     |
+|------|-----|---|-------|--------|----------------------------|
+| 1    | 124 | 4 | -1    | -1     | d>=first → first=4, second=-1 |
+| 2    | 12  | 2 | 4     | -1     | d>second → second=2            |
+| 3    | 1   | 1 | 4     | 2      | d not > second → no change     |
+| 4    | 0   |   | 4     | 2      | loop ends                      |
+Result: `4 * 2 = 8`.
 
 ## Complexity
-The time complexity is O(log n), where n is the input integer, because the loop iterates over the digits of the input integer. The space complexity is O(1), where n is the input integer, because the solution uses a constant amount of space to store the two maximum digits.
+- Time: O(log₁₀ n) = O(d) where d is the number of digits (d ≤ 10). Each digit is visited once, each step does O(1) work.
+- Space: O(1) – only a few integer variables are used.
 
 ## Edge Cases
-The solution handles edge cases such as:
-- Single-digit numbers: The loop will only iterate once, and the product of the single digit with itself is returned.
-- Numbers with repeating digits: The solution considers the same digit twice if it appears more than once in the input integer.
-However, if the constraints were relaxed to allow for input integers with leading zeros or non-integer inputs, the solution might fail.
+- **Repeated digits** (e.g., `22`): `>=` allows the same digit to fill both `first` and `second`, yielding correct product 4.
+- **Zero digits** (e.g., `10`): Digits are 1 and 0; `first` becomes 1, `second` becomes 0, product 0. Works because sentinels are -1.
+- **All digits equal** (e.g., `999`): `first` and `second` both become 9, product 81.
+- **Maximum input** `10⁹ = 1000000000`: Digits are one 1 and nine 0s; product 0. Loop runs 10 times, well within limits.
+- **Already sorted descending/ascending**: Order of extraction (least significant first) does not affect correctness because we compare every digit against the current top two.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it only requires a single pass through the digits of the input integer to calculate the maximum possible product of any two digits. However, it could be improved by adding error checking to handle invalid input, such as non-integer or negative inputs.
+The solution is already optimal for the given constraints. Time and space are asymptotically best possible (must inspect each digit at least once). Variable names are clear; no redundant passes or structures exist. Initializing `first` and `second` to `0` would also work but `-1` is equally correct and makes the sentinel intent explicit. No further improvement needed.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

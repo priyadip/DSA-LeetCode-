@@ -1,90 +1,66 @@
 # 3867. Sum of GCD of Formed Pairs - Solution Analysis
 
 ## Problem Understanding
-The problem involves an integer array `nums` of length `n`. We need to construct a `prefixGcd` array where each element is the greatest common divisor (GCD) of the corresponding element in `nums` and the maximum element up to that index. After constructing `prefixGcd`, we sort it in non-decreasing order, form pairs by taking the smallest unpaired element and the largest unpaired element, and compute the GCD of each pair. The objective is to find the sum of the GCD values of all formed pairs, ignoring the middle element if `n` is odd. The constraints are that `1 <= n <= 10^5` and `1 <= nums[i] <= 10^9`.
+Given an array `nums` of length `n`, we first build `prefixGcd` where each element is `gcd(nums[i], max(nums[0..i]))`. After sorting `prefixGcd` non-decreasingly, we repeatedly pair the smallest remaining element with the largest remaining element, compute the gcd of each pair, and sum those gcds. If `n` is odd, the middle element is ignored. Constraints: `1 ≤ n ≤ 10^5`, `1 ≤ nums[i] ≤ 10^9`. The dominant operation is sorting, so an `O(n log n)` solution is expected.
 
 ## Approach
-The algorithmic pattern used in this solution is a combination of sorting, two pointers, and the Euclidean algorithm for calculating the GCD of two numbers. The sorting step allows us to easily identify the smallest and largest unpaired elements, and the two pointers approach enables us to efficiently form pairs and compute their GCD. The Euclidean algorithm is used implicitly through the `gcd` function from the `math` module.
+The solution uses **simulation** combined with **sorting** and a **two-pointer** pairing strategy.  
+Brute force would compute `prefixGcd` in a separate array, sort it, then pair extremes – exactly what the code does. The key insight is that we can compute `prefixGcd` **in-place** by overwriting `nums` while maintaining a running maximum, saving extra space. After sorting, pairing the smallest with the largest is a direct two-pointer traversal from both ends.
 
 ## Algorithm
-The solution's method can be broken down into the following concise steps:
-1. Initialize variables to keep track of the maximum element and the sum of GCD values.
-2. Construct the `prefixGcd` array by iterating through `nums`, updating the maximum element, and calculating the GCD of each element with the maximum element.
-3. Sort the `prefixGcd` array in non-decreasing order.
-4. Use two pointers, one starting from the beginning and one from the end of the sorted `prefixGcd` array, to form pairs and compute their GCD.
-5. Add the GCD of each pair to the sum, ignoring the middle element if `n` is odd.
+1. Initialize `mx = 0` and `ans = 0`.
+2. Iterate `i` from `0` to `n-1`:
+   - Update `mx = max(mx, nums[i])`.
+   - Replace `nums[i]` with `gcd(nums[i], mx)` (now `nums` holds `prefixGcd`).
+3. Sort `nums` (now the `prefixGcd` array).
+4. For `i` from `0` to `n//2 - 1`:
+   - Compute `gc = gcd(nums[i], nums[n-1-i])`.
+   - Add `gc` to `ans`.
+5. Return `ans`.
 
 ## Line-by-Line Explanation
-```python
-from math import gcd
-```
-This line imports the `gcd` function from the `math` module, which is used to calculate the greatest common divisor of two numbers.
-
-```python
-class Solution:
-    def gcdSum(self, nums: list[int]) -> int:
-```
-This defines a class `Solution` with a method `gcdSum` that takes a list of integers `nums` as input and returns an integer.
-
-```python
-n = len(nums)
-```
-This line calculates the length of the input list `nums` and assigns it to the variable `n`.
-
-```python
-ans = 0
-mx = 0
-```
-These lines initialize two variables: `ans` to keep track of the sum of GCD values, and `mx` to keep track of the maximum element encountered so far.
-
-```python
-for i in range(n):
-    mx = max(mx, nums[i])
-    nums[i] = gcd(nums[i], mx)
-```
-This loop iterates through the input list `nums`, updates the maximum element `mx`, and calculates the GCD of each element with the maximum element `mx`. The result is stored back in the `nums` list.
-
-```python
-nums.sort()
-```
-This line sorts the modified `nums` list in non-decreasing order.
-
-```python
-for i in range(n//2):
-    gc = gcd(nums[i], nums[n-1-i])
-    ans += gc
-```
-This loop forms pairs by taking the smallest unpaired element and the largest unpaired element from the sorted `nums` list, computes their GCD using the `gcd` function, and adds the result to the sum `ans`.
-
-```python
-return ans
-```
-This line returns the final sum of GCD values.
+- `from math import gcd`: imports the built-in Euclidean algorithm.
+- `n = len(nums)`: stores length for loop bounds.
+- `ans = 0`: accumulator for the final sum.
+- `mx = 0`: running maximum of the prefix (safe because `nums[i] ≥ 1`).
+- `for i in range(n):`: single pass to build `prefixGcd` in-place.
+  - `mx = max(mx, nums[i])`: updates the prefix maximum.
+  - `nums[i] = gcd(nums[i], mx)`: overwrites the current element with its gcd against the prefix max.
+- `nums.sort()`: sorts the `prefixGcd` array non-decreasingly.
+- `for i in range(n//2):`: iterates over the first half (pairs smallest with largest).
+  - `gc = gcd(nums[i], nums[n-1-i])`: gcd of the i-th smallest and i-th largest.
+  - `ans += gc`: accumulates the pair gcd.
+- `return ans`: returns the total sum.
 
 ## Dry Run
-Let's consider the input `nums = [2, 6, 4]`. The `prefixGcd` array would be constructed as follows:
+Example 1: `nums = [2, 6, 4]`
 
-| `i` | `nums[i]` | `mx` | `prefixGcd[i]` |
-| --- | --- | --- | --- |
-| 0   | 2      | 2  | 2           |
-| 1   | 6      | 6  | 6           |
-| 2   | 4      | 6  | 2           |
+| Step | i | nums[i] (original) | mx (after update) | nums[i] (after gcd) | nums array after step |
+|------|---|---------------------|-------------------|----------------------|------------------------|
+| 0    | 0 | 2                   | 2                 | gcd(2,2)=2           | [2, 6, 4]              |
+| 1    | 1 | 6                   | 6                 | gcd(6,6)=6           | [2, 6, 4]              |
+| 2    | 2 | 4                   | 6                 | gcd(4,6)=2           | [2, 6, 2]              |
 
-After sorting, the `prefixGcd` array becomes `[2, 2, 6]`. The pairs formed are `(2, 6)`, and their GCD is `2`. The final sum is `2`.
+After loop: `nums = [2, 6, 2]`.  
+Sort: `nums = [2, 2, 6]`.  
+`n//2 = 1`, so only `i=0`:  
+`gcd(nums[0], nums[2]) = gcd(2, 6) = 2`.  
+`ans = 2`. Return `2`.
 
 ## Complexity
-The time complexity of this solution is O(n log n), where n is the length of the input list `nums`. This is because the sorting step dominates the time complexity. The space complexity is O(1), excluding the space required for the input list, as we only use a constant amount of extra space to store the maximum element and the sum of GCD values.
+- **Time**: `O(n log n)`. The loop is `O(n)` with `O(log max(nums))` gcd calls; sorting dominates at `O(n log n)`.
+- **Space**: `O(1)` extra (in-place modification; Python's sort uses `O(n)` temporary space but that is considered part of the sorting routine).
 
 ## Edge Cases
-The solution handles the following edge cases:
-- Empty input list: Not applicable, as the input list must have at least one element.
-- Single element: The solution works correctly for a single-element input list, as the `prefixGcd` array will contain only one element, which is the GCD of the element with itself.
-- Duplicates: The solution handles duplicate elements correctly, as the GCD of two identical numbers is the number itself.
-- Overflow: The solution does not overflow, as the GCD of two numbers is always less than or equal to the smaller of the two numbers.
+- **Single element (`n = 1`)**: `n//2 = 0`, loop skipped, returns `0` (correct, no pairs).
+- **All equal elements**: `prefixGcd` all same, sorted array uniform, each pair gcd equals that value, sum = `(n//2) * value`.
+- **Already sorted `nums`**: algorithm still works because prefix max updates correctly.
+- **Large values (`10^9`)**: `math.gcd` handles them efficiently.
+- **Odd length**: middle element automatically ignored because loop runs only `n//2` times.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it uses the most efficient algorithms for sorting and calculating GCD. However, the solution can be improved by using a more efficient GCD calculation algorithm, such as the Euclidean algorithm with the `math.gcd` function, which is already used in the solution.
+The solution is already optimal for the given constraints. Sorting is necessary to pair extremes, and `O(n log n)` is the best achievable comparison-based complexity. The in-place overwrite of `nums` avoids an extra array. Variable names are clear enough; no material redundancy exists.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

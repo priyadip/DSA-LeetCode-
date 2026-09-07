@@ -1,82 +1,66 @@
 # 494. Target Sum - Solution Analysis
 
 ## Problem Understanding
-The problem requires finding the number of ways to assign '+' or '-' signs to elements in the given array `nums` such that the sum of the resulting expression equals the target. The constraints include the length of `nums` being between 1 and 20, each element in `nums` being between 0 and 1000, and the target being between -1000 and 1000. 
+We are given an array `nums` and an integer `target`. We must assign either `+` or `-` to each element so that the resulting expression evaluates to `target`, and count the number of distinct assignments that achieve this. The constraints (`n ≤ 20`, `sum(nums) ≤ 1000`) allow a pseudo-polynomial dynamic programming solution based on the total sum.
 
 ## Approach
-The solution uses dynamic programming, where it utilizes a hash map-like approach (in the form of a list) to store intermediate results and avoid redundant calculations. The key insight here is to transform the problem into finding the number of subsets of `nums` that sum up to a specific target, derived from the original target.
+The solution uses a **transformation to subset sum (0‑1 knapsack)** followed by **1D dynamic programming**.  
+Let `P` be the set of numbers with `+` and `N` the set with `-`. We need `sum(P) - sum(N) = target` and `sum(P) + sum(N) = total`. Adding gives `2·sum(P) = target + total`, so `sum(P) = (target + total)/2`. Thus the problem reduces to counting subsets of `nums` that sum to `(target + total)/2`. This is a classic 0‑1 knapsack counting problem.  
+Brute force would try all `2^n` sign assignments (up to ~1 million), which is acceptable for `n=20` but the DP runs in `O(n·total)` (≤ 20,000 operations) and is more efficient for the given sum bound.  
+**Key insight:** The sign assignment problem is equivalent to finding the number of subsets with a specific sum.
 
 ## Algorithm
-1. Calculate the total sum of `nums`.
-2. Check if the total sum is less than the absolute value of the target or if the sum of the target and the total sum is odd, in which case, return 0.
-3. Calculate the new target by taking half of the sum of the original target and the total sum.
-4. Initialize a list `dp` of size `tar + 1` with all elements as 0, except `dp[0]` which is set to 1.
-5. Iterate over each element `x` in `nums`.
-6. For each `x`, iterate over `dp` in reverse order, starting from `tar` down to `x`, and update `dp[j]` by adding the value of `dp[j - x]`.
+1. Compute `total = sum(nums)`.
+2. If `total < abs(target)` or `(target + total)` is odd, return `0` (no valid subset can exist).
+3. Set `tar = (target + total) // 2`.
+4. Initialise a 1D array `dp` of length `tar + 1` with `dp[0] = 1` (empty subset sums to 0).
+5. For each number `x` in `nums`:
+   - Iterate `j` from `tar` down to `x`:
+     - `dp[j] += dp[j - x]` (include `x` in subsets that sum to `j`).
+6. Return `dp[tar]`.
 
 ## Line-by-Line Explanation
-```python
-n = len(nums)
-```
-This line calculates the length of the input array `nums`.
-
-```python
-if sum(nums) < abs(target):
-    return 0
-```
-This line checks if the sum of all elements in `nums` is less than the absolute value of the target. If so, it returns 0 because it's impossible to reach the target.
-
-```python
-if (target + sum(nums))%2:
-    return 0
-```
-This line checks if the sum of the target and the sum of all elements in `nums` is odd. If so, it returns 0 because the problem requires finding the number of ways to reach a target that is the sum of some elements in `nums` and the negative of other elements.
-
-```python
-tar = (target + sum(nums))//2
-```
-This line calculates the new target by taking half of the sum of the original target and the total sum.
-
-```python
-dp = [0]*(tar+1)
-dp[0] = 1
-```
-These lines initialize a list `dp` of size `tar + 1` with all elements as 0, except `dp[0]` which is set to 1. This represents the base case where there is one way to reach a sum of 0 (by not including any elements).
-
-```python
-for x in nums:
-    for j in range(tar, x-1, -1):
-        dp[j] += dp[j-x]
-```
-These lines iterate over each element `x` in `nums` and update `dp` in reverse order. For each `j`, it adds the value of `dp[j - x]` to `dp[j]`, effectively counting the number of ways to reach the sum `j` by including `x`.
+- `n = len(nums)`: stores length (unused later, but harmless).
+- `if sum(nums) < abs(target): return 0`: early exit if total sum cannot reach the absolute target.
+- `if (target + sum(nums)) % 2: return 0`: early exit if `(target + total)` is odd, making `tar` non‑integer.
+- `tar = (target + sum(nums)) // 2`: the required subset sum after transformation.
+- `dp = [0] * (tar + 1)`: DP array where `dp[s]` will hold the number of subsets summing to `s`.
+- `dp[0] = 1`: base case – one way to achieve sum 0 (choose no elements).
+- `for x in nums:`: process each number once (0‑1 knapsack).
+- `for j in range(tar, x - 1, -1):`: iterate backwards to avoid reusing the same element multiple times.
+- `dp[j] += dp[j - x]`: add the number of ways to form `j - x` (without `x`) to the ways to form `j` (with `x`).
+- `return dp[tar]`: the answer – number of subsets summing to `tar`.
 
 ## Dry Run
-Let's consider the example where `nums = [1, 1, 1, 1, 1]` and `target = 3`.
+Example: `nums = [1,1,1,1,1]`, `target = 3`  
+`total = 5`, `target + total = 8` (even), `tar = 4`.  
+`dp` size 5, initial: `[1,0,0,0,0]`.
 
-|  x  | tar | dp      |
-| --- | --- | ------- |
-|     | 4   | [1, 0, 0, 0, 0] |
-| 1   | 4   | [1, 1, 0, 0, 0] |
-| 1   | 4   | [1, 2, 1, 0, 0] |
-| 1   | 4   | [1, 3, 3, 1, 0] |
-| 1   | 4   | [1, 4, 6, 4, 1] |
-| 1   | 4   | [1, 5, 10, 10, 5] |
+| Step | x | j (loop) | dp before step | dp after step | Action |
+|------|---|----------|----------------|---------------|--------|
+| 1    | 1 | 4→1      | [1,0,0,0,0]    | [1,1,0,0,0]   | j=1: dp[1]+=dp[0] |
+| 2    | 1 | 4→1      | [1,1,0,0,0]    | [1,2,1,0,0]   | j=2: dp[2]+=dp[1]; j=1: dp[1]+=dp[0] |
+| 3    | 1 | 4→1      | [1,2,1,0,0]    | [1,3,3,1,0]   | j=3: dp[3]+=dp[2]; j=2: dp[2]+=dp[1]; j=1: dp[1]+=dp[0] |
+| 4    | 1 | 4→1      | [1,3,3,1,0]    | [1,4,6,4,1]   | j=4: dp[4]+=dp[3]; j=3: dp[3]+=dp[2]; j=2: dp[2]+=dp[1]; j=1: dp[1]+=dp[0] |
+| 5    | 1 | 4→1      | [1,4,6,4,1]    | [1,5,10,10,5] | j=4: dp[4]+=dp[3] → 5 |
 
-After the dry run, `dp[tar]` will be 5, which is the correct result.
+Result `dp[4] = 5`, matches example output.
 
 ## Complexity
-The time complexity is O(n*tar), where n is the length of `nums` and tar is the calculated target. This is because the solution has two nested loops: one iterating over `nums` and the other iterating over `dp` in reverse order. The space complexity is O(tar), as the solution uses a list of size `tar + 1` to store intermediate results.
+- **Time:** `O(n * tar)`, where `n = len(nums) ≤ 20` and `tar ≤ total ≤ 1000`. In the worst case `20 * 1000 = 20,000` operations.
+- **Space:** `O(tar)` for the 1D DP array, at most `1001` integers.
 
 ## Edge Cases
-The solution handles the following edge cases:
-- When the sum of `nums` is less than the absolute value of the target.
-- When the sum of the target and the sum of `nums` is odd.
-- When `nums` is empty, the solution will return 0 (although this case is not explicitly mentioned in the problem statement).
-However, the solution may fail if the constraints are relaxed, such as when the length of `nums` exceeds 20 or when the target is outside the range [-1000, 1000].
+- **`total < abs(target)`**: correctly returns `0` (e.g., `nums=[1], target=2`).
+- **`(target + total)` odd**: correctly returns `0` (e.g., `nums=[1], target=0` → `total=1`, `target+total=1` odd).
+- **Zeros in `nums`**: handled correctly because the inner loop runs down to `x` (which is `0`), so `dp[j] += dp[j]` doubles the count for each zero, reflecting the two independent sign choices for zero.
+- **Single element**: works (e.g., `nums=[1], target=1` → `tar=1`, `dp[1]=1`).
+- **All elements equal**: works as shown in the dry run.
+- **Negative `target`**: transformation uses `abs(target)` in the first check and `target + total` in the second; both handle negatives correctly.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it uses dynamic programming to avoid redundant calculations and has a time complexity of O(n*tar). However, if the constraints are relaxed, the solution may need to be modified to handle larger inputs, such as using a more efficient data structure or algorithm.
+The solution is already optimal for the given constraints. The transformation reduces the problem to a standard subset-sum count, and the 1D DP achieves the best possible time (`O(n·total)`) and space (`O(total)`) for this approach. Variable names are clear (`tar`, `dp`). No redundant passes or structures exist.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

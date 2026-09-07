@@ -1,65 +1,52 @@
 # 1331. Rank Transform of an Array - Solution Analysis
 
 ## Problem Understanding
-The problem requires replacing each element in the given array with its rank. The rank represents how large the element is, and two equal elements must have the same rank. The rank should start from 1 and be as small as possible.
+Given an array of integers, replace each element with its rank where the smallest unique value gets rank 1, the next smallest gets rank 2, and so on. Equal elements share the same rank. The input length can be up to 10^5 with values ranging from -10^9 to 10^9, so an O(n log n) or better solution is required. Order of output must match the input order.
 
 ## Approach
-The solution uses a hashing approach. It first creates a hash map (in Python, this is implemented as a dictionary) where the keys are the unique elements in the array, and the values are their respective ranks. The ranks are determined by sorting the unique elements and assigning a rank to each element based on its position in the sorted list. Then, it uses the hash map to replace each element in the array with its corresponding rank.
+The solution uses **coordinate compression via sorting and a hash map**. The brute-force approach would compare each element against all others to count how many unique values are smaller, costing O(n^2) or O(n log n) per element with repeated sorting. Instead, we sort the unique values once, assign each its 1-based position as its rank, and store this mapping in a dictionary for O(1) lookups. The key insight: *the rank of a value is exactly its 1-based index in the sorted list of distinct values*.
 
 ## Algorithm
-The solution's method can be broken down into the following steps:
-1. Remove duplicates from the input array by converting it to a set.
-2. Sort the unique elements in ascending order.
-3. Create a hash map where each unique element is mapped to its rank (i.e., its position in the sorted list plus one).
-4. Replace each element in the original array with its corresponding rank from the hash map.
+1. Create an empty dictionary `rank` to map each unique value to its rank.
+2. Extract unique values from `arr` using `set(arr)`, sort them ascending.
+3. Enumerate the sorted unique values starting from 1; for each value `x` at position `i`, set `rank[x] = i`.
+4. Build the result list by looking up each element of the original `arr` in `rank`.
 
 ## Line-by-Line Explanation
-```python
-rank = {}
-```
-This line initializes an empty dictionary to store the rank of each unique element.
-```python
-for i, x in enumerate(sorted(set(arr)), 1):
-```
-This line sorts the unique elements in the array and iterates over them. The `enumerate` function is used to get both the index `i` (which represents the rank) and the value `x` (which represents the element) of each element in the sorted list. The `1` as the second argument to `enumerate` means that the index starts from 1 instead of 0.
-```python
-rank[x] = i
-```
-This line maps each unique element `x` to its rank `i` in the hash map.
-```python
-return [rank[x] for x in arr]
-```
-This line replaces each element `x` in the original array with its corresponding rank from the hash map. It uses a list comprehension to create a new list where each element is the rank of the corresponding element in the original array.
+- `rank = {}`: initializes the value-to-rank mapping.
+- `for i, x in enumerate(sorted(set(arr)), 1):`: iterates over the sorted unique values with a 1-based counter `i`.
+- `rank[x] = i`: records that value `x` has rank `i`.
+- `return [rank[x] for x in arr]`: produces the output by replacing each original element with its precomputed rank.
 
 ## Dry Run
-Let's consider an example where `arr = [40, 10, 20, 30]`. The solution would work as follows:
+Example: `arr = [37,12,28,9,100,56,80,5,12]`
 
-| Step | Input Array | Unique Elements | Rank Dictionary |
-| --- | --- | --- | --- |
-| 1   | [40, 10, 20, 30] | None | {} |
-| 2   | [40, 10, 20, 30] | [10, 20, 30, 40] | {10: 1, 20: 2, 30: 3, 40: 4} |
-| 3   | [40, 10, 20, 30] | [10, 20, 30, 40] | {10: 1, 20: 2, 30: 3, 40: 4} |
-| 4   | [40, 10, 20, 30] | [10, 20, 30, 40] | {10: 1, 20: 2, 30: 3, 40: 4} |
+| Step | Unique Sorted | i | x   | rank mapping after step |
+|------|---------------|---|-----|-------------------------|
+| 1    | [5,9,12,28,37,56,80,100] | 1 | 5   | {5:1} |
+| 2    |               | 2 | 9   | {5:1, 9:2} |
+| 3    |               | 3 | 12  | {5:1, 9:2, 12:3} |
+| 4    |               | 4 | 28  | {5:1, 9:2, 12:3, 28:4} |
+| 5    |               | 5 | 37  | {5:1, 9:2, 12:3, 28:4, 37:5} |
+| 6    |               | 6 | 56  | {5:1, 9:2, 12:3, 28:4, 37:5, 56:6} |
+| 7    |               | 7 | 80  | {5:1, 9:2, 12:3, 28:4, 37:5, 56:6, 80:7} |
+| 8    |               | 8 | 100 | {5:1, 9:2, 12:3, 28:4, 37:5, 56:6, 80:7, 100:8} |
 
-After the dry run, the output would be `[4, 1, 2, 3]`, which is the rank-transformed array.
+Final lookup: `[rank[37], rank[12], rank[28], rank[9], rank[100], rank[56], rank[80], rank[5], rank[12]]` → `[5,3,4,2,8,6,7,1,3]`.
 
 ## Complexity
-The time complexity is O(n log n) because the solution involves sorting the unique elements in the array, where n is the number of unique elements. The space complexity is O(n) because the solution involves storing the unique elements in a hash map and creating a new list to store the rank-transformed array, where n is the total number of elements in the input array.
+- Time: O(n log n), where n = len(arr). Dominated by sorting the unique values (at most n elements).
+- Space: O(n) for the set of unique values and the rank dictionary (each holds up to n entries).
 
 ## Edge Cases
-The solution handles edge cases such as:
-- Empty input array: The solution would return an empty list because the input array is empty.
-- Single-element input array: The solution would return a list with a single element, which is the rank of the only element in the input array.
-- Duplicate elements: The solution would assign the same rank to duplicate elements because it uses a hash map to store the rank of each unique element.
-However, the solution may fail if the constraints are relaxed, such as:
-- Very large input array: The solution may exceed the memory limit because it involves creating a new list to store the rank-transformed array.
-- Input array with very large numbers: The solution may exceed the integer limit because it involves sorting the unique elements in the array.
+- **Empty array**: `set(arr)` is empty, the loop never runs, `rank` stays `{}`, and the list comprehension returns `[]` — correct.
+- **All elements equal** (e.g., `[100,100,100]`): set has one element, rank becomes `{100:1}`, output is `[1,1,1]` — correct.
+- **Negative numbers**: sorting handles them naturally; ranks are assigned by value order, not magnitude.
+- **Maximum size (10^5)**: O(n log n) fits comfortably within limits.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints because it has a time complexity of O(n log n) and a space complexity of O(n). However, there are some minor improvements that can be made, such as:
-- Using a more efficient sorting algorithm, such as counting sort or bucket sort, if the input array has certain properties, such as a limited range of values.
-- Using a more efficient data structure, such as a balanced binary search tree, to store the rank of each unique element, if the input array is very large and the solution needs to be more efficient in terms of memory usage.
+The solution is already optimal for the given constraints. Comparison-based sorting cannot beat O(n log n) in the general case, and the hash map lookups are O(1) average. Variable names are clear and the code is concise. No material improvement is needed.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

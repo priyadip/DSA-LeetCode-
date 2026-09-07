@@ -1,74 +1,63 @@
 # 3514. Number of Unique XOR Triplets II - Solution Analysis
 
 ## Problem Understanding
-The problem is asking us to find the number of unique XOR triplet values from all possible triplets in a given integer array `nums`. A XOR triplet is defined as the XOR of three elements `nums[i] XOR nums[j] XOR nums[k]` where `i <= j <= k`. The constraints are that the length of `nums` is between 1 and 1500, and each element in `nums` is between 1 and 1500.
+We need the number of distinct values obtainable as `nums[i] XOR nums[j] XOR nums[k]` with `i ≤ j ≤ k`. Because XOR is commutative and associative, the index ordering only means we pick a multiset of three elements from `nums` (repetition allowed). The constraints (`n ≤ 1500`, `nums[i] ≤ 1500`) imply the maximum possible XOR is `2047` (11 bits), so a fixed-size boolean array of length `2048` suffices to track reachable values.
 
 ## Approach
-This solution uses dynamic programming (DP) with a twist of XOR operation to efficiently calculate the unique XOR triplet values. It fits this problem because DP allows us to build up a solution from smaller sub-problems, which in this case are the XOR operations of individual elements and previously computed XOR results. The DP array `dp` keeps track of whether a certain XOR value has been seen.
+The solution uses **iterative set construction (dynamic programming over the number of chosen elements)**.  
+Brute force would enumerate all `O(n³)` triplets – far too slow for `n = 1500`.  
+Instead, we start with the set `{0}` (XOR of zero elements) and repeatedly combine it with all array elements: after `k` iterations we have exactly the XORs of `k` elements (with repetition). After three iterations we have all triplet XORs. The key insight is that **the set of XORs of three elements is the three-fold XOR-convolution of the array with itself**, which can be computed in `O(3 · MAX · n)` time using a boolean array of size `MAX = 2048`.
 
 ## Algorithm
-The method can be broken down into the following steps:
-1. Initialize a DP array `dp` of size `MAX` (which is set to 2048) with all elements set to `False`, except for `dp[0]` which is set to `True`.
-2. Perform the following operation three times:
-   - Create a new DP array `ndp`.
-   - For each `x` in `dp`, if `dp[x]` is `True`, then for each `v` in `nums`, set `ndp[x ^ v]` to `True`.
-   - Update `dp` to be `ndp`.
-3. Sum up all the `True` values in the final `dp` array to get the count of unique XOR triplet values.
+1. Set `MAX = 2048` (covers all possible XOR results up to `2047`).
+2. Initialise `dp[0] = True` (empty XOR is `0`).
+3. Repeat 3 times (for the three elements of the triplet):
+   - Create a new boolean array `ndp` of size `MAX`, all `False`.
+   - For every `x` where `dp[x]` is `True`:
+       - For every `v` in `nums`:
+           - Set `ndp[x ^ v] = True`.
+   - Replace `dp` with `ndp`.
+4. Return the count of `True` entries in `dp`.
 
 ## Line-by-Line Explanation
-```python
-MAX = 2048
-```
-This line defines the maximum possible XOR value achievable by any triplet. Since each element in `nums` is between 1 and 1500, the maximum possible XOR value is 1500 ^ 1500 ^ 1500, which is less than 2048.
-
-```python
-dp = [False] * MAX
-dp[0] = True
-```
-These lines initialize the DP array `dp` with all elements set to `False`, except for `dp[0]` which is set to `True`. This is because 0 is a valid XOR result (for example, when all three elements are the same).
-
-```python
-for _ in range(3):
-    ndp = [False] * MAX
-    for x in range(MAX):
-        if dp[x]:
-            for v in nums:
-                ndp[x ^ v] = True
-    dp = ndp
-```
-These lines perform the XOR operation three times. For each `x` in `dp`, if `dp[x]` is `True`, then for each `v` in `nums`, set `ndp[x ^ v]` to `True`. This effectively computes the XOR of `x` with each element in `nums` and updates the DP array accordingly.
-
-```python
-return sum(dp)
-```
-This line sums up all the `True` values in the final `dp` array to get the count of unique XOR triplet values. In Python, `True` is treated as 1 and `False` is treated as 0 when summing.
+- `MAX = 2048`: Upper bound on XOR values (since `1500 < 2048`, three 11-bit numbers XOR to at most 11 bits).
+- `dp = [False] * MAX; dp[0] = True`: `dp[x]` indicates whether XOR value `x` is achievable with the current number of elements; initially only `0` (zero elements).
+- `for _ in range(3):`: Three iterations – each adds one array element to the XOR.
+- `ndp = [False] * MAX`: Fresh array for the next iteration.
+- `for x in range(MAX):`: Scan all possible XOR values.
+- `if dp[x]:`: Only extend from values that are currently reachable.
+- `for v in nums:`: Try adding each array element.
+- `ndp[x ^ v] = True`: Mark the new XOR as reachable.
+- `dp = ndp`: Move to the next iteration.
+- `return sum(dp)`: Count of `True` entries = number of unique triplet XORs.
 
 ## Dry Run
-Let's consider the example `nums = [1, 3]`.
+Example: `nums = [1, 3]` (MAX = 8 for brevity; actual code uses 2048).
 
-| Iteration | `dp` |
-| --- | --- |
-| Initially | `[True, False, False, ...]` |
-| After 1st XOR | `[True, True, False, False, True, False, False, ...]` |
-| After 2nd XOR | `[True, True, False, True, True, False, False, True, False, ...]` |
-| After 3rd XOR | `[True, True, False, True, True, False, False, True, False, False, False, False, True, ...]` |
+| Iteration | dp (True indices) | ndp after processing | Action |
+|-----------|-------------------|----------------------|--------|
+| Start     | {0}               | –                    | initial |
+| 1         | {0}               | {1, 3}               | 0^1=1, 0^3=3 |
+| 2         | {1, 3}            | {0, 2}               | 1^1=0, 1^3=2, 3^1=2, 3^3=0 |
+| 3         | {0, 2}            | {1, 3}               | 0^1=1, 0^3=3, 2^1=3, 2^3=1 |
 
-The final `dp` array has `True` values at indices 0 and 1 and 3, which correspond to the XOR values 0, 1, and 3.
+Final `dp` has `True` at 1 and 3 → count = 2. Matches example output.
 
 ## Complexity
-The time complexity is O(MAX * n), where n is the length of `nums`. This is because we have three nested loops: one for the iterations, one for the XOR values, and one for the elements in `nums`.
-The space complexity is O(MAX), where MAX is the maximum possible XOR value. This is because we need to store the DP array `dp` of size MAX.
+- **Time:** `O(3 · MAX · n) = O(MAX · n)`. `MAX = 2048` is a constant (determined by the value constraint `nums[i] ≤ 1500`), so effectively `O(n)`. For `n = 1500` this is ~9 million operations, well within limits.
+- **Space:** `O(MAX) = O(1)` (two boolean arrays of fixed size 2048).
 
 ## Edge Cases
-This solution handles the edge cases of:
-- Empty input: If `nums` is empty, the solution returns 0 because no XOR triplets can be formed.
-- Single element: If `nums` has only one element, the solution returns 1 because only one XOR triplet can be formed.
-- Duplicates: The solution handles duplicates by only considering each XOR value once.
-However, it may not handle the edge case of very large input values (i.e., larger than 1500), because the DP array `dp` is of fixed size MAX. If the input values are larger than MAX, the solution will not work correctly.
+- **Single element (`n = 1`):** The three iterations produce only that element (since `v ^ v ^ v = v`). Correct.
+- **All elements equal:** Same as single element; duplicates in `nums` do not create new XOR values because the inner loop processes every occurrence, but the boolean array deduplicates automatically.
+- **Maximum constraints (`n = 1500`, values up to 1500):** `MAX = 2048` covers all possible XORs (max 11 bits). The loops run in acceptable time.
+- **Values larger than 1500 (if constraints changed):** `MAX` would need to be increased to the next power of two above the maximum possible XOR. The current code would fail silently (index out of range or missed values) if `MAX` were too small.
 
 ## Possible Improvements
-One possible improvement is to use a more efficient data structure, such as a set, to store the unique XOR values instead of a DP array. This would reduce the space complexity from O(MAX) to O(n), where n is the number of unique XOR values. However, the time complexity would remain the same because we would still need to iterate over all possible XOR values.
+- **Deduplicate `nums` before the loops:** `nums = list(set(nums))` reduces the inner loop iterations when there are many duplicates, without changing the result (repetition is already allowed by the three iterations). This is a minor constant-factor speedup.
+- **Use a Python integer as a bitset:** `dp` could be an integer where bit `x` represents reachability; the update becomes `ndp |= (dp << v) | (dp >> v)` with masking, but XOR convolution isn't a simple shift. A bitset would still require iterating over set bits, so the boolean array is already efficient.
+- The solution is already optimal in asymptotic complexity for the given constraints; no algorithmic improvement is needed.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

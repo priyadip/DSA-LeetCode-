@@ -1,68 +1,54 @@
 # 1464. Maximum Product of Two Elements in an Array - Solution Analysis
 
 ## Problem Understanding
-The problem requires finding the maximum value of `(nums[i]-1)*(nums[j]-1)` by choosing two different indices `i` and `j` from the given array of integers `nums`. The array has a minimum length of 2 and a maximum length of 500, with each integer ranging from 1 to 10^3.
+The problem asks for the maximum value of `(nums[i]-1)*(nums[j]-1)` where `i` and `j` are distinct indices. Since all `nums[i] >= 1`, the expression increases monotonically with both arguments, so the maximum is achieved by the two largest elements in the array. The constraints (`n <= 500`, values `<= 1000`) are small enough that even a quadratic brute force would pass, but a linear scan is trivial.
 
 ## Approach
-The solution uses a simple comparison-based approach, which can be viewed as a variant of the monotonic stack or two-pointer technique, but in this case, it only keeps track of the two largest elements. This approach fits the problem because we only need to find the two largest numbers in the array to maximize the product `(nums[i]-1)*(nums[j]-1)`.
+The solution uses a **single-pass top-k tracking** pattern (here `k=2`). It maintains the two largest values seen so far while iterating once through the array. The brute-force alternative would check all `O(n^2)` pairs; this approach reduces that to `O(n)` time and `O(1)` space. The key insight: for positive integers, maximizing `(a-1)*(b-1)` is equivalent to maximizing `a` and `b` individually, so we only need the two largest elements.
 
 ## Algorithm
-1. Initialize `first` and `second` variables to store the maximum and second-maximum numbers.
-2. Iterate over the array `nums`.
-3. For each number, check if it's greater than or equal to the current `first` value. If so, update `second` to be the old `first` and update `first` to be the current number.
-4. If the current number is less than `first` but greater than `second`, update `second` to be the current number.
-5. After iterating over the entire array, return `(first-1)*(second-1)`.
+1. Initialize `first = 0` and `second = 0` (both smaller than any possible input value).
+2. For each number `i` in `nums`:
+   - If `i >= first`: assign `second = first`, then `first = i`.
+   - Else if `i > second`: assign `second = i`.
+3. Return `(first - 1) * (second - 1)`.
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-```
-This defines a class `Solution` with a method `maxProduct` that takes a list of integers `nums` as input and returns an integer.
-```python
-first = 0
-second = 0
-```
-These lines initialize `first` and `second` variables to 0. These variables will store the maximum and second-maximum numbers in the array, respectively.
-```python
-for i in nums:
-```
-This line starts a loop that iterates over each number in the input array `nums`.
-```python
-if i >= first:
-    second = first
-    first = i
-```
-If the current number `i` is greater than or equal to the current `first` value, this code updates `second` to be the old `first` and updates `first` to be the current number `i`.
-```python
-elif i > second:
-    second = i
-```
-If the current number `i` is less than `first` but greater than `second`, this code updates `second` to be the current number `i`.
-```python
-return (first-1)*(second-1)
-```
-After iterating over the entire array, this line returns the product of `(first-1)` and `(second-1)`, which is the maximum value of `(nums[i]-1)*(nums[j]-1)`.
+- `first = 0`: holds the largest value encountered.
+- `second = 0`: holds the second largest value encountered.
+- `for i in nums:`: single pass over the array.
+- `if i >= first:`: current element is a new maximum (or ties it).
+- `second = first`: previous maximum becomes the second maximum.
+- `first = i`: update maximum to current element.
+- `elif i > second:`: current element is between the two tracked maxima.
+- `second = i`: update second maximum.
+- `return (first-1)*(second-1)`: compute the required product from the two largest values.
 
 ## Dry Run
-Let's consider an example input `nums = [3,4,5,2]`. Here's how the state evolves over the loop:
-| Iteration | i | first | second |
-| --- | --- | --- | --- |
-| 1 | 3 | 3 | 0 |
-| 2 | 4 | 4 | 3 |
-| 3 | 5 | 5 | 4 |
-| 4 | 2 | 5 | 4 |
-After the loop, `first` is 5 and `second` is 4, so the function returns `(5-1)*(4-1) = 12`.
+Example 1: `nums = [3,4,5,2]`
+
+| Step | i | first | second | Action |
+|------|---|-------|--------|--------|
+| 1 | 3 | 3 | 0 | 3 >= 0 → second=0, first=3 |
+| 2 | 4 | 4 | 3 | 4 >= 3 → second=3, first=4 |
+| 3 | 5 | 5 | 4 | 5 >= 4 → second=4, first=5 |
+| 4 | 2 | 5 | 4 | 2 < 5 and 2 < 4 → no change |
+Result: `(5-1)*(4-1) = 12`.
 
 ## Complexity
-The time complexity is O(n), where n is the length of the input array `nums`, because we only need to iterate over the array once. The space complexity is O(1), because we only use a constant amount of space to store the `first` and `second` variables.
+- Time: O(n), one pass through the array of length n.
+- Space: O(1), only two integer variables used regardless of input size.
 
 ## Edge Cases
-This solution handles edge cases such as empty input (not applicable, since the input size is at least 2), single element (not applicable), duplicates (handled correctly, since we update `second` to be the old `first` when we find a new maximum), and overflow (not a concern, since the product of two numbers less than 10^3 is always less than 10^6).
+- **Two elements only** (minimum length): loop runs twice, correctly captures both.
+- **All elements equal** (e.g., `[5,5]`): `>=` ensures `second` becomes 5, product is 16.
+- **Duplicates of the maximum**: handled by `>=`; the second occurrence updates `second`.
+- **Already sorted ascending or descending**: logic is order-agnostic.
+- **Values at constraint boundaries** (1 and 1000): initial zeros are safe lower bounds.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, with a time complexity of O(n) and a space complexity of O(1). No further improvements are necessary.
+The solution is already optimal for the given constraints: O(n) time and O(1) space is the best achievable complexity class. Using `heapq.nlargest(2, nums)` or sorting would add unnecessary logarithmic factors or overhead. Variable names `first`/`second` are clear; `max1`/`max2` would be equally readable but not materially better. No further improvements needed.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

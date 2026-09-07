@@ -1,75 +1,69 @@
 # 1260. Shift 2D Grid - Solution Analysis
 
 ## Problem Understanding
-The problem involves shifting the elements of a 2D grid `k` times. In each shift operation, elements move one column to the right. If an element is in the last column, it moves to the first column of the next row. If it is in the last column of the last row, it moves to the first column of the first row. The grid has `m` rows and `n` columns. The task is to return the grid after applying the shift operation `k` times, given `m`, `n`, and `k`.
+We are given an `m x n` grid and an integer `k`. A single shift moves every element one step forward in row-major order: `grid[i][j]` goes to `grid[i][j+1]`, the last column wraps to the next row's first column, and the very last element wraps to `grid[0][0]`. After `k` such shifts we must return the resulting grid. The constraints (`m, n ≤ 50`, `k ≤ 100`) are small enough that even a naive simulation would pass, but the optimal solution computes the final positions directly in one pass.
 
 ## Approach
-The algorithmic pattern used in this solution is a combination of matrix manipulation and modular arithmetic. It calculates the new position of each element in the grid after `k` shifts and then moves the elements to their new positions. The solution takes advantage of the cyclic nature of the shift operation, handling the last column and the last row of the grid specifically to account for the wrap-around.
+The solution uses **index mapping with modular arithmetic**. The grid can be viewed as a flattened array of length `m*n`; shifting `k` times simply rotates this array by `k` positions. Instead of actually flattening, the code computes the new 2D coordinates `(ni, nj)` for each element `(i, j)` using division and modulo. The key insight is that the new column is `(j + k) % n` and the new row is `i` plus the number of whole-row wraps caused by the column shift, taken modulo `m`.
 
 ## Algorithm
-1. Calculate the total number of elements in the grid (`m * n`).
-2. Reduce the number of shifts `k` by taking the modulus of `k` with the total number of elements. This step takes advantage of the cyclic nature of the shift operation.
-3. If the reduced `k` is 0, return the original grid as it is.
-4. Initialize a new grid `ans` with the same dimensions as the original grid, filled with zeros.
-5. Iterate through each element in the original grid, calculating its new position after `k` shifts using modular arithmetic.
-6. Move each element to its new position in the `ans` grid.
+1. Let `m = len(grid)`, `n = len(grid[0])`.
+2. Reduce `k` modulo `m*n` because shifting `m*n` times restores the original grid.
+3. If `k == 0`, return the original grid immediately.
+4. Allocate an `m x n` result grid `ans` filled with zeros.
+5. For each cell `(i, j)` in the original grid:
+   - Compute `nj = (j + k) % n` (new column).
+   - Compute `ni`:
+     - If `j + k < n`, the element stays in the same row: `ni = i`.
+     - Otherwise it wraps across rows: `ni = (i + (j + k) // n) % m`.
+   - Place `grid[i][j]` into `ans[ni][nj]`.
+6. Return `ans`.
 
 ## Line-by-Line Explanation
-```python
-m, n = len(grid), len(grid[0])
-```
-This line calculates the number of rows (`m`) and columns (`n`) in the grid.
-```python
-ans = [[0]*n for _ in range(m)]
-```
-This line initializes a new grid `ans` with the same dimensions as the original grid, filled with zeros.
-```python
-k %= (m*n)
-```
-This line reduces the number of shifts `k` by taking the modulus of `k` with the total number of elements in the grid. This step ensures that the number of shifts is within the range of the total number of elements.
-```python
-if k == 0:
-    return grid
-```
-This line checks if the reduced `k` is 0. If it is, the function returns the original grid as it is, since no shifts are needed.
-```python
-for i in range(m):
-    for j in range(n):
-        ni = i if j+k < n else (i+(j+k)//n)%m
-        nj = (j+k)%n
-        ans[ni][nj] = grid[i][j]
-```
-This nested loop iterates through each element in the original grid, calculates its new position after `k` shifts using modular arithmetic, and moves the element to its new position in the `ans` grid.
+- `m, n = len(grid), len(grid[0])`: store dimensions.
+- `ans = [[0]*n for _ in range(m)]`: create output grid of same size.
+- `k %= (m*n)`: reduce `k` to the minimal equivalent shift.
+- `if k == 0: return grid`: early exit when no effective shift.
+- `for i in range(m):`: iterate rows.
+- `for j in range(n):`: iterate columns.
+- `ni = i if j+k < n else (i+(j+k)//n)%m`: compute new row. If the column shift doesn't cross a row boundary, row stays `i`; otherwise add the number of crossed rows (`(j+k)//n`) and wrap modulo `m`.
+- `nj = (j+k)%n`: compute new column (always the remainder).
+- `ans[ni][nj] = grid[i][j]`: write the element to its final position.
+- `return ans`: return the shifted grid.
 
 ## Dry Run
-Let's take the example input `grid = [[1,2,3],[4,5,6],[7,8,9]]` and `k = 1`.
-| Step | i | j | ni | nj | ans[ni][nj] |
-| --- | --- | --- | --- | --- | --- |
-| 1   | 0 | 0 | 0  | 1  | 1          |
-| 2   | 0 | 1 | 0  | 2  | 2          |
-| 3   | 0 | 2 | 1  | 0  | 3          |
-| 4   | 1 | 0 | 1  | 1  | 4          |
-| 5   | 1 | 1 | 1  | 2  | 5          |
-| 6   | 1 | 2 | 2  | 0  | 6          |
-| 7   | 2 | 0 | 2  | 1  | 7          |
-| 8   | 2 | 1 | 2  | 2  | 8          |
-| 9   | 2 | 2 | 0  | 0  | 9          |
+Example 1: `grid = [[1,2,3],[4,5,6],[7,8,9]]`, `k = 1`.  
+`m=3, n=3, k%=9 → 1`.  
+Loop over all cells:
+
+| Step | i | j | val | j+k | nj | ni (calc) | ni | Action |
+|------|---|---|-----|-----|----|-----------|----|--------|
+| 1 | 0 | 0 | 1 | 1 | 1 | 0 (1<3) | 0 | ans[0][1]=1 |
+| 2 | 0 | 1 | 2 | 2 | 2 | 0 (2<3) | 0 | ans[0][2]=2 |
+| 3 | 0 | 2 | 3 | 3 | 0 | (0+3//3)%3=1 | 1 | ans[1][0]=3 |
+| 4 | 1 | 0 | 4 | 1 | 1 | 1 (1<3) | 1 | ans[1][1]=4 |
+| 5 | 1 | 1 | 5 | 2 | 2 | 1 (2<3) | 1 | ans[1][2]=5 |
+| 6 | 1 | 2 | 6 | 3 | 0 | (1+3//3)%3=2 | 2 | ans[2][0]=6 |
+| 7 | 2 | 0 | 7 | 1 | 1 | 2 (1<3) | 2 | ans[2][1]=7 |
+| 8 | 2 | 1 | 8 | 2 | 2 | 2 (2<3) | 2 | ans[2][2]=8 |
+| 9 | 2 | 2 | 9 | 3 | 0 | (2+3//3)%3=0 | 0 | ans[0][0]=9 |
+
+Result `ans = [[9,1,2],[3,4,5],[6,7,8]]` matches expected output.
 
 ## Complexity
-The time complexity of this solution is O(m * n), where n refers to the number of columns and m refers to the number of rows in the grid. This is because the solution iterates through each element in the grid once.
-The space complexity is also O(m * n), as the solution creates a new grid with the same dimensions as the original grid.
+- **Time:** O(m·n) – each of the `m*n` cells is visited once, and all arithmetic is O(1).
+- **Space:** O(m·n) – the output grid `ans` stores `m*n` integers. (If the output space is not counted, extra space is O(1).)
 
 ## Edge Cases
-This solution handles the following edge cases:
-- Empty grid: Not applicable, as the grid is guaranteed to have at least one row and one column.
-- Single element: The solution works correctly for a grid with a single element (1x1 grid).
-- Duplicates: The solution works correctly even if the grid contains duplicate elements.
-- Overflow: The solution uses modular arithmetic to avoid overflow issues.
-However, the solution assumes that the input grid is a list of lists, where each inner list has the same length (i.e., the grid is rectangular). If the input grid is not rectangular, the solution may not work correctly.
+- `k = 0` or `k` a multiple of `m*n`: early return handles this correctly.
+- Single row (`m=1`): `ni` formula reduces to `(0 + (j+k)//n) % 1 = 0`, works.
+- Single column (`n=1`): `nj = (0+k)%1 = 0`; `ni = (i + (0+k)//1) % m = (i+k)%m`, correctly shifts down rows.
+- Negative values in grid: shifting only moves positions, values are copied unchanged.
+- Maximum constraints (`m=n=50, k=100`): loops run 2500 iterations, well within limits.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, with a time complexity of O(m * n) and a space complexity of O(m * n). However, one possible improvement could be to use a more efficient data structure, such as a deque, to store the elements of the grid. This could potentially reduce the time complexity of the solution. Additionally, the solution could be optimized to handle non-rectangular grids by adding additional error checking and handling code.
+The solution is already optimal in time complexity (must touch every element) and space complexity (output grid required). An in-place cyclic replacement could reduce extra space to O(1) but would complicate the code without practical benefit given the small constraints. The current variable names (`m, n, ni, nj`) are clear and conventional. No further improvements are necessary.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

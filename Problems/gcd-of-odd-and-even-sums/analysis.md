@@ -1,43 +1,40 @@
 # 3658. GCD of Odd and Even Sums - Solution Analysis
 
 ## Problem Understanding
-The problem requires finding the greatest common divisor (GCD) of two sums: the sum of the first `n` positive odd numbers and the sum of the first `n` positive even numbers. The constraint that `1 <= n <= 1000` indicates that we need to consider a range of possible values for `n`. The hints provided suggest that there may be a mathematical formula or relationship that can be used to simplify the problem.
+Given an integer `n`, compute the GCD of two sums: the sum of the first `n` positive odd numbers (which equals `n²`) and the sum of the first `n` positive even numbers (which equals `n(n+1)`). The constraints are small (`n ≤ 1000`), but the mathematical structure makes the answer trivial: `GCD(n², n(n+1)) = n * GCD(n, n+1) = n` because consecutive integers are coprime.
 
 ## Approach
-The solution uses the mathematical formula pattern, relying on the properties of arithmetic sequences and the relationship between consecutive integers. The key insight is that the sum of the first `n` odd numbers can be expressed as `n * n`, and the sum of the first `n` even numbers can be expressed as `n * (n + 1)`. This allows us to directly calculate the GCD without needing to explicitly compute the sums.
+**Mathematical simplification / closed-form formula.**  
+The brute-force approach would generate the two sequences, sum them, and run Euclid's algorithm — O(n) time and O(1) space. The chosen approach recognises the well-known summation formulas `sumOdd = n²` and `sumEven = n(n+1)`, then uses the number-theory fact `GCD(n, n+1) = 1` to deduce the answer is exactly `n`. This reduces the problem to O(1) time and O(1) space with no loops or auxiliary data structures.
+
+**Key insight:** `GCD(n², n(n+1)) = n * GCD(n, n+1) = n`.
 
 ## Algorithm
-1. Recognize the formulas for the sum of the first `n` odd and even numbers.
-2. Use the property of GCD for consecutive integers to simplify the calculation.
-3. Directly return the result based on the simplified formula.
+1. Receive integer `n`.
+2. Return `n` directly.
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def gcdOfOddEvenSums(self, n: int) -> int:
-```
-This line defines a class `Solution` with a method `gcdOfOddEvenSums` that takes an integer `n` as input and returns an integer.
-```python
-return n
-```
-This line returns the input `n` directly, based on the insight that the GCD of the sum of the first `n` odd numbers and the sum of the first `n` even numbers is simply `n`, due to the property that `gcd(n, n + 1) = 1`.
+- `def gcdOfOddEvenSums(self, n: int) -> int:`: method signature accepting `n`.
+- `return n`: returns the mathematically proven result; no computation needed.
 
 ## Dry Run
-Let's consider an example where `n = 4`. According to the formulas, the sum of the first `4` odd numbers is `4 * 4 = 16`, and the sum of the first `4` even numbers is `4 * (4 + 1) = 20`. However, the solution directly returns `n`, which is `4`. This is justified by the property that `gcd(16, 20) = gcd(4 * 4, 4 * (4 + 1)) = gcd(4, 4 + 1) = gcd(4, 5) = 1`, but the solution takes a shortcut by recognizing the pattern that the GCD of the sums is simply `n`.
-
-| `n` | Sum of Odd Numbers | Sum of Even Numbers | GCD |
-| --- | --- | --- | --- |
-| 4   | 16                | 20                 | 4   |
+| Step | n | Action |
+|------|---|--------|
+| 1 | 4 | return 4 |
+| 2 | 5 | return 5 |
 
 ## Complexity
-The time complexity is O(1), because the solution directly returns the input `n` without any additional calculations that depend on `n`. The space complexity is also O(1), because the solution only uses a constant amount of space to store the input and output. Here, `n` refers to the input integer.
+- Time: O(1), single return statement.
+- Space: O(1), no extra storage.
 
 ## Edge Cases
-The solution handles all possible values of `n` within the given constraint `1 <= n <= 1000`. It does not explicitly check for edge cases such as `n = 1` or `n = 1000`, but the formula `gcd(n, n + 1) = 1` ensures that the solution is correct for all `n`. If the constraint were relaxed to allow `n = 0` or `n < 0`, the solution would need to be modified to handle these cases.
+- `n = 1`: sumOdd = 1, sumEven = 2, GCD = 1 → returns 1 ✓
+- `n = 1000` (max constraint): returns 1000 ✓
+- All valid inputs are covered; the formula holds for every positive integer.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it uses a constant amount of time and space. However, it is worth noting that the solution relies on the specific formula and property used to simplify the problem. If the problem were modified to use a different formula or property, the solution would need to be adjusted accordingly.
+The solution is already optimal — O(1) time and space cannot be improved. The only conceivable change would be adding a comment explaining the math, but the code itself is minimal and correct.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

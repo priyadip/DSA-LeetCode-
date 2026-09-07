@@ -1,139 +1,104 @@
 # 3501. Maximize Active Section with Trade II - Solution Analysis
 
 ## Problem Understanding
-The problem involves a binary string `s` of length `n`, where `'1'` represents an **active** section and `'0'` represents an **inactive** section. The goal is to maximize the number of active sections in `s` after making at most one trade on a given substring `s[l_i...r_i]`. A trade consists of converting a contiguous block of `'1'`s surrounded by `'0'`s to all `'0'`s and then converting a contiguous block of `'0'`s surrounded by `'1'`s to all `'1'`s. The queries are independent of each other, and the augmented `'1'`s do not contribute to the final count.
+We are given a binary string `s` and multiple queries `[l, r]`. For each query we consider the substring `s[l..r]` augmented with a `'1'` at both ends. We may perform at most one trade: choose a `'1'` block surrounded by `'0'`s, turn it into `'0'`s, then choose a `'0'` block surrounded by `'1'`s, turn it into `'1'`s. The goal is to maximize the total number of `'1'`s in the whole string after the trade. The trade only affects the substring; the rest of `s` stays unchanged. Constraints: `n, q ≤ 10^5`, so an `O(n + q log n)` or similar solution is required.
 
 ## Approach
-The solution uses a combination of the following algorithmic patterns: 
-- **Preprocessing**: It starts by preprocessing the input string `s` to identify all zero blocks and their corresponding start, end, and length. 
-- **Segment Tree**: It then constructs a segment tree to store the maximum pair values between two consecutive zero blocks. 
-- **Binary Search**: The `bisect_left` and `bisect_right` functions are used to find the first and last zero blocks that intersect with a given query range `[l, r]`.
+The solution uses **zero-block segmentation** combined with a **segment tree for range maximum queries**.  
+The key insight: a valid trade always picks a `'1'` block that lies between two `'0'` blocks (in the augmented string). Converting that `'1'` block to `'0'` merges the two `'0'` blocks, and then converting the merged `'0'` block to `'1'` yields a net gain equal to the sum of the lengths of the two original `'0'` blocks. Therefore, for a given substring, the optimal gain is the maximum sum of lengths of two adjacent zero blocks that lie (fully or partially) inside the query range, with the boundary zero blocks clipped to the query interval.
+
+Brute force would examine every possible `'1'` block for each query, costing `O(n)` per query. By precomputing all zero blocks and the sums of adjacent pairs, we reduce each query to a few boundary calculations and a range maximum query over the precomputed pair sums.
 
 ## Algorithm
-The solution's method can be broken down into the following concise numbered steps:
-1. Preprocess the input string `s` to identify all zero blocks and their corresponding start, end, and length.
-2. Construct a segment tree to store the maximum pair values between two consecutive zero blocks.
-3. Iterate over each query range `[l, r]` and find the first and last zero blocks that intersect with the query range.
-4. Calculate the maximum possible number of active sections in the query range by considering the trade options.
+1. Count total `'1'`s in `s` → `t1`.
+2. Scan `s` to collect all maximal contiguous `'0'` blocks: store `(start, end)` for each block.
+3. Let `m` be the number of zero blocks. Create arrays `starts`, `ends`, `lengths`.
+4. Build array `pair` of length `m-1` where `pair[i] = lengths[i] + lengths[i+1]` (sum of two adjacent zero blocks).
+5. Build a segment tree over `pair` to answer range maximum queries in `O(log m)`.
+6. For each query `[l, r]`:
+   - `first` = index of first zero block with `end ≥ l` (binary search on `ends`).
+   - `last` = index of last zero block with `start ≤ r` (binary search on `starts`).
+   - If `first ≥ last`, fewer than two zero blocks intersect the query → no trade possible, answer = `t1`.
+   - Otherwise compute `best` as the maximum of:
+        * Clipped sum of zero blocks `first` and `first+1`.
+        * Clipped sum of zero blocks `last-1` and `last`.
+        * Maximum `pair` value for fully internal pairs (indices `first+1` to `last-2`) via segment tree.
+   - Answer = `t1 + best`.
+7. Return all answers.
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def maxActiveSectionsAfterTrade(
-        self, s: str, queries: List[List[int]]
-    ) -> List[int]:
-```
-This defines a class `Solution` with a method `maxActiveSectionsAfterTrade` that takes a string `s` and a list of queries as input.
-```python
-t1 = s.count("1")
-n = len(s)
-```
-It starts by counting the total number of active sections (`'1'`) in the string `s` and storing the length of the string `n`.
-```python
-hmz = []
-i = 0
-while i < n:
-    if s[i] == '0':
-        start = i
-        while i < n and s[i] == '0':
-            i += 1
-        hmz.append((start, i - 1))
-    else:
-        i += 1
-```
-This loop identifies all zero blocks in the string `s` by iterating over the characters. When a `'0'` is encountered, it marks the start of a zero block and continues until a `'1'` is found, marking the end of the zero block. The start and end indices are then added to the list `hmz`.
-```python
-m = len(hmz)
-starts = [l for l, r in hmz]
-ends = [r for l, r in hmz]
-lengths = [r - l + 1 for l, r in hmz]
-```
-It extracts the start, end, and length of each zero block from the list `hmz` and stores them in separate lists.
-```python
-pair = []
-for i in range(m - 1):
-    pair.append(lengths[i] + lengths[i + 1])
-```
-This loop calculates the sum of the lengths of each pair of consecutive zero blocks and stores the results in the list `pair`.
-```python
-size = 1
-while size < len(pair):
-    size *= 2
-seg = [0] * (2 * size)
-```
-It determines the size of the segment tree `seg` based on the length of the list `pair` and initializes the tree with zeros.
-```python
-for i, x in enumerate(pair):
-    seg[size + i] = x
-for i in range(size - 1, 0, -1):
-    seg[i] = max(seg[2 * i], seg[2 * i + 1])
-```
-This code constructs the segment tree by assigning the values from the list `pair` to the leaves of the tree and then propagating the maximum values up the tree.
-```python
-def range_max(left, right):
-    if left > right:
-        return 0
-    left += size
-    right += size
-    result = 0
-    while left <= right:
-        if left % 2 == 1:
-            result = max(result, seg[left])
-            left += 1
-        if right % 2 == 0:
-            result = max(result, seg[right])
-            right -= 1
-        left //= 2
-        right //= 2
-    return result
-```
-This function `range_max` calculates the maximum pair value in a given range `[left, right]` by traversing the segment tree.
-```python
-def cl(index, l, r):
-    a, b = hmz[index]
-    return max(0, min(b, r) - max(a, l) + 1)
-```
-This function `cl` calculates the length of a zero block after it has been cut according to the query range `[l, r]`.
-```python
-answer = []
-for l, r in queries:
-    first = bisect_left(ends, l)
-    last = bisect_right(starts, r) - 1
-    if first >= last:
-        answer.append(t1)
-        continue
-    best = (cl(first, l, r) + cl(first + 1, l, r))
-    best = max(best, cl(last - 1, l, r) + cl(last, l, r))
-    best = max(best, range_max(first + 1, last - 2))
-    answer.append(t1 + best)
-```
-This loop iterates over each query range `[l, r]`, finds the first and last zero blocks that intersect with the query range, and calculates the maximum possible number of active sections after making a trade.
+- `t1 = s.count("1")`: total `'1'`s in the original string, used as base for every query.
+- `hmz` construction loop: extracts all zero blocks as `(start, end)` tuples.
+- `starts`, `ends`, `lengths`: separate arrays for binary search and length access.
+- `pair` loop: computes sum of lengths for each adjacent zero-block pair.
+- Segment tree build: `size` is the smallest power of two ≥ `len(pair)`; `seg` array of size `2*size`; leaves filled with `pair` values; internal nodes store max of children.
+- `range_max(left, right)`: standard iterative segment tree range maximum query (inclusive bounds).
+- `cl(index, l, r)`: returns the length of the intersection of zero block `index` with `[l, r]` (clipped length).
+- Query processing loop:
+   - `first = bisect_left(ends, l)`: first zero block that ends at or after `l`.
+   - `last = bisect_right(starts, r) - 1`: last zero block that starts at or before `r`.
+   - `if first >= last`: fewer than two intersecting zero blocks → trade impossible.
+   - `best` initialized with clipped sum of the first two intersecting zero blocks.
+   - `best` updated with clipped sum of the last two intersecting zero blocks.
+   - `best` updated with segment tree query over fully internal pairs (`first+1` to `last-2`).
+   - `answer.append(t1 + best)`.
 
 ## Dry Run
-Let's take the example `s = "0100"` and `queries = [[0, 3], [0, 2], [1, 3], [2, 3]]`. After preprocessing the string, we get `hmz = [(1, 1), (3, 3)]` and `pair = [2]`. The segment tree `seg` is then constructed, and the maximum pair value is calculated for each query range.
+Example: `s = "0100"`, `queries = [[0,3],[0,2],[1,3],[2,3]]`.
 
-| Query | First Zero Block | Last Zero Block | Best Trade |
-| --- | --- | --- | --- |
-| [0, 3] | 0 | 1 | 4 |
-| [0, 2] | 0 | 1 | 3 |
-| [1, 3] | 1 | 1 | 1 |
-| [2, 3] | 1 | 1 | 1 |
+- `t1 = 1`.
+- Zero blocks: `hmz = [(0,0), (2,3)]` → `starts=[0,2]`, `ends=[0,3]`, `lengths=[1,2]`.
+- `pair = [3]` (only one pair, index 0).
+- Segment tree: `size=1`, `seg=[0,3]`.
+
+**Query [0,3]**:
+- `first = bisect_left([0,3], 0) = 0`.
+- `last = bisect_right([0,2], 3) - 1 = 2 - 1 = 1`.
+- `first < last` → proceed.
+- `cl(0,0,3) = min(0,3)-max(0,0)+1 = 1`.
+- `cl(1,0,3) = min(3,3)-max(2,0)+1 = 2`.
+- `best = 1+2 = 3`.
+- `cl(last-1,0,3)+cl(last,0,3)` same → `best=3`.
+- `range_max(1, -1) = 0`.
+- Answer = `1+3=4`.
+
+**Query [0,2]**:
+- `first = bisect_left([0,3], 0) = 0`.
+- `last = bisect_right([0,2], 2) - 1 = 2 - 1 = 1`.
+- `cl(0,0,2)=1`, `cl(1,0,2)=min(3,2)-max(2,0)+1=1` → `best=2`.
+- `range_max(1,-1)=0`.
+- Answer = `1+2=3`.
+
+**Query [1,3]**:
+- `first = bisect_left([0,3], 1) = 1` (block (2,3) ends at 3 ≥ 1).
+- `last = bisect_right([0,2], 3) - 1 = 2 - 1 = 1`.
+- `first >= last` → answer = `t1 = 1`.
+
+**Query [2,3]**:
+- `first = bisect_left([0,3], 2) = 1`.
+- `last = bisect_right([0,2], 3) - 1 = 1`.
+- `first >= last` → answer = `1`.
+
+Output `[4,3,1,1]` matches example.
 
 ## Complexity
-The time complexity is O(n log n + q log q), where n is the length of the string `s` and q is the number of queries. This is because the preprocessing step takes O(n) time, and the segment tree construction and query operations take O(q log q) time. The space complexity is O(n + q), where n is the length of the string `s` and q is the number of queries. This is because we need to store the segment tree and the query results.
+- **Time**: `O(n + q log m)` where `n = len(s)`, `m = number of zero blocks (≤ n)`, `q = number of queries`.
+  - Scanning `s` and building arrays: `O(n)`.
+  - Segment tree build: `O(m)`.
+  - Each query: two binary searches `O(log m)` + segment tree query `O(log m)`.
+- **Space**: `O(n)` for zero-block arrays and segment tree (`O(m)`).
 
 ## Edge Cases
-The solution handles the following edge cases:
-- Empty string: The preprocessing step will return an empty list `hmz`, and the segment tree will not be constructed.
-- Single-element string: The preprocessing step will return a list `hmz` with a single element, and the segment tree will be constructed accordingly.
-- Duplicates: The solution handles duplicate queries by iterating over the query ranges and calculating the maximum possible number of active sections for each query.
+- **No zero blocks** (`m = 0`): `pair` empty, segment tree size 1 with zeros. For any query `first = 0`, `last = -1` → `first >= last` → answer `t1`. Correct because no `'1'` block can be surrounded by `'0'`s.
+- **Single zero block** (`m = 1`): `pair` empty, same logic → no trade possible.
+- **Query covers only part of a zero block**: `cl` correctly clips the length.
+- **Query boundaries exactly at zero-block edges**: binary searches handle inclusive/exclusive correctly (`bisect_left` on `ends`, `bisect_right` on `starts`).
+- **All `'1'`s string**: `t1 = n`, `m = 0` → all answers `n`.
+- **All `'0'`s string**: `t1 = 0`, `m = 1` → all answers `0`.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints. However, some minor improvements could be made, such as:
-- Using a more efficient data structure for storing the zero blocks, such as a linked list.
-- Optimizing the segment tree construction and query operations using more efficient algorithms, such as the " lazy propagation" technique.
-- Using parallel processing to speed up the query operations for large inputs.
+The solution is already optimal in asymptotic complexity for the given constraints. The segment tree could be replaced by a sparse table for `O(1)` queries (since `pair` is static), but `O(log m)` is fast enough and the code is simpler. Variable names are clear (`hmz`, `cl`, `pair`). No redundant passes or structures.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

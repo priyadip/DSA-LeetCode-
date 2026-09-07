@@ -1,47 +1,45 @@
 # 3513. Number of Unique XOR Triplets I - Solution Analysis
 
 ## Problem Understanding
-The problem involves finding the number of unique XOR triplet values from all possible triplets in a given integer array `nums` of length `n`. The array is a permutation of the numbers in the range `[1, n]`. A XOR triplet is defined as the XOR of three elements `nums[i] XOR nums[j] XOR nums[k]` where `i <= j <= k`. The solution should handle the case when `n <= 2` separately and consider the most significant bit in `n`'s binary representation to generate all numbers in a certain range.
+Given a permutation of integers `1..n`, we consider all triplets `(i, j, k)` with `i ≤ j ≤ k` and compute `nums[i] XOR nums[j] XOR nums[k]`. The task is to count how many distinct XOR values can be produced. The constraints (`n ≤ 10^5`) rule out any enumeration of triplets. The key observation is that for `n ≥ 3` the achievable XOR values are exactly all integers from `0` to `2^(msb(n)+1)-1`, where `msb(n)` is the index of the most significant bit of `n`. For `n = 1` and `n = 2` the counts are `1` and `2` respectively.
 
 ## Approach
-The solution uses the concept of bit manipulation and the properties of XOR operations to generate all possible XOR triplet values. Specifically, it leverages the fact that for `n >= 3`, all numbers in `[0, 2^(msb(n) + 1) - 1]` can be obtained using the given numbers. Here, `msb(n)` is the index of the most significant bit in `n`'s binary representation. The solution takes advantage of this property to directly calculate the number of unique XOR triplet values without generating all possible triplets.
+The solution uses a **mathematical derivation / bit manipulation** pattern. Brute force would be `O(n^3)` or `O(n^2)`, which is infeasible. The chosen approach exploits the fact that the set `{1, 2, …, n}` (with `n ≥ 3`) contains enough elements to generate every number up to the next power of two minus one via XOR of three (not necessarily distinct) elements. This reduces the problem to a constant-time formula: if `n ≤ 2` return `n`, else return `2^(bit_length(n))`. The key insight is that **for `n ≥ 3` the XOR of three elements from `1..n` can produce every integer in `[0, 2^(⌊log₂ n⌋+1)-1]`**.
 
 ## Algorithm
-1. Check if the length `n` of the input array `nums` is less than or equal to 2.
-2. If `n <= 2`, return `n` as the number of unique XOR triplet values.
-3. If `n > 2`, use the bit manipulation properties to calculate the number of unique XOR triplet values.
-4. Calculate `1 << n.bit_length()` to get the number of unique XOR triplet values.
+1. Let `n = len(nums)`.
+2. If `n ≤ 2`, return `n`.
+3. Otherwise, return `1 << n.bit_length()` (i.e., `2^(⌊log₂ n⌋+1)`).
 
 ## Line-by-Line Explanation
-```python
-if n <= 2:
-    return n
-```
-This line checks if the length `n` of the input array `nums` is less than or equal to 2 and returns `n` in that case, as there are `n` unique XOR triplet values when `n <= 2`.
-
-```python
-return 1 << n.bit_length()
-```
-This line calculates the number of unique XOR triplet values for `n > 2`. The expression `n.bit_length()` returns the number of bits necessary to represent `n` in binary, excluding the leading zeros and any leading ones. The expression `1 << n.bit_length()` shifts the binary representation of `1` to the left by `n.bit_length()` places, effectively calculating `2` to the power of `n.bit_length()`, which gives the number of unique XOR triplet values.
+- `n = len(nums)`: Obtains `n`; because `nums` is a permutation of `1..n`, the length equals the maximum value.
+- `if n <= 2:`: Handles the two base cases where the general pattern does not apply.
+- `return n`: For `n=1` the only triplet is `(1,1,1)` → `1`; for `n=2` the unique results are `{1,2}`.
+- `return 1 << n.bit_length()`: For `n ≥ 3`, `n.bit_length()` gives `⌊log₂ n⌋ + 1`; left-shifting `1` by that amount yields `2^(⌊log₂ n⌋+1)`, the count of all integers from `0` to that power of two minus one.
 
 ## Dry Run
-Let's consider an example with `nums = [1, 2, 3]`.
+Example 1: `nums = [1,2]` → `n = 2` → `n ≤ 2` → return `2`.
 
-| `n` | `n.bit_length()` | `1 << n.bit_length()` |
-| --- | --- | --- |
-| 3   | 2               | 4                   |
+Example 2: `nums = [3,1,2]` → `n = 3` → `n > 2` → `n.bit_length() = 2` → `1 << 2 = 4` → return `4`.
 
-In this case, `n.bit_length()` returns `2` because `3` can be represented in binary as `11`, which requires `2` bits. Therefore, `1 << n.bit_length()` returns `4`, indicating that there are `4` unique XOR triplet values.
+| Step | n | n.bit_length() | 1 << bit_length | Action |
+|------|---|----------------|-----------------|--------|
+| 1    | 3 | 2              | 4               | return 4 |
 
 ## Complexity
-The time complexity of this solution is O(1), as it involves a constant number of operations regardless of the input size `n`. The space complexity is also O(1), as it uses a constant amount of space to store the result. Here, `n` refers to the length of the input array `nums`. The solution's time and space complexity are justified by the fact that it only involves a few bitwise operations and does not generate all possible triplets or use any additional data structures that scale with the input size.
+- **Time:** `O(1)` – only a few arithmetic operations; `bit_length` is constant-time for bounded integers.
+- **Space:** `O(1)` – no extra data structures.
 
 ## Edge Cases
-This solution handles the edge cases where `n <= 2` by returning `n` as the number of unique XOR triplet values. For `n > 2`, it leverages the properties of XOR operations and bit manipulation to generate all possible XOR triplet values. However, if the constraints were relaxed to allow duplicates in the input array, the solution might fail to produce the correct result, as it relies on the assumption that the input array is a permutation of the numbers in the range `[1, n]`.
+- `n = 1`: returns `1` (only triplet `(1,1,1)`).
+- `n = 2`: returns `2` (triplets yield `{1,2}`).
+- `n = 3`: returns `4` (all values `0..3` achievable).
+- Maximum `n = 100000`: `bit_length = 17`, result `131072`, well within integer range.
+- The solution relies on `nums` being a permutation of `1..n`; if the array were arbitrary, the formula would not hold.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it uses a constant amount of time and space and does not involve any redundant operations. The use of bit manipulation and the properties of XOR operations enables it to efficiently calculate the number of unique XOR triplet values without generating all possible triplets. Therefore, no significant improvements can be made to the solution, and it can be considered optimal for the problem at hand.
+The solution is already optimal for the given constraints – it runs in constant time and space. No further algorithmic improvement is possible. A comment explaining the mathematical reasoning would aid readability but is not required for correctness.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
