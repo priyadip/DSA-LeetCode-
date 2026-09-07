@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 345,
+  "lang": "python3",
+  "latest_submission_id": 2133619472,
+  "memory": "20.4 MB",
+  "memory_percentile": 78.80169999999998,
+  "paid_only": false,
+  "question_id": 345,
+  "runner": null,
+  "runtime": "8 ms",
+  "runtime_percentile": 64.55770000000001,
+  "timestamp": 1788765758,
+  "title": "Reverse Vowels of a String",
+  "title_slug": "reverse-vowels-of-a-string",
+  "total_correct": 480,
+  "total_testcases": 480,
+  "url": "https://leetcode.com/problems/reverse-vowels-of-a-string/"
+}
