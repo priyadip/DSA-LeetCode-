@@ -1,37 +1,47 @@
 # 3731. Find Missing Elements - Solution Analysis
 
 ## Problem Understanding
-The problem involves finding missing integers within a certain range from a given array of unique integers. The smallest and largest integers of the original range are still present in the array. The goal is to return a sorted list of all missing integers in this range. The constraints specify that the array will have a minimum of 2 and a maximum of 100 elements, and each integer will be between 1 and 100.
+Given an array of unique integers where the smallest and largest values of the original contiguous range are still present, return a sorted list of every integer missing from that range. The array length is at most 100 and values are between 1 and 100, so the full range span is also bounded by 100.
 
 ## Approach
-The algorithmic pattern this solution uses is a combination of set data structure and list comprehension. The set data structure is used for efficient lookup of elements in the array, and list comprehension is used to generate the list of missing integers. This approach fits the problem because it allows for efficient checking of whether an integer is present in the array, which is necessary to identify the missing integers.
+Hash Set for membership testing. The brute-force approach would scan the array for each candidate in the range, costing O(n·range). Converting the array to a set reduces each lookup to O(1), making the overall complexity linear in the range size. The key insight is that because the minimum and maximum are guaranteed to exist in the input, we only need to test integers strictly between them.
 
 ## Algorithm
-The solution's method can be broken down into the following steps:
-1. Convert the input array into a set for efficient lookup of elements.
-2. Determine the range of integers that should be present in the array by finding the minimum and maximum elements.
-3. Use list comprehension to generate a list of missing integers by iterating over the range and checking if each integer is present in the set.
+1. Insert all elements of `nums` into a hash set `s`.
+2. Compute `lo = min(nums)` and `hi = max(nums)`.
+3. For each integer `y` from `lo + 1` up to `hi - 1` (inclusive), check if `y` is absent from `s`.
+4. Collect all such `y` into a list; the natural ascending iteration order ensures the result is sorted.
+5. Return the list.
 
 ## Line-by-Line Explanation
-The solution starts with the line `s = set(nums)`, which converts the input array `nums` into a set `s`. This allows for efficient lookup of elements in the array.
-The line `return [y for y in range(min(nums)+1, max(nums)) if y not in s]` uses list comprehension to generate a list of missing integers. It iterates over the range from the minimum element plus one to the maximum element (exclusive), and includes an integer in the output list if it is not present in the set `s`. The `min(nums)+1` and `max(nums)` expressions determine the range of integers that should be present in the array.
+- `s = set(nums)`: Builds a hash set of the input values for O(1) containment checks.
+- `return [y for y in range(min(nums)+1, max(nums)) if y not in s]`: Iterates over every integer strictly between the minimum and maximum, keeps those not found in the set, and returns them in ascending order.
 
 ## Dry Run
-Let's consider the example input `nums = [1,4,2,5]`.
-| Step | Range | Set | Missing Integers |
-| --- | --- | --- | --- |
-| 1   | [2, 5) | {1, 4, 2, 5} | - |
-| 2   | iterate over range | - | [3] |
+Example 1: `nums = [1,4,2,5]`
+
+| Step | y | s | y not in s | Result so far |
+|------|---|-----|------------|---------------|
+| 1 | 2 | {1,2,4,5} | False | [] |
+| 2 | 3 | {1,2,4,5} | True | [3] |
+| 3 | 4 | {1,2,4,5} | False | [3] |
+
+Loop ends, returns `[3]`.
 
 ## Complexity
-The time complexity is O(n), where n is the number of elements in the input array. This is because the solution involves converting the array into a set and iterating over the range of possible integers, both of which take linear time. The space complexity is also O(n), as the solution creates a set that contains all the elements of the input array.
+- Time: O(n + k), where n = len(nums) and k = max(nums) - min(nums). Building the set takes O(n), finding min and max each take O(n), and the loop runs k-1 times with O(1) set lookups. Given constraints (n ≤ 100, values ≤ 100), k ≤ 99, so this is effectively O(n).
+- Space: O(n) for the set storing all elements of `nums`.
 
 ## Edge Cases
-The solution handles edge cases such as an empty range (when the minimum and maximum elements are equal), and a range with no missing integers. However, it assumes that the input array will always contain at least two elements, as specified in the constraints. If the constraints were relaxed to allow for single-element arrays or empty arrays, the solution would need to be modified to handle these cases.
+- **No missing elements** (e.g., `[7,8,6,9]`): range is empty or all values present, returns `[]` correctly.
+- **Multiple missing elements** (e.g., `[5,1]`): range `2..4` yields `[2,3,4]`.
+- **Minimum array length (2)**: e.g., `[1,2]` → range `2..2` empty, returns `[]`.
+- **Already sorted / reverse sorted / unsorted**: order does not affect set or min/max.
+- **Constraints guarantee** length ≥ 2, unique values, and min/max present, so no empty-input or duplicate-handling issues.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints. However, one possible improvement could be to use a more descriptive variable name instead of `s` for the set. Additionally, the solution could be modified to handle cases where the input array is not guaranteed to contain the minimum and maximum elements of the range.
+The solution is already optimal for the given constraints. Time and space are both O(n), which is the best achievable since every element must be inspected. Using a fixed-size boolean array of length 101 would reduce space to O(1) (constant 101), but the improvement is negligible for n ≤ 100 and adds verbosity. The current variable name `s` could be `seen` for clarity, but the logic is sound and concise.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

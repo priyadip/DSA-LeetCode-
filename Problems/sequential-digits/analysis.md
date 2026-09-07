@@ -1,82 +1,69 @@
 # 1291. Sequential Digits - Solution Analysis
 
 ## Problem Understanding
-The problem requires finding all integers within a given range `[low, high]` that have sequential digits, where each digit is one more than the previous digit. The given range is `[10, 10^9]`, which means the numbers can have anywhere from 2 to 9 digits. The output should be a sorted list of these integers.
+We are given two integers `low` and `high` (10 ≤ low ≤ high ≤ 10⁹) and must return a sorted list of all integers in that range whose digits form a strictly increasing sequence where each digit is exactly one more than the previous (e.g., 123, 2345). The output must be sorted ascending. Duplicates cannot occur because each sequential-digit number is unique. The constraints guarantee non-empty input and a bounded range.
 
 ## Approach
-The solution uses a sliding window approach combined with string manipulation to generate all possible numbers with sequential digits and checks if they fall within the given range. The string "123456789" serves as a sequence of digits that are used to form numbers of different lengths.
+**Pattern:** Enumeration / Brute-force generation over a constant-sized search space.  
+**Why it fits:** There are only 36 possible sequential-digit numbers in total (sum of 10−length for length=2..9). Generating all candidates and filtering by range is vastly faster than scanning the interval [low, high] which could contain up to 10⁹ numbers.  
+**Brute-force cost:** O(high − low) time, up to 10⁹ operations.  
+**Chosen approach gain:** O(1) time (36 iterations) and O(1) auxiliary space.  
+**Key insight:** The set of all sequential-digit numbers is fixed and tiny (36 numbers), so we can pre-generate every candidate once and simply keep those inside [low, high].
 
 ## Algorithm
-1. Initialize an empty list `ans` to store the result.
-2. Iterate over all possible lengths of numbers from 2 to 9.
-3. For each length, iterate over all possible start indices `i` in the string "123456789".
-4. Generate the number by taking a substring of "123456789" from index `i` to `i + length`.
-5. Check if the generated number falls within the given range `[low, high]`.
-6. If it does, append the number to the `ans` list.
+1. Define the string `s = "123456789"` containing all consecutive digits.
+2. Initialise an empty list `ans`.
+3. For each possible digit `length` from 2 to 9:
+   a. For each starting index `i` from 0 to `9 - length` (inclusive):
+      i. Slice `s[i:i+length]`, convert to integer `num`.
+      ii. If `low ≤ num ≤ high`, append `num` to `ans`.
+4. Return `ans` (the generation order — increasing length, then increasing start digit — already yields ascending order).
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def sequentialDigits(self, low: int, high: int) -> List[int]:
-```
-This defines the class and method that will be used to solve the problem.
-```python
-s = "123456789"
-```
-This line initializes a string `s` that contains all the digits from 1 to 9 in sequence.
-```python
-ans = []
-```
-This initializes an empty list `ans` to store the numbers with sequential digits that fall within the given range.
-```python
-for length in range(2, 10):
-```
-This loop iterates over all possible lengths of numbers from 2 to 9 (because the minimum length is `log10(low) + 1` and the maximum length is `log10(high) + 1`, and for this problem, these values are between 2 and 9).
-```python
-for i in range(10 - length):
-```
-This loop iterates over all possible start indices `i` in the string `s`, taking into account the current length of the number.
-```python
-num = int(s[i:i + length])
-```
-This line generates the number by taking a substring of `s` from index `i` to `i + length` and converting it to an integer.
-```python
-if low <= num <= high:
-    ans.append(num)
-```
-This checks if the generated number falls within the given range and if it does, appends it to the `ans` list.
-```python
-return ans
-```
-This returns the list of numbers with sequential digits that fall within the given range.
+- `s = "123456789"`: source string to slice sequential numbers from.
+- `ans = []`: accumulator for valid numbers.
+- `for length in range(2, 10):`: iterate over all possible lengths (2 through 9 digits).
+- `for i in range(10 - length):`: iterate over valid starting positions for this length.
+- `num = int(s[i:i + length])`: build the candidate sequential number.
+- `if low <= num <= high:`: range check.
+- `ans.append(num)`: collect valid candidate.
+- `return ans`: return sorted result (order guaranteed by loops).
 
 ## Dry Run
-Let's consider the example where `low = 100` and `high = 300`. We can manually do a dry run of this code to see how the `ans` list would be populated:
+Example 1: `low = 100`, `high = 300`
 
-| length | i | num | in range? |
-| --- | --- | --- | --- |
-| 2 | 0 | 12 | no |
-| 2 | 1 | 23 | yes |
-| 2 | 2 | 34 | yes |
-| 2 | 3 | 45 | yes |
-| 2 | 4 | 56 | yes |
-| 2 | 5 | 67 | yes |
-| 2 | 6 | 78 | yes |
-| 2 | 7 | 89 | yes |
-| 3 | 0 | 123 | yes |
-| 3 | 1 | 234 | yes |
-| 3 | 2 | 345 | no |
-| ... | ... | ... | ... |
+| Step | length | i | substring | num | Action |
+|------|--------|---|-----------|-----|--------|
+| 1 | 2 | 0 | "12" | 12 | skip (< low) |
+| 2 | 2 | 1 | "23" | 23 | skip |
+| 3 | 2 | 2 | "34" | 34 | skip |
+| 4 | 2 | 3 | "45" | 45 | skip |
+| 5 | 2 | 4 | "56" | 56 | skip |
+| 6 | 2 | 5 | "67" | 67 | skip |
+| 7 | 2 | 6 | "78" | 78 | skip |
+| 8 | 2 | 7 | "89" | 89 | skip |
+| 9 | 3 | 0 | "123" | 123 | append |
+| 10 | 3 | 1 | "234" | 234 | append |
+| 11 | 3 | 2 | "345" | 345 | skip (> high) |
+| … | … | … | … | … | all further nums > 300 |
+
+Result: `[123, 234]`.
 
 ## Complexity
-The time complexity is O(1), as the loops run a constant number of times (from 2 to 9), and the string operations inside the loops also take constant time. The space complexity is O(1), as the input size `n` is the number of possible numbers with sequential digits within the range, and `n` is bounded by a constant (the number of possible numbers with lengths between 2 and 9).
+- **Time:** O(1) — the nested loops execute exactly 36 iterations (8+7+…+1) regardless of input size. Each iteration does O(1) work (slice, int conversion, comparison).
+- **Space:** O(1) auxiliary — only the fixed string `s` and a few variables. Output list holds at most 36 integers, which is also O(1) bounded by the problem constraints.
 
 ## Edge Cases
-The solution handles edge cases such as when `low` is equal to `high`, or when `low` and `high` have the same number of digits but are far apart. However, if the constraints were relaxed to allow `low` or `high` to be less than 10 or greater than 10^9, the solution might fail due to integer overflow or the inability to represent numbers with more than 9 digits.
+- **Full range** (`low=10, high=10⁹`): returns all 36 sequential numbers.
+- **Single valid number** (`low=high=123`): returns `[123]`.
+- **No valid numbers** (`low=100, high=100`): returns `[]`.
+- **Maximum sequential number** (`123456789`): included when `high ≥ 123456789`.
+- **Minimum length** (`low=10, high=12`): correctly returns `[12]` (length 2).
+- **Already sorted output**: generation order (increasing length, then increasing start digit) matches numeric ascending order, so no extra sort needed.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it only generates numbers with sequential digits and checks if they fall within the given range. However, for larger ranges, a more efficient approach might be needed, such as using a more efficient data structure or algorithm to generate the numbers. Additionally, error handling could be added to check for invalid input ranges or to handle cases where the input range is empty.
+The solution is already optimal for the given constraints — it runs in constant time and space. A micro-optimisation would be to break the inner loop early when `num > high` (since numbers increase with `i` for fixed `length`), but the gain is negligible (max 36 iterations). Pre-computing the 36 numbers as a class constant would avoid re-generating them on repeated calls, but LeetCode typically instantiates a new `Solution` per test case. No material improvement is necessary.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

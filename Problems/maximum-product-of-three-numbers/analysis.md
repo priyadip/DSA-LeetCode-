@@ -1,80 +1,68 @@
 # 628. Maximum Product of Three Numbers - Solution Analysis
 
 ## Problem Understanding
-The problem requires finding the maximum product of three numbers in an integer array. The array has a minimum length of 3 and a maximum length of 10^4. Each integer in the array is between -1000 and 1000. The goal is to identify the three numbers whose product is the largest.
+Given an integer array `nums` of length at least 3, find the maximum product of any three distinct elements (by index). The array may contain negative numbers, zeros, and positives. The maximum product is either the product of the three largest numbers or the product of the two smallest (most negative) numbers and the largest number. Constraints: `3 <= nums.length <= 10^4`, `-1000 <= nums[i] <= 1000`. An O(n) single-pass solution is optimal; sorting would be O(n log n) but unnecessary.
 
 ## Approach
-The algorithmic pattern used in this solution is the concept of tracking the maximum and minimum values seen so far. This approach fits the problem because the maximum product of three numbers can either be the product of the three largest numbers or the product of the two smallest numbers (which could be negative and thus yield a large product when multiplied together) and the largest number.
+The solution uses a **single-pass tracking of extreme values** (k largest and k smallest). This is a greedy/selection pattern. Brute force would check all triples in O(n³); sorting gives O(n log n). The chosen approach maintains the three largest (`fm`, `sm`, `tm`) and two smallest (`fmi`, `smi`) in one pass, then compares the two candidate products.  
+**Key insight:** The maximum product of three numbers in an array is either the product of the three largest numbers or the product of the two smallest numbers and the largest number.
 
 ## Algorithm
-1. Initialize variables to track the maximum and minimum values: `fm`, `sm`, `tm` (first maximum, second maximum, third maximum) and `fmi`, `smi` (first minimum, second minimum).
-2. Iterate through the input array, updating `fm`, `sm`, `tm`, `fmi`, and `smi` as more significant or smaller values are encountered.
-3. After iterating through the entire array, return the maximum of two possible products: the product of the two smallest numbers and the largest number (`fmi*smi*fm`), and the product of the three largest numbers (`fm*sm*tm`).
+1. Initialize `fm`, `sm`, `tm` to `-inf` (three largest) and `fmi`, `smi` to `+inf` (two smallest).
+2. For each `x` in `nums`:
+   - Update the three largest:
+     - If `x >= fm`: shift `tm = sm`, `sm = fm`, `fm = x`.
+     - Else if `x >= sm`: shift `tm = sm`, `sm = x`.
+     - Else if `x > tm`: `tm = x`.
+   - Update the two smallest:
+     - If `x <= fmi`: shift `smi = fmi`, `fmi = x`.
+     - Else if `x < smi`: `smi = x`.
+3. Compute `candidate1 = fmi * smi * fm` (two smallest × largest) and `candidate2 = fm * sm * tm` (three largest).
+4. Return `max(candidate1, candidate2)`.
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def maximumProduct(self, nums: List[int]) -> int:
-```
-This defines a class `Solution` with a method `maximumProduct` that takes a list of integers `nums` as input and returns an integer.
-
-```python
-fm = sm = tm = float('-inf')
-fmi = smi = float('inf')
-```
-These lines initialize `fm`, `sm`, and `tm` to negative infinity and `fmi` and `smi` to positive infinity, preparing them to track the maximum and minimum values encountered in the array.
-
-```python
-for x in nums:
-    if x>= fm:
-        tm = sm
-        sm = fm
-        fm = x
-    elif x>=sm:
-        tm = sm
-        sm = x
-    elif x > tm:
-        tm = x
-```
-This part updates the maximum values (`fm`, `sm`, `tm`) as the loop iterates through the array. If a value is greater than or equal to the current `fm`, it shifts `sm` and `tm` and updates `fm`. If not, but it's greater than or equal to `sm`, it updates `sm` and `tm` accordingly. Otherwise, if it's greater than `tm`, it updates `tm`.
-
-```python
-if x <= fmi:
-    smi = fmi
-    fmi = x
-elif x < smi:
-    smi = x
-```
-This section updates the minimum values (`fmi`, `smi`) in a similar manner to the maximum values, shifting `smi` and updating `fmi` if a value is less than or equal to `fmi`, or updating `smi` if the value is less than `smi`.
-
-```python
-return max(fmi*smi*fm, fm*sm*tm)
-```
-Finally, the function returns the maximum of the two possible products: the product of the two smallest numbers and the largest number (`fmi*smi*fm`), and the product of the three largest numbers (`fm*sm*tm`).
+- `fm = sm = tm = float('-inf')`: Initialize three maximum trackers to negative infinity.
+- `fmi = smi = float('inf')`: Initialize two minimum trackers to positive infinity.
+- `for x in nums:`: Iterate over each element.
+- `if x >= fm:`: Current number is a new maximum (or equal); shift previous maxima down.
+- `tm = sm; sm = fm; fm = x`: Perform the shift: third←second, second←first, first←x.
+- `elif x >= sm:`: x is between first and second max; update second and third.
+- `tm = sm; sm = x`: Shift second to third, set second to x.
+- `elif x > tm:`: x is only larger than third max.
+- `tm = x`: Update third max.
+- `if x <= fmi:`: Current number is a new minimum (or equal); shift previous minima.
+- `smi = fmi; fmi = x`: Shift second min to first min, set first min to x.
+- `elif x < smi:`: x is between first and second min.
+- `smi = x`: Update second min.
+- `return max(fmi*smi*fm, fm*sm*tm)`: Return the larger of the two candidate products.
 
 ## Dry Run
-Let's consider an example with the input `[1, 2, 3, -4, -5]`. The state evolves as follows:
+Example: `nums = [1,2,3,4]`
 
-| Iteration | x | fm | sm | tm | fmi | smi |
-| --- | --- | --- | --- | --- | --- | --- |
-| Initial | - | -inf | -inf | -inf | inf | inf |
-| 1 | 1 | 1 | -inf | -inf | 1 | inf |
-| 2 | 2 | 2 | 1 | -inf | 1 | 1 |
-| 3 | 3 | 3 | 2 | 1 | 1 | 1 |
-| 4 | -4 | 3 | 2 | 1 | -4 | 1 |
-| 5 | -5 | 3 | 2 | 1 | -5 | -4 |
+| Step | x | fm | sm | tm | fmi | smi | Action |
+|------|---|----|----|----|-----|-----|--------|
+| 0 | – | -inf | -inf | -inf | inf | inf | init |
+| 1 | 1 | 1 | -inf | -inf | 1 | inf | x≥fm, x≤fmi |
+| 2 | 2 | 2 | 1 | -inf | 1 | 2 | x≥fm, x<smi |
+| 3 | 3 | 3 | 2 | 1 | 1 | 2 | x≥fm |
+| 4 | 4 | 4 | 3 | 2 | 1 | 2 | x≥fm |
 
-After the loop, `fm=3`, `sm=2`, `tm=1`, `fmi=-5`, and `smi=-4`. The function then returns the maximum of `(-5)*(-4)*3 = 60` and `3*2*1 = 6`, which is `60`.
+Candidates: `fmi*smi*fm = 1*2*4 = 8`, `fm*sm*tm = 4*3*2 = 24`. Return `24`.
 
 ## Complexity
-The time complexity is O(n), where n refers to the length of the input array `nums`, because the solution involves a single pass through the array. The space complexity is O(1), as the solution uses a constant amount of space to store the maximum and minimum values, regardless of the size of the input array.
+- **Time:** O(n) – one pass through the array, constant work per element.
+- **Space:** O(1) – only five variables used, independent of input size.
 
 ## Edge Cases
-This solution handles the boundary conditions such as empty input (though the problem statement guarantees the array will have at least 3 elements), single element (again, the problem statement ensures this does not occur), duplicates, and maximum size. However, if the constraints were relaxed to allow fewer than 3 elements, the solution would fail because it does not check for these cases. Additionally, if the array can contain extremely large or small numbers, there is a risk of overflow when calculating the products.
+- **All negatives:** e.g., `[-5,-4,-3,-2,-1]` → three largest (-1,-2,-3) give -6; two smallest (-5,-4) × largest (-1) give -20; max is -6. Handled correctly.
+- **Mixed signs:** e.g., `[-10,-10,1,2,3]` → two smallest (-10,-10) × largest (3) = 300; three largest (3,2,1) = 6; max 300. Handled.
+- **Zeros:** e.g., `[0,0,0,1]` → both candidates 0. Handled.
+- **Duplicates:** Conditions use `>=` and `<=`, so duplicates are properly placed in the top three / bottom two.
+- **Minimum length (3):** After three iterations all five trackers hold real values; no `-inf`/`inf` remains in the final product.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, with a linear time complexity and constant space complexity. However, to make the code more robust, it could include error checking to handle cases where the input array has fewer than 3 elements or where the numbers are outside the specified range. This would ensure the function behaves correctly even when given invalid input.
+The solution is already optimal for the given constraints: O(n) time and O(1) space. Variable names could be more descriptive (e.g., `max1, max2, max3, min1, min2`), but this is purely stylistic. No algorithmic improvement is needed.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

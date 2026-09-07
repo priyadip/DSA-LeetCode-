@@ -1,56 +1,55 @@
 # 3016. Minimum Number of Pushes to Type Word II - Solution Analysis
 
 ## Problem Understanding
-The problem requires finding the minimum number of key pushes to type a given word on a telephone keypad. The keypad has 8 keys that can be remapped to distinct collections of letters, with each letter mapped to exactly one key. The goal is to minimize the total number of key pushes required to type the word.
+We are given a string `word` of lowercase letters. We can remap the 8 keys (2–9) to any disjoint sets of letters; each letter must appear on exactly one key. Typing a letter requires pushing its key a number of times equal to its 1‑based position in that key’s set. The goal is to minimize the total number of pushes needed to type `word`. The length of `word` is up to 10⁵, and only 26 distinct letters exist, so the number of unique characters is bounded by a small constant.
 
 ## Approach
-The solution uses a frequency counting and sorting approach, followed by a summation calculation. It first counts the frequency of each letter in the word and then sorts these frequencies in non-increasing order. The optimal mapping is achieved by assigning the most frequent letters to the shortest sequences of pushes, which corresponds to the first 8 keys.
+The solution uses a **greedy** strategy combined with **counting** and **sorting**.  
+Brute force would try all partitions of letters across 8 keys, which is exponential. The key insight is that to minimize the weighted sum of pushes, the most frequent letters should be assigned the smallest push counts. Since there are 8 keys, we can place up to 8 letters at push count 1, the next 8 at push count 2, and so on. Sorting the frequencies in descending order and assigning push counts in rounds of 8 achieves this optimal assignment.
 
 ## Algorithm
-The solution's method can be broken down into the following steps:
-1. Count the frequency of each letter in the word.
-2. Sort the frequencies in non-increasing order.
-3. Calculate the minimum number of key pushes by summing the product of each frequency and its corresponding push count (determined by its position in the sorted list).
+1. Count the frequency of each character in `word`.
+2. Sort the frequencies in non‑increasing order.
+3. For each frequency at index `i` (0‑based), its push count is `i // 8 + 1` (first 8 letters get 1 push, next 8 get 2 pushes, etc.).
+4. Multiply each frequency by its push count and sum the products.
+5. Return the total sum.
 
 ## Line-by-Line Explanation
-The given code can be explained as follows:
-```python
-class Solution:
-    def minimumPushes(self, word: str) -> int:
-```
-This defines a class `Solution` with a method `minimumPushes` that takes a string `word` as input.
-```python
-freq = sorted(Counter(word).values(), reverse = True)
-```
-This line counts the frequency of each letter in the word using the `Counter` class and then sorts these frequencies in non-increasing order using the `sorted` function with the `reverse=True` argument.
-```python
-return sum(f*(i//8 + 1) for i,f in enumerate(freq))
-```
-This line calculates the minimum number of key pushes by summing the product of each frequency `f` and its corresponding push count `(i//8 + 1)`, which is determined by its position `i` in the sorted list.
+- `freq = sorted(Counter(word).values(), reverse = True)`: Builds a frequency map of the characters, extracts the counts, and sorts them descending so the most frequent letters are first.
+- `return sum(f*(i//8 + 1) for i,f in enumerate(freq))`: Iterates over the sorted frequencies with index `i`; `i // 8 + 1` computes the push count for that letter (1 for indices 0–7, 2 for 8–15, …). The product `f * push_count` is the total pushes contributed by that letter, and the sum over all letters is the minimum possible.
 
 ## Dry Run
-Let's consider an example with the word `"xyzxyzxyzxyz"`. The frequencies of the letters would be `{'x': 4, 'y': 4, 'z': 4}`. After sorting, the frequencies would be `[4, 4, 4]`. The calculation of the minimum number of key pushes would be as follows:
+Example 3: `word = "aabbccddeeffgghhiiiiii"`  
+Frequencies: `a:2, b:2, c:2, d:2, e:2, f:2, g:2, h:2, i:6` → sorted descending: `[6, 2, 2, 2, 2, 2, 2, 2, 2]`
 
-| Position `i` | Frequency `f` | Push Count | Product |
-| --- | --- | --- | --- |
-| 0 | 4 | 1 | 4 |
-| 1 | 4 | 1 | 4 |
-| 2 | 4 | 1 | 4 |
+| Step | i | f   | push = i//8+1 | Contribution | Running Sum |
+|------|---|-----|---------------|--------------|-------------|
+| 1    | 0 | 6   | 1             | 6            | 6           |
+| 2    | 1 | 2   | 1             | 2            | 8           |
+| 3    | 2 | 2   | 1             | 2            | 10          |
+| 4    | 3 | 2   | 1             | 2            | 12          |
+| 5    | 4 | 2   | 1             | 2            | 14          |
+| 6    | 5 | 2   | 1             | 2            | 16          |
+| 7    | 6 | 2   | 1             | 2            | 18          |
+| 8    | 7 | 2   | 1             | 2            | 20          |
+| 9    | 8 | 2   | 2             | 4            | 24          |
 
-The total number of key pushes would be `4 + 4 + 4 = 12`.
+Result: 24, matching the example.
 
 ## Complexity
-The time complexity of this solution is O(n log n), where n is the number of unique letters in the word. This is due to the sorting operation. The space complexity is O(n), where n is the number of unique letters in the word, as we need to store the frequencies of each letter.
+- **Time**: O(n) where n = len(word). Counting is O(n); sorting at most 26 frequencies is O(1) (constant upper bound).
+- **Space**: O(1). The counter and frequency list hold at most 26 entries.
 
 ## Edge Cases
-The solution handles edge cases such as:
-- Empty input: The solution would return 0, as there are no letters to type.
-- Single element: The solution would return 1, as there is only one letter to type.
-- Duplicates: The solution would correctly count the frequency of each letter and assign the most frequent letters to the shortest sequences of pushes.
+- **Single character** (e.g., `"a"`): frequency list `[1]`, push count 1 → sum 1.
+- **All characters identical** (e.g., `"aaaaa"`): frequency `[5]`, push count 1 → sum 5.
+- **More than 8 distinct letters**: push counts correctly increase after every 8 letters (e.g., 9 distinct letters → one letter gets 2 pushes).
+- **Maximum input size (10⁵)**: linear pass and constant extra work easily fit within limits.
+- The constraints guarantee at least one character, so empty input is not a concern.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it uses a straightforward and efficient approach to calculate the minimum number of key pushes. However, the solution could be improved by adding error handling for invalid inputs, such as non-string inputs or inputs containing non-lowercase letters.
+The solution is already optimal for the given constraints. Time and space are both optimal (O(n) time, O(1) space). The code is concise and uses clear variable names (`freq`, `i`, `f`). No material improvement is needed.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

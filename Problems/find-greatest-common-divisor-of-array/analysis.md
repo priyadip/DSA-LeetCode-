@@ -1,46 +1,54 @@
 # 1979. Find Greatest Common Divisor of Array - Solution Analysis
 
 ## Problem Understanding
-The problem asks us to find the greatest common divisor (GCD) of the smallest and largest numbers in a given integer array. The array has a length between 2 and 1000, and each element is between 1 and 1000. This means that the GCD of the smallest and largest numbers in the array will be a divisor of both numbers, and the largest such divisor.
+The problem asks for the greatest common divisor (GCD) of the smallest and largest values in an integer array `nums`. The array length is 2–1000 and each element is 1–1000. Only the minimum and maximum matter; duplicates, order, and other values are irrelevant. The constraints are small enough that any correct GCD method passes, but the optimal approach is a single pass for min/max followed by a logarithmic GCD computation.
 
 ## Approach
-This solution uses the built-in `gcd` function in Python, which implements the Euclidean algorithm to calculate the GCD of two numbers. This approach fits the problem because the Euclidean algorithm is an efficient way to find the GCD of two numbers, with a time complexity of O(log min(a, b)), where a and b are the two numbers.
+The solution uses the **Euclidean Algorithm** (via Python's built-in `math.gcd`) combined with a **single-pass min/max scan** (via built-in `min`/`max`). The brute-force alternative would test every integer from 1 to `min(nums)` for divisibility, costing O(min(nums)) = O(1000) time. The chosen approach reduces the GCD step to O(log min(a,b)) and the scan to O(n), which is asymptotically faster and simpler.  
+**Key insight:** The GCD of the whole array's min and max is the answer; we never need the GCD of all elements.
 
 ## Algorithm
-Here are the steps of the algorithm:
-1. Find the minimum number in the array using the `min` function.
-2. Find the maximum number in the array using the `max` function.
-3. Calculate the GCD of the minimum and maximum numbers using the `gcd` function.
-4. Return the result as the GCD of the array.
+1. Compute `mn = min(nums)` — the smallest element.
+2. Compute `mx = max(nums)` — the largest element.
+3. Return `gcd(mn, mx)` — the greatest common divisor of those two values.
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def findGCD(self, nums: List[int]) -> int:
-```
-This line defines a class `Solution` with a method `findGCD` that takes a list of integers `nums` as input and returns an integer.
-```python
-return gcd(min(nums), max(nums))
-```
-This line uses the built-in `min` and `max` functions to find the smallest and largest numbers in the array, and then uses the `gcd` function to calculate the GCD of these two numbers. The result is returned directly.
+- `class Solution:`: LeetCode-required class wrapper.
+- `def findGCD(self, nums: List[int]) -> int:`: Method signature; `nums` is the input array.
+- `return gcd(min(nums), max(nums))`: Calls `min` and `max` (each O(n)) to find the extremes, then `math.gcd` (O(log min(mn,mx))) to compute their GCD, and returns it directly.
 
 ## Dry Run
-Let's take the example input `nums = [2,5,6,9,10]`. Here's how the solution would execute:
-| Step | Input | Output |
-| --- | --- | --- |
-| Find min and max | `[2,5,6,9,10]` | `min = 2`, `max = 10` |
-| Calculate GCD | `min = 2`, `max = 10` | `gcd(2, 10) = 2` |
-The final output would be `2`, which is the GCD of the smallest and largest numbers in the array.
+Example 1: `nums = [2,5,6,9,10]`
+
+| Step | mn | mx | gcd(mn, mx) | Action |
+|------|----|----|-------------|--------|
+| 1    | 2  | 10 | 2           | return 2 |
+
+Example 2: `nums = [7,5,6,8,3]`
+
+| Step | mn | mx | gcd(mn, mx) | Action |
+|------|----|----|-------------|--------|
+| 1    | 3  | 8  | 1           | return 1 |
+
+Example 3: `nums = [3,3]`
+
+| Step | mn | mx | gcd(mn, mx) | Action |
+|------|----|----|-------------|--------|
+| 1    | 3  | 3  | 3           | return 3 |
 
 ## Complexity
-The time complexity of this solution is O(n), where n is the length of the input array, because finding the minimum and maximum numbers takes linear time. The space complexity is O(1), because only a constant amount of space is used to store the minimum and maximum numbers and the result.
+- **Time:** O(n) — `min` and `max` each scan the array once (2n operations), and `gcd` runs in O(log min(mn,mx)) ≤ O(log 1000) = O(1). Dominated by the linear scan.
+- **Space:** O(1) — only a few integer variables; no auxiliary data structures.
 
 ## Edge Cases
-This solution handles edge cases such as empty arrays (which would raise an error) and arrays with duplicate elements (which would work correctly). However, if the constraints were relaxed to allow for arrays with a single element, the solution would still work correctly because the GCD of a single number is the number itself.
+- **All elements equal** (e.g., `[5,5,5]`): `mn = mx = 5`, `gcd(5,5) = 5` — correct.
+- **Minimum is 1** (e.g., `[1, 1000]`): `gcd(1, 1000) = 1` — correct, since 1 divides everything.
+- **Two elements only** (minimum length per constraints): `min`/`max` still work; `gcd` handles two numbers.
+- **Already sorted or reverse sorted**: `min`/`max` are unaffected by order.
 
 ## Possible Improvements
-This solution is already optimal for the given constraints, because it uses built-in functions to find the minimum and maximum numbers and to calculate the GCD. However, if the input array were very large, a more efficient solution might be to use a single pass to find the minimum and maximum numbers, rather than using the `min` and `max` functions separately.
+The solution is already optimal for the given constraints. It uses Python's built-in functions which are implemented in C and highly optimized. Manually implementing the Euclidean algorithm would be slower in Python and adds no value. No redundant passes or structures exist. The only stylistic note is that `from math import gcd` is implicit in the LeetCode environment; in a standalone script the import would be required.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
