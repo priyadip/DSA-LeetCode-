@@ -1,47 +1,52 @@
 # 3014. Minimum Number of Pushes to Type Word I - Solution Analysis
 
 ## Problem Understanding
-The problem is to find the minimum number of pushes needed to type a given string `word` on a telephone keypad, where each key can be remapped to a distinct collection of letters. The string `word` contains distinct lowercase English letters. The constraints are that the length of `word` is between 1 and 26, and all letters in `word` are distinct.
+We are given a string `word` of distinct lowercase letters (length 1 to 26). There are 8 keys (2–9) that can be remapped to any disjoint sets of letters. Typing a letter requires pressing its key a number of times equal to the letter’s 1‑based position in that key’s set. Since every letter in `word` appears exactly once, the total pushes equals the sum of the positions assigned to each letter. We can place at most 8 letters in position 1 (one per key), at most 8 in position 2, etc. The goal is to minimise this sum.
 
 ## Approach
-The solution uses a greedy algorithmic pattern. It fits the problem because the optimal way to map letters to keys is to distribute them as evenly as possible across the keys. By doing so, the solution minimizes the number of pushes required to type the string `word`. This approach is similar to the concept of distributing items into bins in order to minimize the maximum load.
+The algorithmic pattern is **Greedy**. A brute‑force search over all assignments would be exponential. The greedy insight: because each letter contributes its position cost exactly once, the sum is minimised by filling the cheapest positions first. With 8 keys we have 8 slots at cost 1, 8 slots at cost 2, 8 slots at cost 3, and the remaining slots at cost 4 (since 26 ≤ 8·3 + 2). Therefore we simply assign the first 8 letters to cost 1, the next 8 to cost 2, the next 8 to cost 3, and any leftovers to cost 4.
 
 ## Algorithm
-The solution's method can be broken down into the following steps:
-1. Calculate the number of characters that can be typed with one push.
-2. Calculate the number of characters that can be typed with two pushes, if any.
-3. Calculate the number of characters that can be typed with three pushes, if any.
-4. Calculate the number of characters that can be typed with four pushes, if any.
-5. Calculate the total number of pushes by summing up the products of the number of characters and the corresponding number of pushes.
+1. Let `n = len(word)`.
+2. The first `min(n, 8)` letters incur 1 push each.
+3. The next `max(0, min(n - 8, 8))` letters incur 2 pushes each.
+4. The next `max(0, min(n - 16, 8))` letters incur 3 pushes each.
+5. Any remaining `max(0, n - 24)` letters incur 4 pushes each.
+6. Return the sum of these four products.
 
 ## Line-by-Line Explanation
-The line `n = len(word)` calculates the length of the string `word`.
-The line `return (min(n, 8) + max(0, min(n - 8, 8)) * 2 + max(0, min(n - 16, 8)) * 3 + max(0, n - 24) * 4)` calculates the total number of pushes using the steps outlined in the algorithm section. 
-- `min(n, 8)` calculates the number of characters that can be typed with one push.
-- `max(0, min(n - 8, 8)) * 2` calculates the number of pushes for the characters that require two pushes.
-- `max(0, min(n - 16, 8)) * 3` calculates the number of pushes for the characters that require three pushes.
-- `max(0, n - 24) * 4` calculates the number of pushes for the characters that require four pushes.
+- `n = len(word)`: number of distinct letters to assign.
+- `min(n, 8)`: count of letters that fit in the first position (cost 1).
+- `max(0, min(n - 8, 8)) * 2`: after using up to 8 first‑position slots, up to 8 more letters go to the second position (cost 2).
+- `max(0, min(n - 16, 8)) * 3`: after 16 slots, up to 8 more go to the third position (cost 3).
+- `max(0, n - 24) * 4`: letters beyond 24 (at most 2) go to the fourth position (cost 4).
+- The `return` sums these four terms to give the minimum total pushes.
 
 ## Dry Run
-Let's consider the example where `word = "abcde"`.
-| Step | Calculation | Value |
-| --- | --- | --- |
-| 1 | `n = len(word)` | `n = 5` |
-| 2 | `min(n, 8)` | `5` |
-| 3 | `max(0, min(n - 8, 8))` | `0` |
-| 4 | `max(0, min(n - 16, 8))` | `0` |
-| 5 | `max(0, n - 24)` | `0` |
-| 6 | Total pushes | `5` |
+Example 2: `word = "xycdefghij"` → `n = 10`.
+
+| n | min(n,8) | max(0,min(n-8,8)) | max(0,min(n-16,8)) | max(0,n-24) | Total |
+|---|----------|-------------------|--------------------|-------------|-------|
+|10 | 8        | min(2,8)=2 → 4    | min(-6,8)=0 → 0    | 0           | 12    |
+
+The first 8 letters cost 1 each (8), the next 2 cost 2 each (4), total 12.
 
 ## Complexity
-The time complexity is O(1), because the solution involves a constant number of operations regardless of the size of the input `word`. The space complexity is also O(1), because the solution uses a constant amount of space to store the variables.
+- **Time**: O(1) – a constant number of arithmetic operations, independent of `n` (which is bounded by 26).
+- **Space**: O(1) – only a few integer variables.
 
 ## Edge Cases
-The solution handles the edge cases where the length of `word` is 1, 8, 16, 24, or between 1 and 26. However, it may not handle cases where the length of `word` is greater than 26 or where the string `word` contains duplicate letters.
+- `n = 1`: returns 1 (only one letter, cost 1).
+- `n = 8`: returns 8 (all letters in first position).
+- `n = 9`: returns 10 (8·1 + 1·2).
+- `n = 16`: returns 24 (8·1 + 8·2).
+- `n = 24`: returns 48 (8·1 + 8·2 + 8·3).
+- `n = 26`: returns 56 (8·1 + 8·2 + 8·3 + 2·4).
+All cases are covered by the `max(0, …)` guards; no negative contributions occur.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it maps the letters to keys in the most efficient way possible. No further improvements are needed.
+The solution is already optimal for the given constraints. It implements the greedy insight in a closed‑form O(1) formula with no redundant work. A loop‑based version would be more general if the number of keys or maximum letters changed, but for this fixed problem the direct formula is ideal.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

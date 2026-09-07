@@ -1,82 +1,78 @@
 # 879. Profitable Schemes - Solution Analysis
 
 ## Problem Understanding
-The problem is about determining the number of schemes that can be chosen from a list of crimes, where each crime generates a profit and requires a certain number of members to participate. The scheme must generate at least a minimum profit and the total number of members participating in the scheme cannot exceed a given limit. The number of schemes is calculated modulo 10^9 + 7 to handle large results.
+We have `n` members and a list of crimes; crime `i` requires `group[i]` members and yields `profit[i]` profit. A member can participate in at most one crime. We need to count the number of subsets of crimes (schemes) such that the total members used ≤ `n` and the total profit ≥ `minProfit`. The answer is returned modulo 10⁹+7. Constraints: `n ≤ 100`, `minProfit ≤ 100`, up to 100 crimes, each `group[i] ≤ 100`, `profit[i] ≤ 100`. These bounds make a three‑dimensional DP (crime index, members used, profit capped at `minProfit`) feasible.
 
 ## Approach
-This solution uses a recursive approach with memoization, which is a form of dynamic programming. The recursive function tries two possibilities for each crime: either participate in the crime or not. The memoization ensures that the results of subproblems are stored and reused to avoid redundant calculations. This approach is suitable for this problem because it allows for efficient exploration of all possible schemes.
+The solution uses **top‑down dynamic programming with memoization** (recursion + `@cache`). This is a 0/1 knapsack variant with two constraints (members and profit) where we count subsets instead of maximizing value.  
+Brute force would enumerate all 2¹⁰⁰ subsets – impossible. The DP reduces the state space to `O(len(group) * n * minProfit)` ≈ 10⁶ states.  
+**Key insight:** Profit beyond `minProfit` is irrelevant for the “at least” condition, so we can cap accumulated profit at `minProfit`, turning the profit dimension into a small bounded range.
 
 ## Algorithm
-The algorithm can be broken down into the following steps:
-1. Define a recursive function `fn` that takes three parameters: the current index `i`, the current number of members `p`, and the current minimum profit `minc`.
-2. Base case: if the current index is greater than or equal to the length of the `group` list, return 1 if the minimum profit is achieved, otherwise return 0.
-3. Recursive case: calculate the number of ways to achieve the minimum profit without participating in the current crime, and add it to the number of ways to achieve the minimum profit by participating in the current crime, if possible.
-4. Apply memoization to the recursive function to store and reuse the results of subproblems.
+1. Define a recursive function `fn(i, p, minc)` returning the number of valid schemes considering crimes from index `i` onward, given that `p` members have already been used and the accumulated profit (capped at `minProfit`) is `minc`.
+2. **Base case:** If `i == len(group)`, return `1` if `minc == minProfit` (i.e., target profit reached) else `0`.
+3. **Skip crime `i`:** Add `fn(i+1, p, minc)` to the answer.
+4. **Take crime `i` (if possible):** If `p + group[i] ≤ n`, compute `new_minc = min(minProfit, minc + profit[i])` and add `fn(i+1, p + group[i], new_minc)`.
+5. Return the sum modulo `10⁹+7`.
+6. The final answer is `fn(0, 0, 0)`.
 
 ## Line-by-Line Explanation
-```python
-from functools import cache
-```
-This line imports the `cache` decorator from the `functools` module, which is used to memoize the recursive function.
-```python
-@cache
-def fn(i, p, minc):
-```
-This line defines the recursive function `fn` with memoization. The function takes three parameters: `i`, `p`, and `minc`, which represent the current index, the current number of members, and the current minimum profit, respectively.
-```python
-if i >= len(group):
-    return 1 if minc == minProfit else 0
-```
-This line checks if the current index is greater than or equal to the length of the `group` list. If so, it returns 1 if the minimum profit is achieved, otherwise it returns 0.
-```python
-ways = fn(i+1,p,minc)
-```
-This line calculates the number of ways to achieve the minimum profit without participating in the current crime by recursively calling the `fn` function with the next index.
-```python
-if p+group[i]<=n:
-    new = min(minProfit, minc+profit[i])
-    ways+= fn(i+1, p+group[i], new)
-```
-This line checks if the current number of members plus the number of members required for the current crime does not exceed the limit `n`. If so, it calculates the new minimum profit by adding the profit of the current crime to the current minimum profit, and recursively calls the `fn` function with the updated parameters.
-```python
-return ways%mod
-```
-This line returns the total number of ways to achieve the minimum profit, modulo 10^9 + 7.
-```python
-return fn(0,0,0)
-```
-This line calls the recursive function with the initial parameters (0, 0, 0) and returns the result.
+- `mod = 10**9 + 7`: Modulus for the result.
+- `@cache`: Memoizes `fn` so each state `(i, p, minc)` is computed once.
+- `def fn(i, p, minc):`: State parameters – crime index, members used, capped profit.
+- `if i >= len(group): return 1 if minc == minProfit else 0`: Base case – no more crimes; count this scheme only if profit target met.
+- `ways = fn(i+1, p, minc)`: Count schemes that skip the current crime.
+- `if p + group[i] <= n:`: Check if we have enough members left to commit this crime.
+- `new = min(minProfit, minc + profit[i])`: Update profit, capping at `minProfit`.
+- `ways += fn(i+1, p + group[i], new)`: Add schemes that include this crime.
+- `return ways % mod`: Apply modulus and return.
+- `return fn(0, 0, 0)`: Start with no crimes considered, 0 members used, 0 profit.
 
 ## Dry Run
-Let's consider an example where `n = 5`, `minProfit = 3`, `group = [2,2]`, and `profit = [2,3]`. The dry run would proceed as follows:
+Example 1: `n = 5, minProfit = 3, group = [2,2], profit = [2,3]`.
 
-| i | p | minc | ways |
-| --- | --- | --- | --- |
-| 0 | 0 | 0 | ? |
-| 1 | 0 | 0 | fn(1, 0, 0) |
-| 1 | 0 | 0 | fn(2, 0, 0) + fn(2, 2, min(3, 0+2)) |
-| 2 | 0 | 0 | 1 (if minc == minProfit) or 0 (otherwise) |
-| 2 | 2 | min(3, 0+2) | 1 (if minc == minProfit) or 0 (otherwise) |
+We trace the memoized states in post‑order (base cases first, then `i=1`, then `i=0`). Only reachable states are shown.
+
+| i | p | minc | Computation (ways) | Returned |
+|---|---|------|---------------------|----------|
+| 2 | 0 | 0    | base: minc≠3        | 0 |
+| 2 | 0 | 2    | base: minc≠3        | 0 |
+| 2 | 0 | 3    | base: minc==3       | 1 |
+| 2 | 2 | 0    | base: minc≠3        | 0 |
+| 2 | 2 | 2    | base: minc≠3        | 0 |
+| 2 | 2 | 3    | base: minc==3       | 1 |
+| 2 | 4 | 0    | base: minc≠3        | 0 |
+| 2 | 4 | 2    | base: minc≠3        | 0 |
+| 2 | 4 | 3    | base: minc==3       | 1 |
+| 1 | 0 | 0    | fn(2,0,0) + fn(2,2,3) = 0+1 | 1 |
+| 1 | 0 | 2    | fn(2,0,2) + fn(2,2,3) = 0+1 | 1 |
+| 1 | 0 | 3    | fn(2,0,3) + fn(2,2,3) = 1+1 | 2 |
+| 1 | 2 | 0    | fn(2,2,0) + fn(2,4,3) = 0+1 | 1 |
+| 1 | 2 | 2    | fn(2,2,2) + fn(2,4,3) = 0+1 | 1 |
+| 1 | 2 | 3    | fn(2,2,3) + fn(2,4,3) = 1+1 | 2 |
+| 1 | 4 | 0    | fn(2,4,0) = 0 | 0 |
+| 1 | 4 | 2    | fn(2,4,2) = 0 | 0 |
+| 1 | 4 | 3    | fn(2,4,3) = 1 | 1 |
+| 0 | 0 | 0    | fn(1,0,0) + fn(1,2,2) = 1+1 | **2** |
+
+Final answer: 2.
 
 ## Complexity
-The time complexity is O(n * minProfit * len(group)), where n is the number of members, minProfit is the minimum profit, and len(group) is the number of crimes. This is because the recursive function explores all possible combinations of crimes, and the memoization ensures that each subproblem is solved only once.
-The space complexity is O(n * minProfit * len(group)) due to the memoization, as the recursive function stores the results of all subproblems in a cache.
+- **Time:** `O(len(group) * n * minProfit)` – each of the at most `101 * 101 * 101 ≈ 10⁶` states is computed once with `O(1)` work.
+- **Space:** `O(len(group) * n * minProfit)` for the memoization cache, plus `O(len(group))` recursion depth (≤ 100).
 
 ## Edge Cases
-The solution handles the following edge cases:
-* Empty input: not applicable, as the input is guaranteed to be non-empty.
-* Single element: the solution works correctly for a single crime.
-* Duplicates: the solution handles duplicate crimes correctly, as the memoization ensures that each subproblem is solved only once.
-However, the solution may not handle the following edge cases correctly:
-* Overflow: the solution uses modulo 10^9 + 7 to handle large results, but it may still overflow for extremely large inputs.
-* Maximum size: the solution may not handle inputs that exceed the maximum size limits specified in the problem statement.
+- **`minProfit = 0`:** Every subset with total members ≤ `n` is valid. The code works because `minc` starts at 0 and is capped at 0, so every base case returns 1.
+- **`profit[i] = 0`:** Taking such a crime consumes members but does not increase profit; `new = minc` handles this correctly.
+- **`group[i] > n`:** The crime can never be taken because the `if` condition fails; it is effectively skipped.
+- **Large inputs (max constraints):** 100 crimes, `n=100`, `minProfit=100` – recursion depth 100 is well within Python’s default recursion limit (1000), so no stack overflow.
+- **All crimes have profit 0 and `minProfit > 0`:** No scheme can reach the target; the code correctly returns 0 because base cases never satisfy `minc == minProfit`.
 
 ## Possible Improvements
-The solution is already optimal for the given constraints, as it uses memoization to avoid redundant calculations and explores all possible combinations of crimes. However, some minor improvements could be made:
-* Use a more efficient data structure for the memoization cache, such as a hash table or a trie.
-* Optimize the recursive function to reduce the number of function calls and improve performance.
-* Add additional error checking to handle invalid inputs or edge cases.
+The solution is already optimal in asymptotic complexity for the given constraints. Minor readability improvements:
+- Rename `p` → `used` (members used) and `minc` → `cur_profit` (capped profit) for clarity.
+- An iterative bottom‑up DP would avoid recursion overhead and any theoretical recursion‑limit concerns, but the current top‑down approach is concise and performs well within the limits.
 
 ---
 
-_Generated by leetvault using groq (llama-3.3-70b-versatile)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
