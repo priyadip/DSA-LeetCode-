@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 940,
+  "lang": "python3",
+  "latest_submission_id": 2133541644,
+  "memory": "19.3 MB",
+  "memory_percentile": 72.39579999999998,
+  "paid_only": false,
+  "question_id": 977,
+  "runner": null,
+  "runtime": "2 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788760922,
+  "title": "Distinct Subsequences II",
+  "title_slug": "distinct-subsequences-ii",
+  "total_correct": 110,
+  "total_testcases": 110,
+  "url": "https://leetcode.com/problems/distinct-subsequences-ii/"
+}
