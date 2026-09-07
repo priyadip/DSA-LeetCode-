@@ -1,243 +1,107 @@
 # 3348. Smallest Divisible Digit Product II - Solution Analysis
 
+We are given a solution to LeetCode 3348 "Smallest Divisible Digit Product II". The solution is in Python. We need to analyze it according to the required sections.
+
+First, understand the problem: Given a string `num` representing a positive integer (no leading zeros) and an integer `t`, find the smallest zero-free number (no digit 0) >= num such that the product of its digits is divisible by t. If none, return "-1". Constraints: num length up to 2e5, t up to 1e14.
+
+The solution uses prime factorization of t (only 2,3,5,7 allowed; else return -1). Then it precomputes DP (BFS) over states of exponents (c2,c3,c5,c7) capped at max needed. It finds minimal number of digits and lexicographically smallest string (by preferring larger digits? Actually it builds string by concatenating digits in increasing order? Let's check: dig_strs = ['2','3','4','5','6','7','8','9']; it builds string by iterating d_idx from 0 to 7 and appending dig_strs[d_idx] * cnt. That yields digits in ascending order (2,3,4,5,6,7,8,9). But we want the smallest number overall. For a given multiset of digits, the smallest number is formed by sorting digits ascending. So that's correct.
+
+Then it computes prefix prime exponents for num, and checks if num itself works. If not, it iterates from right to left to find the first position where we can increase the digit and fill the suffix with the minimal digits to meet the required exponents. If no such position, it constructs a number of length max(L+1, total_min) with leading 1's and then the minimal suffix.
+
+We need to produce the analysis sections.
+
+Let's go through each section.
+
 ## Problem Understanding
-We are given a decimal string `num` (no leading zeros) and an integer `t`.  
-We must return the smallest **zero‑free** integer (no digit ‘0’) that is **≥ num** and whose digit product is a multiple of `t`. If no such integer exists we return “‑1”.  
-Because `t` can be as large as 10¹⁴, the only relevant prime factors are 2, 3, 5, 7; any other factor makes the answer impossible.
+We need to explain the problem in plain language, constraints that shape solution. Two to four sentences.
 
 ## Approach
-The solution uses a **BFS on a bounded state space (dynamic programming over exponent vectors)**.  
-The brute‑force would try every zero‑free number ≥ num, which is exponential.  
-Instead we pre‑compute, for every possible remaining exponent tuple `(e2,e3,e5,e7)` (bounded by the factorisation of `t`), the *shortest* multiset of digits (2‑9) that can supply at least those exponents. This is a classic shortest‑path/BFS on a small directed graph where each edge adds one digit and updates the exponent caps.  
-The key insight: once we know the minimal suffix length and its lexicographically smallest composition for any required exponent vector, we can greedily try to increase a digit of `num` from right to left and fill the rest with that optimal suffix.
+Name algorithmic pattern: It's a combination of prime factorization, BFS/DP over exponent states (since exponents are small because t <= 1e14, max exponents: 2^46 ~ 7e13, so max2 <= 46; 3^? 3^30 ~ 2e14, so max3 <= 30; 5^20 ~ 9e13, max5 <= 20; 7^17 ~ 2e14, max7 <= 17). So state space is at most 47*31*21*18 ~ 550k, manageable. BFS finds minimal number of digits and lexicographically smallest string for each state. Then greedy from right to left to find the smallest number >= num.
+
+Key insight: The product of digits only depends on prime factors 2,3,5,7. We can treat the problem as covering required exponents with digits 1-9 (1 adds nothing). Since we want the smallest number >= num, we can try to keep a prefix of num and then increase a digit and fill the rest optimally.
 
 ## Algorithm
-1. **Factor `t`** into counts `max2, max3, max5, max7`. If any other prime remains, return “‑1”.  
-2. **Build the BFS state space**  
-   * State = `(c2,c3,c5,c7)` where each component is capped at its respective `max`.  
-   * Initialise state `(0,0,0,0)` with length 0 and empty string.  
-   * Repeatedly expand all frontier states by appending each digit `d∈{2…9}`; update the exponent caps (clamp to the maxima).  
-   * For each newly reached state store  
-     - `min_digits[state]` = minimal number of digits needed,  
-     - `best_str[state]` = the smallest (lexicographically) sorted string of those digits.  
-   * Keep only the best (longer‑digit‑count‑or‑lexicographically‑larger) candidate for a state.  
-3. **Pre‑compute prefix exponent sums of `num`** and a flag `valid_pref[i]` indicating that the prefix `num[:i]` contains no zero.  
-4. **Check if `num` itself is valid** (zero‑free and its prefix exponents already meet or exceed the required maxima). If so, return `num`.  
-5. **Greedy suffix construction**  
-   * Scan positions `i` from right to left. Skip any `i` where the prefix contains a zero.  
-   * Let `p2…p7` be the exponent sums of the prefix `num[:i]`.  
-   * For each digit `d` larger than `num[i]` (and `d≠0`), compute the *remaining* exponents needed after placing `d`.  
-   * Encode this remaining vector to an index `nidx`.  
-   * If `min_digits[nidx]` fits into the remaining length (`L‑1‑i`), build the answer as  
-     `num[:i] + d + ('1' * (rem‑min_digits[nidx])) + best_str[nidx]` and return it.  
-6. **If no position works**, we must lengthen the number.  
-   * Encode the full required vector `(max2,max3,max5,max7)` → `total_need`.  
-   * Let `total_min = min_digits[total_need]`.  
-   * The answer length is `max(L+1, total_min)`.  
-   * Pad with leading ‘1’s to reach that length and append `best_str[total_need]`.  
+Steps:
+1. Factor t into primes 2,3,5,7. If any other prime factor remains, return "-1".
+2. Let max2,max3,max5,max7 be the required exponents.
+3. Precompute for all states (c2,c3,c5,c7) with 0<=c2<=max2 etc., the minimal number of digits needed to achieve at least those exponents, and the lexicographically smallest string of that length (digits sorted ascending). This is done via BFS from (0,0,0,0) adding digits 2-9, capping exponents at max.
+4. Compute prefix exponent sums for num, and also track if prefix contains zero (invalid).
+5. If num itself is zero-free and its prefix exponents meet or exceed required, return num.
+6. Iterate i from L-1 down to 0: if prefix up to i is valid (no zero), try to increase digit at i from num[i]+1 to 9. For each candidate digit d, compute needed exponents for the suffix (remaining positions = L-1-i). If the minimal digits needed for that needed state <= remaining positions, we can form a valid number: prefix + d + (remaining - min_digits) times '1' + best_str[needed]. Return the first such (since we go from rightmost i and smallest d, this yields smallest overall number).
+7. If no such i, we need a longer number. The minimal length is max(L+1, total_min_digits). Construct answer as '1'*(ans_len - total_min) + best_str[total_need].
 
-## Line‑by‑Line Explanation
-- `class Solution:` – defines the LeetCode solution class.  
-- `def smallestNumber(self, num: str, t: int) -> str:` – entry point.  
-
-**Factorisation**
-- `temp = t` – copy of `t` for division.  
-- `max2 = max3 = max5 = max7 = 0` – initialise exponent counters.  
-- `while temp % 2 == 0: …` – count factor 2, divide it out.  
-- `while temp % 3 == 0: …` – count factor 3.  
-- `while temp % 5 == 0: …` – count factor 5.  
-- `while temp % 7 == 0: …` – count factor 7.  
-- `if temp != 1: return "-1"` – any remaining prime makes the task impossible.  
-
-**State‑space dimensions**
-- `size2 = max2 + 1` … `size7 = max7 + 1` – number of possible values for each exponent (including 0).  
-- `stride2 = size3 * size5 * size7` … `stride7 = 1` – pre‑computed multipliers to flatten a 4‑D index into a 1‑D array.  
-- `N = size2 * size3 * size5 * size7` – total number of states.  
-
-**Digit factor table**
-- `dig_factors = [...]` – for each digit 2‑9 store how many 2/3/5/7 factors it contributes.  
-- `dig_strs = ['2', …, '9']` – string representation of each digit, same order as `dig_factors`.  
-- `dig_to_idx = {d: i for i, d in enumerate([2,3,4,5,6,7,8,9])}` – map digit → index in the count tuple.  
-
-**BFS containers**
-- `min_digits = [-1] * N` – length of the shortest digit multiset reaching each state (`-1` = unreached).  
-- `best_str = [None] * N` – the lexicographically smallest sorted digit string for each state.  
-- `start_counts = (0,0,0,0,0,0,0,0)` – tuple of digit counts for the empty multiset.  
-- `queue = [(0,0,0,0,start_counts)]` – frontier list containing the initial state.  
-- `min_digits[0] = 0` – empty state has length 0.  
-- `best_str[0] = ""` – empty string for the empty state.  
-- `level = 0` – current BFS depth (number of digits used).  
-
-**BFS loop**
-- `while queue:` – iterate until no new states appear.  
-- `next_cand = {}` – temporary map for the next depth, ensuring we keep only the best candidate per state.  
-- `for c2, c3, c5, c7, cnts in queue:` – expand each frontier state.  
-- `for d, (a2, a3, a5, a7) in dig_factors:` – try appending each digit.  
-- `n2 = c2 + a2; if n2 > max2: n2 = max2` – update exponent, clamp to the required maximum. (Same for `n3,n5,n7`).  
-- `nidx = n2 * stride2 + n3 * stride3 + n5 * stride5 + n7` – flatten the new exponent vector.  
-- `if min_digits[nidx] != -1: continue` – skip if the state was already reached in an earlier (shorter) level.  
-- `d_idx = dig_to_idx[d]` – locate the position of `d` in the count tuple.  
-- `new_cnts = list(cnts); new_cnts[d_idx] += 1; new_cnts = tuple(new_cnts)` – increment the count of digit `d`.  
-- `if nidx not in next_cand: … else: …` – keep the candidate with the *larger* digit‑count tuple (lexicographically larger) because later we will reconstruct the smallest string by sorting digits; a larger count of a larger digit can only improve the sorted string.  
-- After processing all expansions, `if not next_cand: break` – no new states, stop BFS.  
-- `next_queue = []` – prepare the frontier for the next level.  
-- `for nidx, (n2, n3, n5, n7, ncnts) in next_cand.items():` – finalize each newly discovered state.  
-- `min_digits[nidx] = level + 1` – record the length (current depth + 1).  
-- `s = ''` … `for d_idx, cnt in enumerate(ncnts): if cnt: s += dig_strs[d_idx] * cnt` – build the sorted digit string for this state.  
-- `best_str[nidx] = s` – store it.  
-- `next_queue.append((n2, n3, n5, n7, ncnts))` – add to next frontier.  
-- `queue = next_queue; level += 1` – advance BFS.  
-
-**Helper to encode a vector**
-- `def encode(c2, c3, c5, c7): return c2 * stride2 + c3 * stride3 + c5 * stride5 + c7` – same flattening logic used later.  
-
-**Digit‑to‑factor map for later use**
-- `dig_factor_map = {1:(0,0,0,0), 2:(1,0,0,0), …, 9:(0,2,0,0)}` – quick lookup of exponent contribution for any digit 1‑9.  
-
-**Prefix preprocessing**
-- `L = len(num)` – length of the input string.  
-- `pref2 = [0]*(L+1)` … `pref7 = [0]*(L+1)` – prefix sums of each prime exponent.  
-- `valid_pref = [True]*(L+1)` – whether the prefix contains a zero.  
-- `r2 = r3 = r5 = r7 = 0; v = True` – running totals and validity flag.  
-- `for i, ch in enumerate(num):` – scan the input once.  
-  - `if ch == '0': v = False` – any zero invalidates the prefix.  
-  - `else: f = dig_factor_map[int(ch)]; r2 += f[0]; …` – add the digit’s contributions.  
-  - `pref2[i+1] = r2; …; valid_pref[i+1] = v` – store cumulative data.  
-
-**Whole‑string check**
-- `if valid_pref[L] and pref2[L] >= max2 and …:` – if `num` is zero‑free and already supplies enough of each prime, return it.  
-
-**Greedy suffix search**
-- `for i in range(L-1, -1, -1):` – iterate positions from rightmost to leftmost.  
-  - `if not valid_pref[i]: continue` – cannot keep a prefix that already has a zero.  
-  - `p2, p3, p5, p7 = pref2[i], pref3[i], pref5[i], pref7[i]` – exponents of the current prefix.  
-  - `curr_d = int(num[i])` – original digit at position `i`.  
-  - `for d in range(curr_d + 1, 10):` – try every larger digit (including 0? range stops at 9, but 0 is excluded because start is `curr_d+1`).  
-    - `f = dig_factor_map[d]` – factor contribution of candidate digit.  
-    - `need2 = max2 - p2 - f[0]; if need2 < 0: need2 = 0` – remaining exponent needed after placing `d` (clamped to 0). (Same for `need3, need5, need7`).  
-    - `nidx = encode(need2, need3, need5, need7)` – encode the remaining requirement.  
-    - `if min_digits[nidx] <= L - 1 - i:` – can we fit the minimal suffix into the remaining positions?  
-      - `rem = L - 1 - i` – number of slots after position `i`.  
-      - `m = min_digits[nidx]` – minimal length needed for the required exponents.  
-      - `suffix = '1' * (rem - m) + best_str[nidx]` – fill unused slots with ‘1’s (the smallest digit) and then the optimal sorted suffix.  
-      - `return num[:i] + str(d) + suffix` – construct and return the answer.  
-
-**Lengthening case**
-- `total_need = encode(max2, max3, max5, max7)` – encode the full requirement.  
-- `total_min = min_digits[total_need]` – minimal number of non‑‘1’ digits needed.  
-- `ans_len = max(L + 1, total_min)` – the answer must be at least one digit longer than `num` (otherwise the previous loop would have succeeded) and at least as long as the minimal suffix.  
-- `return '1' * (ans_len - total_min) + best_str[total_need]` – pad with leading ‘1’s and append the optimal suffix.  
-
-**Overall correctness notes**
-- The BFS guarantees `min_digits` holds the true shortest length for every exponent vector because each level adds exactly one digit and we never revisit a state with a longer path.  
-- `best_str` is built by sorting digits in ascending order, which yields the lexicographically smallest suffix for a given multiset; prefixing with the maximal possible number of ‘1’s (the smallest digit) preserves overall minimality.  
-- The greedy scan from right to left ensures the first feasible modification yields the smallest possible overall number, because any change at a more significant position would produce a larger prefix.  
-- The algorithm runs in `O(Nstates * 8 + |num|)` time and `O(Nstates)` memory, where `Nstates =
+## Line-by-Line Explanation
+We need to go through the code and explain each meaningful line. We'll quote lines verbatim.
 
 ## Dry Run
-We trace the algorithm on the first example:
+We need to trace an example. Use Example 1: num="1234", t=256. t=256=2^8. So max2=8, others 0. BFS will compute minimal digits for each needed 2 exponent. Then prefix exponents for "1234": digits 1,2,3,4 -> factors: 1:0, 2:1, 3:0, 4:2 -> total 3. Need 8. Not enough. Then iterate from right: i=3 (digit 4), try d=5..9. For d=5, need2 = 8 - pref2[3] - f(5)[0] = 8 - (1+0+2?) Wait pref2[3] is sum of first 3 digits? Actually pref arrays are length L+1, pref2[i] is sum of first i digits. For i=3, prefix is "123", pref2[3]=1+0+2=3? Let's compute: num="1234", indices 0,1,2,3. pref2[0]=0. i=0 ch='1' -> f=(0,0,0,0) -> r2=0 -> pref2[1]=0. i=1 ch='2' -> f=(1,0,0,0) -> r2=1 -> pref2[2]=1. i=2 ch='3' -> f=(0,1,0,0) -> r2=1 -> pref2[3]=1. i=3 ch='4' -> f=(2,0,0,0) -> r2=3 -> pref2[4]=3. So for i=3, prefix up to i (exclusive) is pref2[3]=1? Wait the loop: for i in range(L-1, -1, -1): if not valid_pref[i]: continue. p2,p3,p5,p7 = pref2[i], pref3[i], pref5[i], pref7[i]. So at i=3, pref2[3]=1 (sum of first 3 digits: 1,2,3). curr_d = int(num[3]) = 4. Then for d in range(5,10): d=5 -> f=(0,0,1,0). need2 = max2 - p2 - f[0] = 8 - 1 - 0 = 7. need3=0, need5=0-0-1? max5=0, p5=0, f[2]=1 -> need5 = -1 -> 0. So need2=7. min_digits[encode(7,0,0,0)]? BFS: to get 2^7, minimal digits? 8 gives 3, 4 gives 2, 2 gives 1. 7 = 3+2+2? Actually 8*4*2 = 64? Wait product of digits: 8*4*2 = 64 = 2^6. Need 2^7=128. 8*8*2 = 128 -> 3 digits. So min_digits=3. remaining = L-1-i = 4-1-3=0. 3 <= 0 false. So no. d=6: f=(1,1,0,0) -> need2=8-1-1=6. min_digits for 6? 8*4*2? 8*4=32 (2^5), need 2^6=64 -> 8*8=64 (2 digits). So min_digits=2. remaining=0 false. d=7: need2=7 -> min_digits=3 false. d=8: f=(3,0,0,0) -> need2=8-1-3=4. min_digits for 4? 4*4=16 (2^4) -> 2 digits? Actually 4 gives 2, 4 gives 2 -> total 4, so 2 digits. remaining=0 false. d=9: f=(0,2,0,0) -> need2=7 -> min_digits=3 false. So i=3 fails.
+i=2: prefix up to 2: pref2[2]=1 (digits 1,2). curr_d=3. try d=4..9. d=4: f=(2,0,0,0) -> need2=8-1-2=5. min_digits for 5? 8*4=32 (2^5) -> 2 digits. remaining = L-1-i = 4-1-2=1. 2 <=1 false. d=5: need2=7 -> min_digits=3 >1 false. d=6: need2=6 -> min_digits=2 >1 false. d=7: need2=7 ->3>1. d=8: need2=8-1-3=4 -> min_digits=2 >1. d=9: need2=7 ->3>1.
+i=1: prefix up to 1: pref2[1]=0 (digit 1). curr_d=2. try d=3..9. d=3: f=(0,1,0,0) -> need2=8-0-0=8. min_digits for 8? 8*8*8? 8 gives 3, three 8's give 9? Actually 2^8=256. 8*8*4 = 256? 8*8=64 (2^6), *4=256 (2^8) -> 3 digits. remaining = 4-1-1=2. 3<=2 false. d=4: f=(2,0,0,0) -> need2=6. min_digits=2 (8*4=32? Wait 2^6=64. 8*8=64 -> 2 digits). remaining=2 -> 2<=2 true! So we can form: prefix num[:1]="1", d="4", suffix: rem=2, m=2, suffix = '1'*(0) + best_str[encode(6,0,0,0)]. best_str for need2=6? BFS would have found minimal digits for 2^6: digits 8 and 8? But lexicographically smallest string for two digits that give 2^6: digits could be 8 and 8 -> "88". But also 4 and 8? 4*8=32 (2^5) not enough. 4*4*4=64 (3 digits). So minimal digits is 2, and the only multiset is {8,8}? Actually 8 and 8 gives 2^6. Could there be 4 and 4 and 4? That's 3 digits. So best_str is "88". Then answer = "1" + "4" + "88" = "1488". That matches example.
 
-```
-num = "1234",   t = 256   (256 = 2^8)
-```
-
-### 1. Factorisation of `t`
-```
-max2 = 8,  max3 = max5 = max7 = 0
-```
-
-### 2. DP construction (BFS)
-The DP explores all reachable exponent‑tuples `(c2,c3,c5,c7)` up to the caps.
-For the needed state `(8,0,0,0)` the BFS discovers the minimal multiset of digits
-`{2:1, 8:2}` → string `"288"` (3 digits).  
-`min_digits[encode(8,0,0,0)] = 3`, `best_str[encode(8,0,0,0)] = "288"`.
-
-### 3. Prefix information of `num`
-| i (0‑based) | digit | pref2 | pref3 | pref5 | pref7 | valid_pref |
-|------------|-------|-------|-------|-------|-------|------------|
-| 0          | 1     | 0     | 0     | 0     | 0     | True |
-| 1          | 2     | 1     | 0     | 0     | 0     | True |
-| 2          | 3     | 1     | 0     | 0     | 0     | True |
-| 3          | 4     | 3     | 0     | 0     | 0     | True |
-
-`pref2[4] = 3 < max2`, so `num` itself is not a solution.
-
-### 4. Trying to modify a suffix (loop `i = L‑1 … 0`)
-
-| Step | i | p2,p3,p5,p7 (prefix) | curr_d | d tried | f(d) (2‑exponent) | need2 = max2‑p2‑f(d) | encode(need) | min_digits[encode] | remaining positions (L‑1‑i) | Action |
-|------|---|----------------------|--------|---------|-------------------|----------------------|--------------|--------------------|-----------------------------|--------|
-| 1    | 3 | (3,0,0,0)            | 4      | 5       | 0                 | 5                    | idx5         | 2                  | 0                           | `2 > 0` → continue |
-|      |   |                      |        | 6       | 1                 | 4                    | idx4         | 2                  | 0                           | `2 > 0` → continue |
-|      |   |                      |        | 7,8,9   | 0,3,0             | 5,2,5                | …            | ≥2                 | 0                           | none fits |
-| 2    | 2 | (1,0,0,0)            | 3      | 4       | 2                 | 5                    | idx5         | 2                  | 1                           | `2 > 1` → continue |
-|      |   |                      |        | 5       | 0                 | 7                    | idx7         | 3                  | 1                           | `3 > 1` |
-|      |   |                      |        | 6       | 1                 | 6                    | idx6         | 2                  | 1                           | `2 > 1` |
-|      |   |                      |        | 7,8,9   | 0,3,0             | 7,4,7                | …            | ≥2                 | 1                           | none fits |
-| 3    | 1 | (0,0,0,0)            | 2      | 3       | 0                 | 8                    | idx8         | 3                  | 2                           | `3 > 2` |
-|      |   |                      |        | 4       | 2                 | 6                    | idx6         | 2                  | 2                           | **fits** |
-|      |   |                      |        | –       | –                 | –                    | –            | –                  | –                           | Build answer |
-|      |   |                      |        |         |                   |                      |              |                    |                             | `rem = 2`, `m = 2`, `suffix = '' + best_str[encode(6)] = "88"` |
-|      |   |                      |        |         |                   |                      |              |                    |                             | Return `"1" + "4" + "88" = "1488"` |
-
-The algorithm stops at `i = 1` with digit `d = 4`, producing the required answer `"1488"`.
-
----
+We'll produce a dry run table for this example.
 
 ## Complexity
-- **Let**  
-  `e2 = max2`, `e3 = max3`, `e5 = max5`, `e7 = max7`.  
-  `N = (e2+1)*(e3+1)*(e5+1)*(e7+1)` – number of exponent states.
-- **Time**
-  - Factorising `t`: `O(log t)` (at most 4 loops).
-  - BFS DP: each state is processed once and expands to at most 8 digits → `O(8·N) = O(N)`.
-  - Prefix scan of `num`: `O(L)`.
-  - Suffix‑search loop: at most `L·9` iterations, each `O(1)` → `O(L)`.
-  - **Total:** `O(N + L)`.  
-    With the constraints (`t ≤ 10^14`) the worst‑case exponents are  
-    `e2 ≤ 46, e3 ≤ 29, e5 ≤ 20, e7 ≤ 16`, giving `N ≤ 4.3·10^5`.
-- **Space**
-  - Arrays `min_digits` and `best_str` of size `N` → `O(N)`.
-  - Queue for BFS holds at most one layer of states → `O(N)` in the worst case.
-  - Prefix arrays `O(L)`.
-  - **Total:** `O(N + L)`.
-
----
+Time: Factorization O(log t). BFS state space: (max2+1)*(max3+1)*(max5+1)*(max7+1). max2 <= log2(1e14) ~ 46, max3 <= log3(1e14) ~ 29, max5 <= log5(1e14) ~ 20, max7 <= log7(1e14) ~ 16. Product ~ 47*30*21*17 ~ 500k. Each state processes 8 digits. So BFS ~ 4M operations. Prefix computation O(L). Suffix search O(L * 9) = O(L). L up to 2e5. So overall time O(L + state_space * 8) which is acceptable. Space: O(state_space) for min_digits and best_str, plus O(L) for prefix arrays. State space ~ 500k, each best_str stores a string of length up to maybe 50? Actually max digits needed: worst case all 2's: max2=46 -> 46 digits. So strings total length could be large if stored for each state. But the code stores best_str for each state as a string. That could be up to 500k * average length ~ maybe 10? That's 5M characters, okay. But we can note space is O(state_space * max_digits) which is acceptable given constraints.
 
 ## Edge Cases
-| Situation | How the code handles it |
-|-----------|------------------------|
-| `t` contains a prime factor other than 2,3,5,7 | Early return `"-1"` after the factorisation loop (`temp != 1`). |
-| `num` already satisfies the condition | After building prefix arrays the check `valid_pref[L] and pref* >= max*` returns `num` unchanged. |
-| `num` contains a `0` digit | `valid_pref[i]` becomes `False` for any prefix that includes a zero, so suffix modifications are only attempted on zero‑free prefixes. |
-| No zero‑free number of the same length works, but a longer one does | After the suffix loop fails, the algorithm uses the pre‑computed DP to build the shortest possible suffix (`best_str[total_need]`) and pads the front with `'1'`s, possibly increasing the total length (`ans_len = max(L+1, total_min)`). |
-| Very large `t` (close to `10^14`) | Exponent caps stay bounded (≤ 46 for 2, ≤ 29 for 3, ≤ 20 for 5, ≤ 16 for 7), so `N` stays below half a million; the BFS still finishes comfortably. |
-| `num` length = 2 (minimum) | The same logic works; prefix arrays have size `L+1 = 3`, loops iterate correctly. |
-| All digits of `num` are `9` and still insufficient | The suffix loop will eventually fall through and the “longer answer” branch will construct a new number with leading `'1'`s. |
-| `t = 1` | All exponent caps are zero, DP size is `1`. The early prefix check succeeds because `pref* >= 0`, so the original `num` (if zero‑free) is returned. |
-| `t` is a power of a single prime (e.g., `t = 3^10`) | Only the corresponding exponent (`max3`) is non‑zero; DP still explores the 4‑dimensional space but most dimensions are size 1, keeping `N` small. |
-
-All listed cases respect the problem’s constraints; the solution would only fail if the constraints were relaxed (e.g., allowing digits `0` in the answer or primes beyond `{2,3,5,7}`).
-
----
+- t has prime factor other than 2,3,5,7 -> return "-1".
+- num already satisfies -> return num.
+- No valid number of same length -> need longer number. The code constructs length max(L+1, total_min). But is it always possible? If total_min is finite, yes. But what if t=1? Then max2=max3=max5=max7=0. BFS: start state (0,0,0,0) min_digits=0, best_str="". Then num itself is zero-free? If num has no zero, product divisible by 1 always. So returns num. If num has zero? But num is given as positive integer without leading zeros, but can contain zeros? The problem says num consists only of digits in range ['0','9'] and does not contain leading zeros. It can contain zeros. But zero-free means none of its digits are 0. So if num contains zero, it's not zero-free. The code checks valid_pref[L] which is false if any zero. So it will try to find a larger zero-free number. For t=1, any zero-free number works. The algorithm will find the smallest zero-free >= num. That works.
+- Very large L (2e5) but small t: BFS state space small, prefix arrays O(L) memory okay.
+- t up to 1e14, but exponents small.
+- What if the required exponents are such that minimal digits > L? Then the loop will not find a suffix, and we go to longer number construction. That works.
+- The code uses '1' as filler digits because 1 doesn't affect product. That's correct.
 
 ## Possible Improvements
-1. **Tie‑breaking simplification**  
-   The inner loop that decides whether a newly discovered state is “better” manually compares digit counts. Because `cnts` is a tuple of counts ordered by increasing digit, a direct tuple comparison (`new_cnts > exist`) yields the same result and is clearer.
+- The BFS stores best_str for every state, which could be memory heavy. Could store only the digit counts and reconstruct string at the end, or store the string only for the needed states. But given constraints, it's acceptable.
+- The BFS uses a dictionary `next_cand` to deduplicate states per level. Could use array of size N for next level to avoid dict overhead. But N ~ 500k, dict is fine.
+- The comparison of digit counts to choose lexicographically smallest string: it compares counts from smallest digit (2) to largest (9). Since we want the smallest number, we want as many small digits as possible. The code compares new_cnts vs exist: for i in range(8): if new_cnts[i] != exist[i]: if new_cnts[i] > exist[i]: better = True; break. This means it prefers larger count of smaller digit? Wait: dig_strs = ['2','3','4','5','6','7','8','9']; index 0 is digit 2. If new_cnts[0] > exist[0], that means more 2's, which is better because 2 is smaller than 3, etc. So it correctly chooses the multiset that yields lexicographically smallest string when sorted ascending. However, is it always optimal to sort ascending? For a fixed multiset, the smallest number is digits in ascending order. But when comparing two multisets of same size, the one with more smaller digits yields a smaller number when both are sorted ascending. The comparison does exactly that: it compares counts from smallest digit upward, and prefers the one with higher count at the first differing digit. That's correct.
+- The BFS uses level-order to ensure minimal number of digits. Within same level, it picks the lexicographically smallest multiset. That yields the overall smallest string for that state (since fewer digits is always better for number length? Actually we want the smallest number overall. For a given state, we want the smallest string (as a number) that achieves at least those exponents. Since we are building numbers by concatenating prefix + d + suffix, the suffix should be the smallest possible number (as a string) that meets the needed exponents and fits in the remaining length. The BFS finds the minimal number of digits m, and among those the lexicographically smallest string. Then we pad with 1's at the front of the suffix (since 1's are smallest digit and don't affect product). That yields the smallest suffix for that length. Good.
+- One potential issue: The BFS caps exponents at max. When we compute need2 = max2 - p2 - f[0], we clamp at 0. That's correct because we only need at least max2 total. But the BFS state is exactly the needed exponents (capped). The BFS computes minimal digits to achieve *at least* those exponents? Actually the BFS transitions add digit factors and cap at max. So a state (c2,c3,c5,c7) represents having *at least* those exponents? Since we cap, the state represents the exact exponents after capping. But if we need need2, we look up state (need2, need3, need5, need7). The BFS ensures that from that state we can achieve at least those exponents? Wait: The BFS starts at (0,0,0,0) and adds digits, capping at max. So a state (c2,c3,c5,c7) means we have accumulated exponents exactly c2 (capped). But if we need need2, we want a suffix that provides at least need2. The BFS state (need2, need3, need5, need7) represents a multiset of digits that gives *exactly* those exponents (capped). But since we capped at max, if the suffix gives more than need2, it would be capped to max2, not need2. However, we are looking up the state with exactly the needed exponents. But the BFS might not have a state for exactly need2 if the minimal digits to achieve at least need2 actually gives more than need2? Because the BFS caps at max, so if a combination gives exponents > need2, it would be mapped to a state with higher exponents (capped at max). But we are only looking up the state with exactly need2. Is it guaranteed that the minimal digits to achieve at least need2 will have a state exactly need2? Not necessarily. For example, suppose max2=5, need2=4. A digit 8 gives 3, digit 4 gives 2 -> total 5, capped at 5. That combination would be in state (5,...) not (4,...). But we need at least 4. The minimal digits to achieve at least 4 might be 2 digits (8 and 4) giving 5, but there might be a combination giving exactly 4 with 2 digits? 4 and 4 gives 4 (2 digits). So minimal digits for at least 4 is 2, and there is a state (4) with 2 digits. But what if the only way to achieve at least 4 with minimal digits overshoots? For example, if digits available were only 8 (3) and 2 (1). To get at least 4, we could use 8+2=5 (2 digits) or 8+8=6 (2 digits) or 2+2+2+2=4 (4 digits). Minimal digits is 2, but both 2-digit combinations give 5 or 6, not 4. The state (4) would require 4 digits. But we need at least 4, so we could use the 2-digit combination that gives 5. However, the code looks up state (need2=4) and finds min_digits=4, which is larger than the true minimal digits (2). This would cause the algorithm to think it needs 4 digits when 2 suffice, potentially missing a valid construction or choosing a longer suffix. But wait: The BFS caps at max2. In this example, max2=5. The BFS would have states: (0), (1), (2), (3), (4), (5). The combination 8+2 gives (3+1=4) -> state (4) actually! Because 3+1=4, not capped. So it would be in state (4). If we had 8+8=6 -> capped to 5, state (5). So the minimal digits for state (4) is 2 (8+2). So it's fine. But consider if we need need2=4, and the only digits are 8 (3) and 8 (3). Then 8+8=6 -> capped to max2=5? Actually if max2=5, then 6 capped to 5. So state (4) might not be reachable with 2 digits. But is there a combination that gives exactly 4? 8+? No. So minimal digits to achieve at least 4 is 2 (giving 6). But the BFS state (4) would have min_digits=inf (or -1). The code would then think it's impossible to achieve need2=4 with 2 digits, but actually it is possible with 2 digits (giving 6). However, the code uses the needed exponents as the state to look up. But the suffix we construct will have exactly the digits from best_str[need_state]. If best_str[need_state] doesn't exist (min_digits=-1), we skip. But we could use a state that provides *more* than needed. The algorithm as written only considers the exact needed state. This is a potential bug! Let's check: In the suffix search, we compute need2 = max2 - p2 - f[0] (clamped to 0). Then we look up min_digits[encode(need2, need3, need5, need7)]. But the suffix we will use is best_str[that state] which gives exactly those exponents (capped). However, we could use a suffix that gives *more* than needed, as long as total meets max. The BFS computed minimal digits for each state, but the state represents the exact capped exponents. If we need need2, we could use any state (c2,c3,c5,c7) where c2 >= need2, etc. The minimal digits for at least need2 is the minimum over all states with c2>=need2, c3>=need3, etc. The code does not do that; it only checks the exact need state. This could lead to missing a valid suffix or thinking more digits are needed than actually required.
 
-2. **Avoid rebuilding strings for every state**  
-   `best_str[nidx]` is constructed by concatenating `dig_strs[d_idx] * cnt`. Storing the counts only (as the current `cnts` tuple) and generating the string lazily when needed (only for the final answer) would cut down on repeated string allocations during BFS, reducing constant factors.
+But wait: The BFS caps at max. So the state (c2,c3,c5,c7) with c2 >= need2 is a state that has *at least* need2. The minimal digits to achieve at least need2 is the minimum of min_digits over all states with c2>=need2, etc. The code only checks the state (need2, need3, need5, need7). Is it guaranteed that the minimal digits for at least need2 is achieved by a state that exactly matches need2? Not necessarily. For example, suppose max2=5, need2=4. Digits available: 8 (3), 8 (3). The only way to get at least 4 is 8+8=6 -> capped to 5. So state (5) has min_digits=2. State (4) might be unreachable (min_digits=-1). The code would see min_digits[4] = -1 (or > remaining) and think it's impossible, but actually we could use the suffix corresponding to state (5) which gives 6 (>=4). However, the suffix we would construct from state (5) would have digits that give 6, which is fine because total would be p2 + f[0] + 6 >= max2? But we computed need2 = max2 - p2 - f[0]. If we use a suffix that gives more than need2, total becomes p2 + f[0] + (more) > max2, which is still divisible by t (since we only need at least max2). So it's valid. The algorithm misses this.
 
-3. **Early termination of BFS**  
-   The BFS could stop once all states that are reachable within `L` additional digits have been visited, because any state requiring more than `L` digits can never be used for a same‑length solution. This would shrink the explored portion of the state space for very long inputs.
+But is this scenario possible given the digits 1-9? Let's think. The digits' prime factors are only 2,3,5,7. The exponents for each digit are fixed. The set of achievable exponent vectors is the set of nonnegative integer combinations of the digit vectors, capped at max. The minimal number of digits to achieve at least a given vector is the minimum over all vectors that dominate it. The BFS as implemented computes the minimal digits to achieve exactly each vector (with capping). But because of capping, a vector that dominates need might be capped to max, not to need. However, the BFS explores all combinations. The state (need2, need3, need5, need7) might not be the minimal. But the algorithm only checks that exact state. This is a flaw.
 
-4. **Memory layout**  
-   The two parallel arrays `min_digits` (int) and `best_str` (string) could be merged into a single array of a small custom object or a `namedtuple`. This would improve cache locality and slightly lower memory overhead.
+However, the problem constraints: t up to 1e14. The exponents are not huge. But the algorithm might still be incorrect for some cases. Let's test a potential counterexample. We need a case where the minimal digits to achieve at least need is achieved by a combination that overshoots in some prime, and the exact need state requires more digits. Since we have digits 2,3,4,5,6,7,8,9. The exponent vectors:
+2: (1,0,0,0)
+3: (0,1,0,0)
+4: (2,0,0,0)
+5: (0,0,1,0)
+6: (1,1,0,0)
+7: (0,0,0,1)
+8: (3,0,0,0)
+9: (0,2,0,0)
 
-5. **Pre‑compute digit factor map once**  
-   `dig_factor_map` is built twice (once as a list of tuples, once as a dict). Keeping a single immutable mapping (e.g., a list indexed by digit) eliminates redundancy.
+We need to find a need vector such that the minimal number of digits to cover it is achieved by a combination that gives strictly more in some coordinate, and the exact need vector requires more digits. Since we can always add 1's (which don't change exponents), the minimal digits for at least need is the same as minimal digits for exactly need? Not exactly, because we cannot subtract exponents. If we have a combination that gives more, we cannot reduce it. But we can always add 1's to increase digit count without changing exponents. So if there is a combination giving more with k digits, then the minimal digits for at least need is <= k. The exact need might require > k digits. So the minimal digits for at least need could be strictly less than minimal digits for exactly need. The algorithm uses min_digits[need_state] which is the minimal digits for exactly need (capped). But if need_state is unreachable, min_digits[need_state] = -1, but there might be a reachable state that dominates need. The algorithm would incorrectly think it's impossible.
 
-These changes are incremental; the algorithm already meets the optimal `O(N + L)` time and `O(N + L)` space for the given constraints.
+But wait: The BFS caps at max. So if a combination gives more than need, it will be mapped to a state with higher exponents (capped at max). That state might have a smaller min_digits. The algorithm does not consider those states. So it's a bug.
+
+However, the problem might be such that the minimal digits for at least need is always achieved by a combination that exactly matches need (or at least the needed exponents are such that we can always adjust). But I'm not sure. Let's think: The digits' exponent vectors are all nonnegative. The set of achievable vectors is a monoid. The minimal number of digits to achieve a vector v is the minimum k such that v is in the k-fold sumset. For a given need vector n, we want min k such that there exists v >= n with v in k-fold sumset. This is not necessarily the same as min k such that n is in k-fold sumset. Because n might not be in the sumset, but some v >= n is. For example, with digits {8 (3), 9 (0,2)}. Need (2,1). 8 gives (3,0), 9 gives (0,2). Can we get (2,1)? No combination gives exactly (2,1). But 8+9 = (3,2) >= (2,1) with 2 digits. So minimal digits for at least (2,1) is 2, but exact (2,1) is impossible. In our problem, digits include 2,3,4,5,6,7,8,9. The vectors are more varied. Could there be a need vector that is not exactly achievable but a dominating vector is? Since we have 2 (1,0) and 3 (0,1), we can achieve any (a,b) with a,b >=0 by using a 2's and b 3's. But we also have 4 (2,0), 6 (1,1), 8 (3,0), 9 (0,2). So the set of achievable vectors for 2 and 3 is all pairs (a,b) with a,b >=0? Actually with 2 and 3 we can get any (a,b). So for 2 and 3, exact is always achievable. For 5 and 7, we have only 5 (0,0,1,0) and 7 (0,0,0,1). So any (c,d) is achievable exactly. So the only potential issue is when we have multiple primes combined? But since we can independently achieve any exponents for 2,3,5,7 by using appropriate digits? Not independently because digits like 6 give both 2 and 3. But we also have pure 2 and pure 3 digits. So we can always achieve any exact vector by using only 2,3,5,7 digits? But we want minimal digits. Using 6 might reduce digit count. But if we need a vector that is not exactly achievable with minimal digits using 6, we could fall back to using 2 and 3 separately. Since 2 and 3 are available, any vector (a,b) is exactly achievable with a+b digits (using a 2's and b 3's). So the exact need state is always reachable (by using 2,3,5,7). Therefore min_digits[need_state] is always finite (though maybe not minimal). But the minimal digits for at least need might be smaller than min_digits[need_state] if we use a combination that overshoots. For example, need (2,1). Using 2 and 3: 2+3 = 2 digits gives (1,1) not enough. 2+2+3 = 3 digits gives (2,1). But 6 gives (1,1) in 1 digit, not enough. 6+2 = (2,1) in 2 digits. So exact is achievable in 2 digits. What about need (4,0)? 8 gives (3,0), 2 gives (1,0) -> 2 digits exact. 4+4 = (4,0) 2 digits. So exact achievable. It seems because we have 2 and 3 as "unit" vectors, we can always achieve any exact vector by using 2's and 3's. But wait: we also have 5 and 7 as unit vectors. So any vector (a,b,c,d) is exactly achievable by using a 2's, b 3's, c 5's, d 7's. That's a+b+c+d digits. So the exact need state is always reachable. Therefore min_digits[need_state] is always finite. But the minimal digits for at least need could be less than that if we use composite digits like 6,8,9,4. However, the BFS will find the minimal digits for the exact need state because it explores all combinations. Since the exact need state is reachable, the BFS will compute the minimal digits to achieve exactly that state (capped). But is it guaranteed that the minimal digits to achieve at least need is the same as minimal digits to achieve exactly need? Not necessarily. Consider need (1,1). Using 6 gives (1,1) in 1 digit. That's exact. Need (2,2). Using 6+6 = (2,2) in 2 digits exact. Need (3,1). 6+2 = (2,1) not enough. 6+2+2 = (3,1) 3 digits. 8+3 = (3,1) 2 digits exact. So exact achievable in 2 digits. Need (4,1). 8+2+3 = (4,1) 3 digits. 8+6 = (4,1) 2 digits exact. It seems we can often achieve exact with minimal digits. But is there a case where the minimal digits for at least need is k, but any combination achieving exactly need requires > k digits? Suppose need (5,0). Digits: 8 (3), 4 (2), 2 (1). To get at least 5: 8+4=7 (2 digits) gives 7 >=5. Exact 5: 4+2+? 4+2=6, 4+2+? Actually 4+2=6, 8+? 8+? 8+2=10, 4+4=8, 2+2+2=6. Can we get exactly 5? 2+2+2=6, 4+2=6, 8=3, 8+2=10, 4+4=8. No combination gives exactly 5. So exact 5 is impossible! But wait, we have digit 2 (1), 4 (2), 8 (3). The achievable exponents for 2 are all nonnegative integers except 1? Actually 1 is achievable (2). 2 is achievable (4). 3 is achievable (8). 4 is achievable (4+4 or 8+2? 8+2=10, 4+4=8, 2+2+2+2=8). 5? 2+2+2=6, 4+2=6, 8+? 8+2=10. So 5 is not achievable exactly. But we have digit 6? 6 gives (1,1) not pure 2. So for pure 2 exponent, achievable values are sums of 1,2,3. The set of achievable sums is all integers >=0 except? 1,2,3,4=2+2,5? 2+3=5? But 3 is from 8, 2 from 4. 8+4=12? Wait 8 gives 3, 4 gives 2. 3+2=5. Yes! 8 (3) + 4 (2) = 5. So 5 is achievable exactly with 2 digits (8 and 4). So exact 5 is achievable. What about 7? 3+2+2=7 (8+4+4) 3 digits. 3+3+1=7 (8+8+2) 3 digits. So all integers are achievable because we have 1,2,3. The Frobenius coin problem with coins 1,2,3: all integers >=0 are achievable. So for 2-exponent alone, any need is exactly achievable. For 3-exponent, coins 1,2 (from 3 and 9). All integers achievable. For 5 and 7, only coin 1 each. So any need vector is exactly achievable by using only 2,3,5,7 digits. Therefore the exact need state is always reachable. Moreover, the minimal digits to achieve at least need is the same as minimal digits to achieve exactly need? Not necessarily, because a combination that overshoots might use fewer digits than any combination that hits exactly. But since we can always achieve exactly with some number of digits, the minimal digits for at least need is the minimum over all achievable vectors v >= need of digits(v). This could be less than digits(need) if there is a v > need with fewer digits. For example, need (5,0). We saw 8+4=5 exact in 2 digits. Could there be a need where exact requires 3 digits but a dominating vector requires 2? Suppose need (4,1). 8+6 = (3+1, 0+1) = (4,1) exact in 2 digits. Need (5,1). 8+4+3 = (5,1) 3 digits. 8+6+? 8+6= (4,1) not enough. 8+8= (6,0) not enough 3. 9+? 9 gives (0,2). 8+9= (3,2) not enough 2. 6+6+? 6+6=(2,2) not enough. 8+4+3=3 digits. Could there be a 2-digit combination giving >= (5,1)? 8+8=(6,0) fails 3. 8+9=(3,2) fails 2. 9+9=(0,4) fails. 6+8=(4,1) fails 2. 6+9=(1,3) fails. 4+9=(2,2) fails. So minimal is 3. So exact matches minimal.
+
+But consider need (1,0,1,0) i.e., 2 and 5. Digits: 2 (1,0,0,0), 5 (0,0,1,0), 6 (1,1,0,0), 10? no 10. To get at least (1,0,1,0): we could use 2 and 5 -> 2 digits exact. Could we do it in 1 digit? No digit has both 2 and 5. So minimal is 2.
+
+What about need (2,0,1,0)? 4 (2,0,0,0) + 5 = 2 digits exact. 6 (1,1,0,0) + 5 = (1,1,1,0) not enough 2. 8 (3,0,0,0) + 5 = (3,0,1,0) 2 digits, which dominates (2,0,1,0). So minimal digits for at least (2,0,1,0) is 2 (using 8 and 5). Exact (2,0,1,0) is also 2 digits (4 and 5). So same.
+
+It seems because we have a rich set of digits, the minimal digits for at least need might always equal minimal digits for exactly need? Not proven, but likely the problem expects this approach. Many solutions for this problem use the same idea: precompute minimal digits for each needed exponent state (capped) and then use that exact state. I've seen similar solutions for "Smallest Number With Given Digit Product" and this problem. The capping at max ensures that any overshoot is capped to max, but the need state is computed as max - prefix - digit. If a suffix gives more than need, the total would exceed max, but that's fine. However, the algorithm only checks the exact need state. But if a suffix gives more, the need state would be lower? Actually if we use a suffix that gives more, then the needed exponents from the suffix would be less? Wait: We compute need = max - prefix - digit. If we use a suffix that gives more than need, then total = prefix + digit + suffix > max. That's allowed. But the algorithm only considers suffixes that give exactly need (capped). Could there be a case where no suffix gives exactly need within the remaining length, but a suffix giving more does fit? For that to happen, the minimal digits for exactly need would be > remaining, but minimal digits for some v >= need would be <= remaining. Since we can always pad with 1's, if there is a suffix with m digits giving v >= need, we could use that suffix and pad with 1's to fill the remaining length. The algorithm would not find it because it only checks the exact need state. But is it possible that the minimal digits for exactly need is larger than for some v >= need? Since we can always add 1's, the minimal digits for at least need is the minimum over v >= need of min_digits_exact(v). The algorithm uses min_digits_exact(need). If min_digits_exact(need) > min_{v>=need} min_digits_exact(v), then the algorithm might miss a valid suffix. But does such a case exist? We need a need vector such that the minimal digits to achieve exactly need is k, but there is a v > need achievable in k-1 digits. Since we have unit digits 2,3,5,7, we can always achieve need exactly by using need2 2's, need3 3's, etc. That takes need2+need3+need5+need7 digits. But we might do better with composite digits. The minimal digits for exactly need is the optimal combination that sums to need. The minimal digits for at least need is the optimal combination that sums to some v >= need. Since the set of achievable vectors is closed under addition of unit vectors (we can always add 2's,3's,5's,7's), if there is a v >= need achievable in k digits, then we can add unit digits to v to reach need? No, adding unit digits increases exponents, so v + units >= v >= need. But we want exactly need. If v > need, we cannot subtract. So the exact need might not be reachable from v. But we can consider the combination that gives v. If v > need, then that combination gives at least need. So the minimal digits for at least need is the minimum over all combinations that give >= need. The algorithm only checks combinations that give exactly need (capped). But because of capping, a combination that gives v > need will be mapped to a state v' = min(v, max). If v' > need, then that combination is not represented in the need state. The algorithm would not consider it. So if the minimal digits for at least need is achieved by a combination that gives v > need, and the exact need state requires more digits, the algorithm will think it needs more digits than actually required. This could cause it to skip a valid i and d, and possibly go to a longer number, or even return -1 incorrectly? But the problem asks for the smallest number >= num. If the algorithm misses a valid suffix of the same length, it might produce a longer number, which is larger, so the answer would be wrong (not the smallest). Or if it goes to longer number when a same-length exists, it's wrong.
+
+Is this a real bug? Let's try to construct a counterexample. We need a need vector n such that:
+- The minimal number of digits to achieve exactly n is k.
+- There exists a vector v > n achievable in k-1 digits.
+- And the suffix length remaining is exactly k-1, so the algorithm would think it needs k digits (since min_digits[n] = k) and skip, but actually a k-1 digit suffix exists (giving v).
+
+We need to find such n using digits 2-9. Since we have unit digits, the minimal digits for exactly n is at most sum(n). But we want a case where using a composite digit overshoots but uses fewer digits. For example, need (2,0). Digits: 4 gives (2,0) in 1 digit. Exact achievable in 1. Need (3,0): 8 gives (3,0) in 1. Need (4,0): 4+4=2 digits, 8+2=2 digits. Need (5,0): 8+4=2 digits exact. Need (6,0): 8+8=2 digits exact? 8+8=6? 8 gives 3, two 8's give 6. So exact in 2. Need (7,0): 8+8+2=3 digits, 8+4+4=3 digits. Could there be a 2-digit combination giving >=7? 8+8=6 <7. 8+4=5. 4+4=4. So no. Need (8,0): 8+8+2=3 digits, 8+4+4=3, 4+4+4+4=4. 2-digit? 8+8=6 <8. So minimal 3.
+
+What about need (1,1)? 6 gives (1,1) in 1. Need (2,1): 6+2=2 digits exact. Need (3,1): 8+3=2 digits exact. Need (4,1): 8+6=2 digits exact. Need (5,1): 8+4+3=3 digits. 2-digit? 8+8=6,0; 8+9=3,2; 9+9=0,4; 6+8=4,1; 6+9=1,3; 4+9=2,2. None gives 2>=5 and 3>=1. So minimal 3.
+
+It seems hard to find a case where overshoot gives fewer digits. Because the digits' exponent vectors are all relatively small. The maximum exponent per digit is 3 for 2, 2 for 3, 1 for 5, 1 for 7. The need vector components are at most max2~46, etc. The minimal digits for exactly need is essentially the solution to a small integer linear program. Since we have unit vectors, the minimal digits for exactly need is the minimum of a linear function over a set of integer points. The minimal digits for at least need is the minimum over a larger set (all points >= need). Because the unit vectors are available, any point >= need can be reduced to need by subtracting unit vectors? But we can't subtract in the combination. However, if there is a combination giving v >= need in k digits, then consider the combination that gives v. If v > need, we can replace some digits with smaller ones? Not necessarily. But we can always achieve need exactly by using the unit digits, which takes sum(need) digits. The minimal digits for exactly need is at most sum(need). The minimal digits for at least need is at most the minimal digits for exactly need. Could it be strictly less? Suppose need = (5,0). Minimal digits for exactly 5 is 2 (8+4). Minimal for at least 5 is also 2. Suppose need = (4,0). Minimal exactly 4 is 2 (4+4 or 8+2? 8+2=5, not 4). Actually 4+4=4 in 2 digits. 8+? 8+? to get exactly 4? 8 gives 3, need 1 more -> 2, total 2 digits (8+2=5) not 4. So exact 4 requires 2 digits (4+4). At least 4: 8 gives 3 <4, so need at least 2 digits. 8+2=5 >=4 in 2 digits. So both 2.
+
+What about need = (1,0,0,1) i.e., 2 and 7. Digits: 2 (1,0,0,0), 7 (0,0,0,1). Minimal exactly: 2 digits. At least: any digit with both? None. So 2.
+
+It seems because the unit digits are available, the minimal digits for at least need is always equal to the minimal digits for exactly need? Not necessarily. Consider a case where need has a component that is not a multiple of the gcd of the available increments? But we have unit increments for each prime (2,3,5,7). So any vector is exactly achievable. The minimal digits for exactly need is the minimum number of digits to sum to need. The minimal digits for at least need is the minimum number of digits to sum to some v >= need. Since we can always take a combination that sums to v >= need and then add unit digits to reach need? No, adding unit digits increases the sum, so we would get v + units > v >= need. That doesn't give exactly need. But we are comparing the minimal number of digits. If there is a combination giving v >= need in k digits, then the minimal digits for exactly need is at most k + (sum of (v - need) in unit digits)? That would be more digits. So the minimal for exactly need could be larger than k. For example, suppose we have digits that give large jumps. Need (5,0). We have digit A giving (6,0) in 1 digit. But we don't have such a digit. Our max jump for 2 is 3 (digit 8). So to get 5, we need at least 2 digits because max per digit is 3. 2 digits max sum is 6. So minimal digits for at least 5 is 2. Exact 5 is also 2 (3+2). So equal.
+
+In general, with coins of denominations 1,2,3 for 2-exponent, the minimal number of coins to make at least n is ceil(n/3). The minimal to make exactly n is also ceil(n/3) for all n? Let's check: n=1: ceil(1/3)=1, exact 1 (coin 1). n=2: ceil(2/3)=1, exact 2 (coin 2). n=3: ceil(3/3)=1, exact 3 (coin 3). n=4: ceil(4/3)=2, exact 4 (2+2 or 3+1). n=5: ceil(5/3)=2, exact 5 (3
 
 ---
 
-_Generated by leetvault using groq (openai/gpt-oss-120b)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
