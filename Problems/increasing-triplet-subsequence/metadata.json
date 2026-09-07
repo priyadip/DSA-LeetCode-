@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 334,
+  "lang": "python3",
+  "latest_submission_id": 2134257443,
+  "memory": "39 MB",
+  "memory_percentile": 32.39259999999999,
+  "paid_only": false,
+  "question_id": 334,
+  "runner": null,
+  "runtime": "15 ms",
+  "runtime_percentile": 59.58890000000001,
+  "timestamp": 1788804040,
+  "title": "Increasing Triplet Subsequence",
+  "title_slug": "increasing-triplet-subsequence",
+  "total_correct": 86,
+  "total_testcases": 86,
+  "url": "https://leetcode.com/problems/increasing-triplet-subsequence/"
+}

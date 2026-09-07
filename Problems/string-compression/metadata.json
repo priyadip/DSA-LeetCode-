@@ -1,0 +1,26 @@
+{
+  "difficulty": "Medium",
+  "failed_testcases": [
+    {
+      "expected_output": "[\"a\",\"3\",\"b\",\"2\",\"a\",\"2\"]",
+      "input": "[\"a\",\"a\",\"a\",\"b\",\"b\",\"a\",\"a\"]",
+      "status": "Wrong Answer"
+    }
+  ],
+  "frontend_id": 443,
+  "lang": "python3",
+  "latest_submission_id": 2134358155,
+  "memory": "19.2 MB",
+  "memory_percentile": 87.96110000000002,
+  "paid_only": false,
+  "question_id": 443,
+  "runner": null,
+  "runtime": "0 ms",
+  "runtime_percentile": 100.0,
+  "timestamp": 1788809883,
+  "title": "String Compression",
+  "title_slug": "string-compression",
+  "total_correct": 78,
+  "total_testcases": 78,
+  "url": "https://leetcode.com/problems/string-compression/"
+}
