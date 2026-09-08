@@ -1,79 +1,50 @@
 # 198. House Robber - Solution Analysis
 
 ## Problem Understanding
-The problem asks us to find the maximum sum of a subset of elements from an integer array `nums` under the constraint that no two selected elements can be adjacent in the array. 
-
-The input array length $n$ satisfies $1 \le n \le 100$, and each element value `nums[i]` satisfies $0 \le \text{nums}[i] \le 400$.
+Given an array `nums` where each element represents money in a house, select a subset of non-adjacent houses to maximize the total money. Adjacent houses cannot both be robbed. The array length is at least 1 and at most 100; values are non-negative up to 400. The output is the maximum achievable sum.
 
 ## Approach
-This problem uses **Dynamic Programming with Space Optimization**.
-
-At each index $i$, we make a decision to either:
-1. **Skip house $i$**: The maximum money robbed up to house $i$ is the same as the maximum money robbed up to house $i-1$.
-2. **Rob house $i$**: The maximum money robbed up to house $i$ is `nums[i]` plus the maximum money robbed up to house $i-2$.
-
-The recurrence relation is:
-$$\text{DP}[i] = \max(\text{DP}[i-1], \text{DP}[i-2] + \text{nums}[i])$$
-
-Because the optimal value for house $i$ depends only on the optimal results of the previous two houses ($i-1$ and $i-2$), we do not need an array of size $n$. We can reduce the auxiliary space from $O(n)$ to $O(1)$ by tracking only two scalar variables.
+The solution uses **dynamic programming** with space optimization. The brute-force approach would explore all subsets (exponential time). The DP insight: at each house `i`, the maximum loot is either the best up to `i-1` (skip `i`) or the best up to `i-2` plus `nums[i]` (rob `i`). This yields the recurrence `dp[i] = max(dp[i-1], dp[i-2] + nums[i])`. By keeping only the last two states (`prev2` for `i-2`, `prev1` for `i-1`), we achieve O(1) space.
 
 ## Algorithm
-1. Initialize two variables `prev2` and `prev1` to `0`. `prev2` represents the max loot up to $i-2$, and `prev1` represents the max loot up to $i-1$.
-2. Iterate through each house amount `money` in `nums`:
-   - Calculate the best outcome for the current house as $\max(\text{prev1}, \text{prev2} + \text{money})$.
-   - Shift the state: update `prev2` to `prev1`, and `prev1` to the newly computed maximum.
-3. Return `prev1` as the final result.
+1. Initialize `prev2 = 0` (max loot up to two houses before current) and `prev1 = 0` (max loot up to previous house).
+2. For each `money` in `nums`:
+   - Compute `new_max = max(prev1, prev2 + money)`.
+   - Update `prev2 = prev1` and `prev1 = new_max`.
+3. Return `prev1`.
 
 ## Line-by-Line Explanation
-```python3
-prev2, prev1 = 0, 0  # max loot up to i-2 and i-1
-```
-Initializes two state variables. Before evaluating any house, the maximum loot possible at relative positions $i-2$ and $i-1$ is zero.
-
-```python3
-for money in nums:
-```
-Iterates sequentially through each element of the `nums` array.
-
-```python3
-prev2, prev1 = prev1, max(prev1, prev2 + money)
-```
-Uses tuple assignment to update both state variables simultaneously:
-- `prev2` takes the previous iteration's `prev1` value (stepping forward in the sequence).
-- `prev1` takes the maximum of skipping the current house (`prev1`) or robbing it (`prev2 + money`).
-
-```python3
-return prev1
-```
-After the loop finishes, `prev1` holds the maximum possible loot including all $n$ houses, which is returned.
+- `prev2, prev1 = 0, 0`: base cases – no houses visited yet, max loot is 0.
+- `for money in nums:`: iterate through each house's money.
+- `prev2, prev1 = prev1, max(prev1, prev2 + money)`: simultaneously shift the window; `prev1` becomes the new maximum (either skip current house and keep `prev1`, or rob current and add `money` to `prev2`), and `prev2` takes the old `prev1`.
+- `return prev1`: after processing all houses, `prev1` holds the overall maximum.
 
 ## Dry Run
-Tracing Example 1: `nums = [1, 2, 3, 1]`
+Example: `nums = [1,2,3,1]`
 
-Initial state: `prev2 = 0`, `prev1 = 0`
-
-| Iteration | `money` | `prev2 + money` | Choice `max(prev1, prev2 + money)` | `prev2` (new) | `prev1` (new) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Start | - | - | - | 0 | 0 |
-| 1 | `1` | `0 + 1 = 1` | `max(0, 1) = 1` | 0 | 1 |
-| 2 | `2` | `0 + 2 = 2` | `max(1, 2) = 2` | 1 | 2 |
-| 3 | `3` | `1 + 3 = 4` | `max(2, 4) = 4` | 2 | 4 |
-| 4 | `1` | `2 + 1 = 3` | `max(4, 3) = 4` | 4 | 4 |
-
-Final Return Value: `4`
+| Step | money | prev2 | prev1 | new_prev1 = max(prev1, prev2+money) | Action |
+|------|-------|-------|-------|-------------------------------------|--------|
+| 0 (init) | – | 0 | 0 | – | start |
+| 1 | 1 | 0 | 0 | max(0, 0+1)=1 | prev2=0, prev1=1 |
+| 2 | 2 | 0 | 1 | max(1, 0+2)=2 | prev2=1, prev1=2 |
+| 3 | 3 | 1 | 2 | max(2, 1+3)=4 | prev2=2, prev1=4 |
+| 4 | 1 | 2 | 4 | max(4, 2+1)=4 | prev2=4, prev1=4 |
+Return 4.
 
 ## Complexity
-- **Time Complexity:** $O(n)$, where $n$ is the number of houses in `nums`. The solution visits each house exactly once, doing constant-time arithmetic and comparison at each step.
-- **Space Complexity:** $O(1)$. The memory footprint is constant as it only uses two integer variables (`prev2` and `prev1`) regardless of the size of `nums`.
+- Time: O(n), where n = len(nums). One pass through the array.
+- Space: O(1). Only two integer variables are used.
 
 ## Edge Cases
-- **Single element array (`nums = [7]`):** The loop runs once. `prev2` becomes `0`, and `prev1` becomes `max(0, 0 + 7) = 7`. Returns `7`.
-- **Two element array (`nums = [7, 2]`):** First iteration sets `prev1 = 7`. Second iteration sets `prev1 = max(7, 0 + 2) = 7`. Returns `7`.
-- **All zeros (`nums = [0, 0, 0]`):** `prev1` and `prev2` remain `0` throughout execution. Returns `0`.
+- Single house: e.g., `[5]` → returns 5 (loop runs once, `prev1` becomes 5).
+- Two houses: e.g., `[2,7]` → returns 7 (second iteration picks max of 2 and 7).
+- All zeros: returns 0.
+- Maximum constraints (n=100, values=400) fit easily in Python integers; no overflow concerns.
+- The constraints guarantee non-empty input, so empty array is not a case.
 
 ## Possible Improvements
-The solution is already optimal in time complexity ($O(n)$) and space complexity ($O(1)$). No further algorithmic optimizations are necessary.
+The solution is already optimal for the given constraints: O(n) time and O(1) space is the best achievable. Variable names are clear and the logic is concise. No further improvements are needed.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

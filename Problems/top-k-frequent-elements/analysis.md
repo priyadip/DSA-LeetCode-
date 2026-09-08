@@ -1,94 +1,43 @@
 # 347. Top K Frequent Elements - Solution Analysis
 
 ## Problem Understanding
-The problem asks us to find the `k` most frequently occurring elements in an integer array `nums`. The output can be in any order, and it is guaranteed that the answer is unique.
-
-### Constraints
-- $1 \le \text{len}(nums) \le 10^5$
-- $-10^4 \le nums[i] \le 10^4$
-- $k$ is in the range $[1, \text{number of unique elements in } nums]$.
-- The follow-up requests a time complexity strictly better than $O(n \log n)$, where $n$ is the array's size.
-
----
+Given an integer array `nums` and integer `k`, return the `k` elements that appear most frequently. Order of output does not matter. The array length reaches 10^5, values range from -10^4 to 10^4, and `k` is guaranteed valid (1 ≤ k ≤ number of unique elements). The follow-up requires time complexity better than O(n log n), ruling out a full sort of all unique elements.
 
 ## Approach
-This solution uses a **Hash Map** combined with a **Heap** (implicitly via Python's `collections.Counter.most_common`).
-
-1. **Counting**: Traversing `nums` to record frequencies using `Counter` requires $O(n)$ time and $O(u)$ space, where $u$ is the number of unique elements.
-2. **Top K Extraction**: CPython's implementation of `Counter.most_common(k)` uses `heapq.nlargest(k, ...)` internally when $k < u$. Maintaining a heap of size $k$ while iterating through $u$ unique frequency pairs takes $O(u \log k)$ time.
-
-This satisfies the follow-up requirement because $O(n + u \log k)$ is upper-bounded by $O(n \log k)$, which is strictly better than $O(n \log n)$ when $k \ll n$.
-
----
+The solution uses **Hash Map + Heap Selection** (via library internals). `Counter` builds a frequency map in O(n). `most_common(k)` internally uses `heapq.nlargest`, which maintains a min-heap of size `k` to select the top `k` frequencies in O(m log k) where `m` is the number of unique elements. This beats the O(n log n) follow-up bound because `m ≤ n` and `log k ≤ log n`. Brute force would sort all `m` unique elements by frequency (O(m log m)), which is slower when `k ≪ m`.
 
 ## Algorithm
-1. Construct a frequency map `c` mapping each element to its count in `nums`.
-2. Call `c.most_common(k)` to retrieve a list of the $k$ most frequent `(element, count)` tuples.
-3. Extract and return only the element `i` from each `(i, j)` tuple using a list comprehension.
-
----
+1. Count occurrences of each value in `nums` using a hash map.
+2. Retrieve the `k` key-value pairs with highest counts using a heap-based selection algorithm.
+3. Extract and return only the keys (the elements) from those pairs.
 
 ## Line-by-Line Explanation
-```python
-c = Counter(nums)
-```
-Instantiates `collections.Counter`, iterating over `nums` once to populate a hash table where keys are the elements and values are their respective frequencies.
-
-```python
-return [i for i, j in c.most_common(k)]
-```
-`c.most_common(k)` executes `heapq.nlargest` under the hood to fetch the $k$ tuples with the highest counts. The list comprehension iterates over each tuple `(i, j)`—where `i` is the array element and `j` is its count—discarding `j` and building a list of only the elements `i`.
-
----
+- `c = Counter(nums)`: Builds a dictionary mapping each distinct number to its frequency in a single pass.
+- `return [i for i,j in c.most_common(k)]`: Calls `most_common(k)` which returns a list of the `k` (element, count) pairs with largest counts; the comprehension discards the counts and keeps the elements.
 
 ## Dry Run
+Trace Example 1: `nums = [1,1,1,2,2,3]`, `k = 2`
 
-### Input
-`nums = [1, 1, 1, 2, 2, 3]`, `k = 2`
-
-| Step | Operation | Resulting State |
-| :--- | :--- | :--- |
-| 1 | `c = Counter(nums)` | `Counter({1: 3, 2: 2, 3: 1})` |
+| Step | Operation | State |
+|------|-----------|-------|
+| 1 | `Counter(nums)` | `{1: 3, 2: 2, 3: 1}` |
 | 2 | `c.most_common(2)` | `[(1, 3), (2, 2)]` |
-| 3 | List Comprehension | Iteration 1: `(1, 3)` $\rightarrow$ yields `1`<br>Iteration 2: `(2, 2)` $\rightarrow$ yields `2` |
-| 4 | `return` | `[1, 2]` |
-
----
+| 3 | List comprehension `[i for i,j in ...]` | `[1, 2]` |
 
 ## Complexity
-
-### Time Complexity: $O(n + u \log k)$
-- **Frequency Map Creation**: $O(n)$ time to iterate through $n$ elements.
-- **Top K Selection**: $O(u \log k)$ time, where $u$ is the number of unique elements ($u \le n$). `heapq.nlargest` iterates through $u$ elements and performs heap operations of size $k$.
-- **Total Time**: $O(n + u \log k)$, which simplifies to $O(n \log k)$ in the worst case where $u \approx n$.
-
-### Space Complexity: $O(u)$
-- The `Counter` hash map stores $u$ unique elements and their frequencies.
-- The internal min-heap in `heapq.nlargest` uses $O(k)$ auxiliary space.
-- Since $k \le u$, total auxiliary space is dominated by $O(u)$.
-
----
+- **Time:** O(n + m log k), where n = len(nums) and m = number of unique elements. `Counter` builds the frequency map in O(n). `most_common(k)` uses a heap of size k internally, giving O(m log k). Since m ≤ n, this satisfies the follow-up requirement of better than O(n log n).
+- **Space:** O(m) for the frequency map. The heap inside `most_common` uses O(k) additional space, which is ≤ O(m).
 
 ## Edge Cases
-
-- **$k$ equals total unique elements ($k = u$)**: `c.most_common(k)` simply sorts all elements by frequency; works as expected.
-- **Single-element array ($n = 1, k = 1$)**: Counter holds `{nums[0]: 1}`, extracts the single element correctly.
-- **All elements identical**: Counter holds `{nums[0]: n}`, extracts `nums[0]`.
-- **Negative numbers**: Standard dict key hashing handles negative integers without issue.
-- **If constraints were relaxed ($k > u$)**: `c.most_common(k)` does not raise an index error; it safely returns all $u$ elements present.
-
----
+- **Single element array** (`nums = [1], k = 1`): Counter yields `{1: 1}`, `most_common(1)` returns `[(1, 1)]`, result `[1]` — correct.
+- **All elements identical** (`nums = [5,5,5], k = 1`): Counter yields `{5: 3}`, result `[5]` — correct.
+- **k equals number of unique elements**: `most_common(k)` returns all items sorted by frequency — correct.
+- **Negative numbers**: Counter handles any hashable type; negatives work identically to positives.
+- **Maximum input size** (n = 10⁵): O(n) pass and O(m log k) heap operations fit easily within limits.
 
 ## Possible Improvements
-
-While this $O(n \log k)$ solution passes and meets the follow-up requirement, a strict $O(n)$ time solution exists via **Bucket Sort**:
-
-1. Count frequencies using `Counter(nums)`.
-2. Create an array of buckets `freq = [[] for _ in range(len(nums) + 1)]`, where index $i$ holds elements with frequency $i$.
-3. Iterate from index $n$ down to $1$ to collect the top $k$ elements.
-
-This reduces time complexity to $O(n)$ guaranteed worst-case time, though the user's standard library approach is typically faster in practice due to C-level optimizations inside CPython's `heapq` and `Counter`.
+The solution is already optimal for the given constraints. `Counter.most_common` is implemented in C and uses a heap for k < m, achieving the required complexity with minimal code. A bucket-sort approach could achieve O(n) worst-case time but adds significant complexity for no practical gain at n ≤ 10⁵. No changes needed.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
