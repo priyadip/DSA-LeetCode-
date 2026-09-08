@@ -1,81 +1,50 @@
 # 242. Valid Anagram - Solution Analysis
 
 ## Problem Understanding
-
-The problem asks us to determine whether string `t` is an anagram of string `s`. Two strings are anagrams if they contain the exact same characters with the exact same frequencies, regardless of character order. 
-
-The primary constraints are:
-- String lengths are between $1$ and $5 \cdot 10^4$.
-- Both strings consist of lowercase English letters (with a follow-up asking about Unicode).
-
-A key property of anagrams is that two strings can only be anagrams if their lengths are identical and their character frequency distributions match completely.
+Given two strings `s` and `t`, determine whether `t` is an anagram of `s` — i.e., both strings contain exactly the same characters with the same frequencies. Order does not matter; duplicates matter. Constraints: lengths up to 5·10⁴, lowercase English letters only. The follow-up asks about Unicode support.
 
 ## Approach
-
-The solution uses the **Frequency Counting (Hash Map)** pattern.
-
-Because character order does not matter for anagram validation, we can reduce each string to a multiset of character counts (a frequency map). Hash maps fit this problem because they allow $O(1)$ average time complexity for character insertion, lookup, and updates. In Python, `collections.Counter` constructs this frequency map automatically. Comparing two `Counter` objects compares both their key sets and associated counts.
+**Pattern:** Hash map / frequency counting (via `collections.Counter`).  
+**Why it fits:** An anagram check reduces to verifying that the character frequency distributions of the two strings are identical. A hash map (or `Counter`) records each character's count in O(1) average time per character.  
+**Brute force:** Sort both strings and compare — O(n log n) time, O(n) space (or O(1) if sorting in-place).  
+**Chosen approach:** Build a frequency map for each string and compare maps — O(n) time, O(1) space (alphabet size is bounded by 26 for the given constraints, or by the number of distinct Unicode code points in the follow-up).  
+**Key insight:** Two strings are anagrams iff their character-count dictionaries are equal.
 
 ## Algorithm
-
-1. Pass string `s` to `Counter` to build a hash map of character frequencies for `s`.
-2. Pass string `t` to `Counter` to build a hash map of character frequencies for `t`.
-3. Compare the two frequency maps for key and value equality and return the boolean result.
+1. Construct a `Counter` (frequency dictionary) for `s`.
+2. Construct a `Counter` for `t`.
+3. Compare the two `Counter` objects for equality.
+4. Return the boolean result.
 
 ## Line-by-Line Explanation
-
-```python3
-return Counter(s) == Counter(t)
-```
-- `Counter(s)` iterates through string `s` character by character and constructs a dictionary-like object mapping each unique character to its total count in `s`.
-- `Counter(t)` does the same for string `t`.
-- `==` compares the two `Counter` instances. In Python, dictionary equality checks if both dictionaries have the exact same set of keys and that the value for every key is identical in both. It evaluates to `True` if all character frequencies match, and `False` otherwise.
-
-*(Note: The commented-out code in your submission implements an imperative variation of this logic using a single hash map with manual incrementing and decrementing. However, only the active line above is executed.)*
+- `return Counter(s) == Counter(t)`: Creates a frequency map for each string and returns `True` exactly when every character appears the same number of times in both strings. `Counter` handles missing keys as zero, so the equality check covers both presence and count.
 
 ## Dry Run
+Example 1: `s = "anagram"`, `t = "nagaram"`
 
-Let `s = "anagram"` and `t = "nagaram"`.
+| Step | Counter(s) | Counter(t) | Equal? |
+|------|------------|------------|--------|
+| Build | {'a':3, 'n':1, 'g':1, 'r':1, 'm':1} | {'n':1, 'a':3, 'g':1, 'r':1, 'm':1} | True |
 
-| Step | Operation | Resulting State |
-| :--- | :--- | :--- |
-| 1 | Compute `Counter(s)` | `{'a': 3, 'n': 1, 'g': 1, 'r': 1, 'm': 1}` |
-| 2 | Compute `Counter(t)` | `{'n': 1, 'a': 3, 'g': 1, 'r': 1, 'm': 1}` |
-| 3 | Evaluate `==` equality | Maps contain identical key-value pairs $\rightarrow$ `True` |
+Example 2: `s = "rat"`, `t = "car"`
 
-Let `s = "rat"` and `t = "car"`.
-
-| Step | Operation | Resulting State |
-| :--- | :--- | :--- |
-| 1 | Compute `Counter(s)` | `{'r': 1, 'a': 1, 't': 1}` |
-| 2 | Compute `Counter(t)` | `{'c': 1, 'a': 1, 'r': 1}` |
-| 3 | Evaluate `==` equality | Keys `'t'` and `'c'` do not match $\rightarrow$ `False` |
+| Step | Counter(s) | Counter(t) | Equal? |
+|------|------------|------------|--------|
+| Build | {'r':1, 'a':1, 't':1} | {'c':1, 'a':1, 'r':1} | False |
 
 ## Complexity
-
-- **Time Complexity:** $O(n + m)$ where $n$ is the length of `s` and $m$ is the length of `t`. Building `Counter(s)` takes $O(n)$ time and building `Counter(t)` takes $O(m)$ time. Comparing the two counters takes $O(K)$ time, where $K$ is the number of unique characters ($K \le 26$). Total time is $O(n + m)$.
-- **Space Complexity:** $O(K)$ auxiliary space, where $K$ is the number of unique characters in the strings. Since the inputs are constrained to lowercase English letters, $K \le 26$, making the space complexity effectively $O(1)$.
+- **Time:** O(n), where n = len(s) = len(t) (if lengths differ, `Counter` construction still visits each character once, and the equality check is O(k) with k ≤ 26). Building each `Counter` is O(n); comparing two dictionaries of bounded size is O(1).
+- **Space:** O(1) for the given constraints (at most 26 distinct lowercase letters). For the Unicode follow-up, space becomes O(k) where k is the number of distinct code points actually present.
 
 ## Edge Cases
-
-- **Length Mismatch (`len(s) != len(t)`):** Handled correctly. `Counter(s) == Counter(t)` will evaluate to `False` because the total sum of frequencies will differ.
-- **Single-Character Strings:** Handled correctly (e.g., `s = "a"`, `t = "a"` evaluates to `True`; `s = "a"`, `t = "b"` evaluates to `False`).
-- **Unicode Characters (Follow-up):** Handled natively. Python strings treat Unicode code points as distinct characters, and `Counter` hashes any valid character key. Space complexity scales to $O(K)$ where $K$ is the count of distinct Unicode characters present.
+- **Different lengths:** Handled automatically — the counters will have different total counts, so equality fails.
+- **All same character (e.g., "aaa", "aaa"):** Counters are `{'a':3}` vs `{'a':3}` → `True`.
+- **Single character strings:** Works correctly.
+- **Unicode follow-up:** `Counter` works with any hashable type, so Unicode characters are handled without code changes.
 
 ## Possible Improvements
-
-- **Early Exit on Length Mismatch:** The code currently builds `Counter(t)` completely even if `len(s) != len(t)`. Adding an explicit length check at the top avoids unnecessary $O(n + m)$ work when string lengths differ:
-
-```python3
-class Solution:
-    def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t):
-            return False
-        return Counter(s) == Counter(t)
-```
-
-- **Fixed Array for Strict Alphabet Constraints:** If memory allocation overhead of hash maps is a concern and inputs are strictly guaranteed to be lowercase English letters, an integer array of size 26 (using `ord(ch) - ord('a')`) can be used instead of a dynamic dictionary. However, for Python standard usage and to support the Unicode follow-up, `Counter` remains optimal.
+The solution is already optimal in asymptotic complexity for the given constraints. A micro-optimisation would be an early `len(s) != len(t)` check to avoid building the second `Counter` when lengths differ, but the `Counter` equality comparison short-circuits on size mismatch anyway, so the gain is negligible. The commented manual implementation avoids the `Counter` import and has identical complexity; it is a reasonable alternative if imports are restricted.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

@@ -1,131 +1,69 @@
 # 600. Non-negative Integers without Consecutive Ones - Solution Analysis
 
 ## Problem Understanding
-
-The problem asks us to count how many integers in the inclusive range $[0, n]$ have a binary representation containing no consecutive `1`s (i.e., no adjacent `11` substring).
-
-Constraints:
-- $1 \le n \le 10^9$.
-- $10^9 < 2^{30}$, so any value of $n$ fits within a 30-bit unsigned integer (bit indices 0 to 29, or up to bit index 30 to handle $2^{30}-1$).
+Given a positive integer `n` (1 ≤ n ≤ 10⁹), count how many integers in the range `[0, n]` have a binary representation **without consecutive ones**. The binary representation is standard (no leading zeros except for the number 0 itself). The constraint `n ≤ 10⁹` means the binary length is at most 30 bits, so an algorithm linear in the number of bits is effectively constant time.
 
 ## Approach
+The solution uses **digit DP / combinatorial counting with precomputed Fibonacci numbers**.  
+The number of valid binary strings of length `i` (no consecutive ones) follows the Fibonacci recurrence: a string of length `i` either starts with `0` followed by any valid string of length `i-1`, or starts with `10` followed by any valid string of length `i-2`. Thus `f[i] = f[i-1] + f[i-2]` with `f[0]=1` (empty string) and `f[1]=2` (`0`, `1`).  
 
-This solution uses **Digit DP** combined with **Fibonacci precomputation**.
+To count numbers ≤ `n`, we scan the bits of `n` from most significant to least significant. Whenever we encounter a `1` at position `i`, we can set that bit to `0` and freely choose any valid pattern for the lower `i` bits, contributing `f[i]` numbers. If we ever see two consecutive `1` bits in `n`, `n` itself is invalid and we stop early because any further numbers would exceed `n`. If the scan finishes without consecutive ones, we add `1` for `n` itself.
 
-1. **Fibonacci Property:** The number of valid binary strings of length $i$ with no consecutive `1`s follows the Fibonacci sequence:
-   - Length 0: 1 string (`""`) $\rightarrow f[0] = 1$
-   - Length 1: 2 strings (`"0"`, `"1"`) $\rightarrow f[1] = 2$
-   - Length 2: 3 strings (`"00"`, `"01"`, `"10"`) $\rightarrow f[2] = 3$
-   - Length $i$: A valid string of length $i$ either starts with `0` (followed by any valid string of length $i-1$) or `10` (followed by any valid string of length $i-2$). Thus, $f[i] = f[i-1] + f[i-2]$.
-
-2. **Prefix Matching (Digit DP):** To count valid numbers $\le n$, we process the bits of $n$ from the most significant bit (MSB) down to bit 0:
-   - When bit $i$ of $n$ is `1`, we can choose to place a `0` at bit $i$. This strictly guarantees the resulting number is smaller than $n$, freeing the lower $i$ bits to take *any* valid binary string of length $i$ (yielding $f[i]$ combinations).
-   - Next, to explore numbers that match $n$'s prefix up to bit $i$, we must set bit $i$ to `1`. If the previous bit (at $i+1$) was also `1`, we encounter `"11"`. Since $n$'s prefix itself is invalid, no valid numbers can exist in this branch or equal $n$, so we terminate early and return `ans`.
+**Key insight:** The count of valid numbers ≤ `n` can be built by deciding each bit of `n` from MSB to LSB, using the precomputed Fibonacci counts for the "free" lower bits whenever we place a `0` where `n` has a `1`.
 
 ## Algorithm
-
-1. Precompute `f`, where `f[i]` store the count of valid binary strings of length `i` up to length 31.
-2. Initialize `ans = 0` and `prev_bit = 0`.
-3. Iterate bit position `i` from 30 down to 0:
-   - Extract the $i$-th bit of $n$: `(n >> i) & 1`.
-   - If the bit is `1`:
-     - Add `f[i]` to `ans` (counting numbers where bit $i$ is set to `0`).
-     - If `prev_bit == 1`, $n$ contains consecutive ones. Stop and return `ans`.
+1. Precompute `f[0..30]` where `f[0]=1`, `f[1]=2`, and `f[i]=f[i-1]+f[i-2]` for `i≥2`.  
+   `f[i]` = number of valid binary strings of length `i` (no consecutive ones).
+2. Initialize `ans = 0`, `prev_bit = 0`.
+3. For `i` from `30` down to `0`:
+   - If the `i`-th bit of `n` is `1`:
+     - Add `f[i]` to `ans` (count numbers with `0` at this bit and any valid lower `i` bits).
+     - If `prev_bit == 1`, return `ans` immediately (consecutive ones in `n` → `n` invalid, stop).
      - Set `prev_bit = 1`.
-   - If the bit is `0`:
+   - Else:
      - Set `prev_bit = 0`.
-4. If the loop completes without early termination, $n$ itself is valid. Return `ans + 1`.
+4. After the loop, return `ans + 1` (include `n` itself, which is valid because no consecutive ones were found).
 
 ## Line-by-Line Explanation
-
-```python3
-f = [1, 2]
-for _ in range(30):
-    f.append(f[-1] + f[-2])
-```
-Initializes the DP table `f` with $f[0] = 1, f[1] = 2$ and computes values up to $f[31]$ using the recurrence relation $f[i] = f[i-1] + f[i-2]$.
-
-```python3
-ans = 0
-prev_bit = 0
-```
-`ans` accumulates the total count of valid numbers. `prev_bit` tracks the value of the bit directly to the left (bit $i+1$) during iteration.
-
-```python3
-for i in range(30, -1, -1):
-```
-Iterates from bit 30 down to bit 0. Bit 30 is chosen because $2^{30} > 10^9$, ensuring all valid bits of $n$ are checked.
-
-```python3
-    if (n >> i) & 1:
-```
-Checks if the $i$-th bit of $n$ is set to `1`.
-
-```python3
-        ans += f[i]            # place 0 here, free lower i bits
-```
-If bit $i$ of $n$ is `1`, placing `0` at bit $i$ yields numbers $< n$. The lower $i$ bits can form any valid binary combination of length $i$, adding $f[i]$ options.
-
-```python3
-        if prev_bit == 1:      # "11" → n itself invalid, stop
-            return ans
-```
-If both bit $i+1$ (`prev_bit`) and bit $i$ are `1`, a `"11"` sequence is formed in $n$'s prefix. No valid integers can share or exceed this prefix, so the search terminates immediately.
-
-```python3
-        prev_bit = 1
-```
-Fixes bit $i$ as `1` for subsequent iterations and records `prev_bit = 1`.
-
-```python3
-    else:
-        prev_bit = 0
-```
-If bit $i$ of $n$ is `0`, we must place `0` at bit $i$ to avoid exceeding $n$. Updates `prev_bit = 0`.
-
-```python3
-return ans + 1                 # +1 for n itself
-```
-If the loop finishes without hitting consecutive ones, $n$ itself has no consecutive ones and was not counted by the branching logic. We add `1` for $n$.
+- `f = [1, 2]`: Base cases: length 0 → 1 string (empty), length 1 → 2 strings (`0`, `1`).
+- `for _ in range(30): f.append(f[-1] + f[-2])`: Build Fibonacci up to length 30 (covers bits 0..30).
+- `ans = 0`: Accumulator for the count.
+- `prev_bit = 0`: Tracks the previous bit of `n` (initially 0, as if there's a leading 0).
+- `for i in range(30, -1, -1):`: Iterate from bit 30 down to 0 (MSB to LSB).
+- `if (n >> i) & 1:`: Check if the `i`-th bit of `n` is set.
+- `ans += f[i]`: If we put `0` here, the lower `i` bits can be any valid string → `f[i]` possibilities.
+- `if prev_bit == 1: return ans`: Two consecutive ones in `n` → `n` itself invalid; all numbers counted so far are `< n`, so return.
+- `prev_bit = 1`: Current bit is `1`, remember for next iteration.
+- `else: prev_bit = 0`: Current bit is `0`, reset consecutive-one tracker.
+- `return ans + 1`: Loop finished without consecutive ones → `n` is valid, add it.
 
 ## Dry Run
+Example: `n = 5` (binary `101`, bits 2,1,0).  
+Precomputed `f`: `f[0]=1`, `f[1]=2`, `f[2]=3`, `f[3]=5`, …
 
-Trace for $n = 5$ (binary `101`):
+| Step | i | (n>>i)&1 | prev_bit | ans before | Action |
+|------|---|----------|----------|------------|--------|
+| 1    | 2 | 1        | 0        | 0          | ans += f[2]=3 → ans=3; prev_bit=1 |
+| 2    | 1 | 0        | 1        | 3          | prev_bit=0 |
+| 3    | 0 | 1        | 0        | 3          | ans += f[0]=1 → ans=4; prev_bit=1 |
+| End  |   |          |          | 4          | return ans+1 = 5 |
 
-Precomputed `f`: `f[0]=1, f[1]=2, f[2]=3, f[3]=5, f[4]=8, ...`
-
-For bits $i = 30$ down to $3$, $n$'s bit is `0`. `ans` stays `0`, `prev_bit` remains `0`.
-
-| Bit $i$ | Bit value `(n >> i) & 1` | `prev_bit` before | Action / Branch | `ans` after | `prev_bit` after |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **2** | `1` | `0` | Bit $2$ is `1`: add $f[2] = 3$ (choices with bit $2$ set to `0`) | $0 + 3 = 3$ | `1` |
-| **1** | `0` | `1` | Bit $1$ is `0`: must keep bit $1$ as `0` | $3$ | `0` |
-| **0** | `1` | `0` | Bit $0$ is `1`: add $f[0] = 1$ (choice with bit $0$ set to `0`) | $3 + 1 = 4$ | `1` |
-
-Loop ends cleanly without encountering consecutive ones (`prev_bit == 1` was never true when current bit was `1`).
-
-Final return: `ans + 1` = $4 + 1 = 5$.
-
-Valid integers $\le 5$: $0 (`0`), 1 (`1`), 2 (`10`), 4 (`100`), 5 (`101`)$. Total = 5.
+Matches expected output 5.
 
 ## Complexity
-
-- **Time Complexity:** $\mathcal{O}(1)$ (or $\mathcal{O}(\log n)$). The precomputation takes 30 steps, and the bitwise loop executes exactly 31 iterations regardless of $n$. Since $n \le 10^9$, the bit length is capped by a constant (31).
-- **Space Complexity:** $\mathcal{O}(1)$ (or $\mathcal{O}(\log n)$). The DP array `f` stores 32 integers, using a fixed amount of auxiliary memory.
+- **Time:** O(31) = O(1). The loop runs 31 times (bits 30..0), each iteration does O(1) work. Precomputation also 31 steps.
+- **Space:** O(31) = O(1). The `f` array holds 31 integers.
 
 ## Edge Cases
-
-- **$n = 1$ (Binary `1`):** Loops down to bit 0, adds $f[0] = 1$, loop finishes, returns $1 + 1 = 2$ ($0$ and $1$). Handled correctly.
-- **Numbers with consecutive ones (e.g., $n = 3$, Binary `11`):** At $i=1$, bit is `1`, `ans += f[1]` ($2$). At $i=0$, bit is `1`, `prev_bit == 1` triggers early return of `ans` ($2 + f[0] = 3$, counting $0, 1, 2$). Correctly excludes $3$.
-- **Power of two (e.g., $n = 4$, Binary `100`):** Single MSB set, lower bits all `0`. Correctly adds $f[2] = 3$ and then $+1$ at the end for $4$ itself. Total = 4 ($0, 1, 2, 4$).
-- **Maximum constraint ($n = 10^9$):** Fits in 30 bits ($10^9 < 2^{30} = 1,073,741,824$). The hardcoded size of 31 entries in `f` is sufficient.
+- **n = 1** (binary `1`): Loop adds `f[0]=1` at i=0, no consecutive ones → returns 2. Correct (0,1).
+- **n = 2** (binary `10`): i=1 adds `f[1]=2`, i=0 bit 0 → returns 3. Correct (0,1,2).
+- **n = 3** (binary `11`): i=1 adds `f[1]=2`, prev_bit=1; i=0 bit=1 and prev_bit=1 → returns 2. Correct (0,1,2; 3 invalid).
+- **Maximum n = 10⁹** (≈ 30 bits): Loop covers all bits; Fibonacci numbers fit in Python int (no overflow).
+- **n = 0** is not in constraints (n ≥ 1), but code would return 1 (only 0) which is correct.
 
 ## Possible Improvements
-
-The solution is optimal in both time and space complexity. A minor practical refinement:
-
-- **Skip redundant high bits:** Instead of starting the loop from bit 30, start directly from $n$'s most significant bit position (`n.bit_length() - 1`). This avoids iterating through up to 30 leading zeros, though performance difference is negligible due to the fixed constant cap of 31 iterations.
+The solution is already optimal for the given constraints. Time and space are constant and minimal. Variable names (`f`, `ans`, `prev_bit`) are clear. The only minor improvement would be to compute the highest bit dynamically instead of hardcoding 30, but 30 is safe for `n ≤ 10⁹` and avoids a log calculation. No algorithmic improvement is possible; the Fibonacci-digit-DP approach is the standard optimal solution.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

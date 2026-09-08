@@ -1,71 +1,69 @@
 # 125. Valid Palindrome - Solution Analysis
 
 ## Problem Understanding
-The task asks whether a given string `s` reads the same forwards and backwards after stripping all non-alphanumeric characters and converting all remaining letters to lowercase. Empty strings or strings with no alphanumeric characters are valid palindromes. With $s.\text{length} \le 2 \times 10^5$, an optimal solution must run in $O(N)$ time and should ideally avoid allocating additional memory for filtered copies of the string.
+The problem asks whether a string reads the same forward and backward after removing all non-alphanumeric characters and ignoring case. Input is a printable ASCII string up to 2·10⁵ characters. Output is a boolean. An empty string after filtering counts as a palindrome. The length constraint favors O(n) time and O(1) extra space; creating a filtered copy would work but uses O(n) space.
 
 ## Approach
-This solution uses the **two pointers** pattern (converging from opposite ends). 
-
-A baseline approach creates a new filtered, lowercased string via regular expressions or list comprehensions and checks if it equals its reverse, which requires $O(N)$ auxiliary space. The two-pointer approach avoids this allocation by traversing the string in-place: one pointer advances from the left and another retreats from the right, skipping non-alphanumeric characters on the fly. 
-
-**Key Insight:** Symmetric character equality can be validated directly on the original string in $O(1)$ space by skipping non-alphanumeric characters dynamically until the pointers meet.
+The solution uses the **two pointers** pattern. A brute-force approach would filter the string into a new alphanumeric-only lowercase string (O(n) time, O(n) space) then check it with a simple loop. The two-pointer approach avoids extra space by skipping non-alphanumeric characters on the fly and comparing characters from both ends moving inward. Key insight: only alphanumeric characters matter, and they must match pairwise from the outside in; non-alphanumeric characters can be ignored by advancing pointers past them.
 
 ## Algorithm
-1. Initialize two pointers: `l` at the beginning (`0`) and `r` at the end (`len(s) - 1`).
+1. Initialize left pointer `l = 0` and right pointer `r = len(s) - 1`.
 2. While `l < r`:
-   1. Increment `l` while `l < r` and `s[l]` is not alphanumeric.
-   2. Decrement `r` while `l < r` and `s[r]` is not alphanumeric.
-   3. Compare `s[l].lower()` and `s[r].lower()`. If they differ, return `False`.
-   4. Advance `l` by 1 and `r` by -1 to move to the next inner pair of characters.
-3. If the loop completes without finding a mismatch, return `True`.
+   a. Increment `l` while `l < r` and `s[l]` is not alphanumeric.
+   b. Decrement `r` while `l < r` and `s[r]` is not alphanumeric.
+   c. If `s[l].lower() != s[r].lower()`, return `False`.
+   d. Increment `l` and decrement `r`.
+3. Return `True` (all compared pairs matched).
 
 ## Line-by-Line Explanation
-- `l, r = 0, len(s) - 1`: Sets up two pointers at the outer boundaries of the string.
-- `while l < r:`: Drives the inward scan, terminating when the pointers meet or cross.
-- `while l < r and not s[l].isalnum():`: Scans forward to find the next valid alphanumeric character from the left, bound-checked against `r` to prevent overshooting.
-- `l += 1`: Moves the left pointer forward past non-alphanumeric characters.
-- `while l < r and not s[r].isalnum():`: Scans backward to find the next valid alphanumeric character from the right, bound-checked against `l`.
-- `r -= 1`: Moves the right pointer backward past non-alphanumeric characters.
-- `if s[l].lower() != s[r].lower():`: Normalizes both characters to lowercase and checks for a mismatch.
-- `return False`: Immediately exits with a negative result upon encountering the first asymmetric character pair.
-- `l += 1`: Advances the left pointer inward after a successful character match.
-- `r -= 1`: Advances the right pointer inward after a successful character match.
-- `return True`: Returns success once all symmetric alphanumeric pairs have been validated.
+- `l, r = 0, len(s) - 1`: Initialize two pointers at the string boundaries.
+- `while l < r:`: Loop until pointers meet or cross.
+- `while l < r and not s[l].isalnum(): l += 1`: Advance left pointer past non-alphanumeric characters.
+- `while l < r and not s[r].isalnum(): r -= 1`: Advance right pointer past non-alphanumeric characters.
+- `if s[l].lower() != s[r].lower(): return False`: Compare the current alphanumeric pair case-insensitively; mismatch means not a palindrome.
+- `l += 1; r -= 1`: Move both pointers inward for the next comparison.
+- `return True`: All valid pairs matched; the string is a palindrome.
 
 ## Dry Run
+Trace of Example 1: `s = "A man, a plan, a canal: Panama"` (length 30, indices 0–29)
 
-Trace of `s = "race a car"` (length = 10):
-
-| Step | `l` | `s[l]` | `r` | `s[r]` | Inner While Advances | `s[l].lower() == s[r].lower()` | Action |
-|---|---|---|---|---|---|---|---|
-| 1 | 0 | `'r'` | 9 | `'r'` | None (both alphanumeric) | `'r' == 'r'` (True) | `l += 1`, `r -= 1` |
-| 2 | 1 | `'a'` | 8 | `'a'` | None (both alphanumeric) | `'a' == 'a'` (True) | `l += 1`, `r -= 1` |
-| 3 | 2 | `'c'` | 7 | `'c'` | None (both alphanumeric) | `'c' == 'c'` (True) | `l += 1`, `r -= 1` |
-| 4 | 3 | `'e'` | 6 | `' '` | `r` decrements to 5 (`s[5] = 'a'`) | `'e' == 'a'` (False) | Return `False` |
-
----
+| Step | l | r | s[l] | s[r] | s[l].isalnum() | s[r].isalnum() | Action |
+|------|---|---|------|------|----------------|----------------|--------|
+| 1 | 0 | 29 | 'A' | 'a' | True | True | compare 'a'=='a' ✓ → l=1, r=28 |
+| 2 | 1 | 28 | ' ' | 'm' | False | True | skip l → l=2 |
+| 2 | 2 | 28 | 'm' | 'm' | True | True | compare 'm'=='m' ✓ → l=3, r=27 |
+| 3 | 3 | 27 | 'a' | 'a' | True | True | compare 'a'=='a' ✓ → l=4, r=26 |
+| 4 | 4 | 26 | 'n' | 'n' | True | True | compare 'n'=='n' ✓ → l=5, r=25 |
+| 5 | 5 | 25 | ',' | 'a' | False | True | skip l → l=6 |
+| 5 | 6 | 25 | ' ' | 'a' | False | True | skip l → l=7 |
+| 5 | 7 | 25 | 'a' | 'a' | True | True | compare 'a'=='a' ✓ → l=8, r=24 |
+| 6 | 8 | 24 | ' ' | 'P' | False | True | skip l → l=9 |
+| 6 | 9 | 24 | 'p' | 'P' | True | True | compare 'p'=='p' ✓ → l=10, r=23 |
+| 7 | 10 | 23 | 'l' | ' ' | True | False | skip r → r=22 |
+| 7 | 10 | 22 | 'l' | ':' | True | False | skip r → r=21 |
+| 7 | 10 | 21 | 'l' | 'l' | True | True | compare 'l'=='l' ✓ → l=11, r=20 |
+| 8 | 11 | 20 | 'a' | 'a' | True | True | compare 'a'=='a' ✓ → l=12, r=19 |
+| 9 | 12 | 19 | 'n' | 'n' | True | True | compare 'n'=='n' ✓ → l=13, r=18 |
+| 10 | 13 | 18 | ',' | 'a' | False | True | skip l → l=14 |
+| 10 | 14 | 18 | ' ' | 'a' | False | True | skip l → l=15 |
+| 10 | 15 | 18 | 'a' | 'a' | True | True | compare 'a'=='a' ✓ → l=16, r=17 |
+| 11 | 16 | 17 | ' ' | 'c' | False | True | skip l → l=17 |
+| 11 | 17 | 17 | 'c' | 'c' | True | True | loop exits (l<r false) → return True |
 
 ## Complexity
-
-- **Time:** $O(n)$, where $n$ is the length of `s` ($1 \le n \le 2 \times 10^5$). Each character is evaluated by `isalnum()` at most once by `l` and once by `r`. The pointers move inward monotonically and meet in at most $n$ total pointer increments/decrements.
-- **Space:** $O(1)$. Pointers are updated in-place on the input string without allocating auxiliary strings or filtered arrays.
-
----
+- Time: O(n), where n = len(s). Each pointer moves monotonically toward the center; every character is examined at most once by each pointer.
+- Space: O(1). Only two integer indices and a few temporaries are used, independent of input size.
 
 ## Edge Cases
-
-- **No alphanumeric characters (e.g., `s = ".,:;"`):** The inner `while` conditions `l < r` ensure neither pointer goes out of bounds. The pointers cross each other, the check compares equal characters or exits the outer loop, correctly returning `True`.
-- **Single character (e.g., `s = "a"` or `s = " "`):** The outer loop condition `l < r` is immediately `0 < 0` (False), skipping the loop and returning `True`.
-- **Mixed case and numeric characters (e.g., `s = "0P"`):** `s[l].lower()` and `s[r].lower()` properly handle ASCII digits without error, returning `False` when comparing `'0'` to `'p'`.
-
----
+- **All non-alphanumeric** (e.g., `" ,:;"`): inner loops advance both pointers until `l >= r`, returns `True` (empty filtered string is a palindrome).
+- **Single alphanumeric character** (e.g., `"a"`): `l=0, r=0`, loop skipped, returns `True`.
+- **Mixed case** (e.g., `"Aa"`): `.lower()` normalises before comparison, correctly returns `True`.
+- **Maximum length** (2·10⁵): linear scan with O(1) space fits easily within limits.
+- **Already palindrome / not palindrome**: handled by the direct character comparison.
 
 ## Possible Improvements
-
-The solution is already optimal in both time ($O(n)$) and space ($O(1)$).
-
-A minor observation in the loop structure: if the inner loops skip non-alphanumeric characters until `l == r`, the code still executes the `s[l].lower() != s[r].lower()` check on the same character index before `l` and `r` cross. Because `s[i].lower() == s[i].lower()` is always true, correctness is preserved, but adding an explicit `if l >= r: break` right after the inner skipping loops would avoid an unnecessary character read and comparison on strings composed entirely of non-alphanumerics.
+The solution is already optimal for the given constraints: O(n) time and O(1) auxiliary space cannot be improved asymptotically. The two-pointer in-place approach avoids the O(n) space of the commented regex + slice method. Variable names `l`/`r` are standard for two-pointer patterns; no material clarity gain from renaming. No redundant passes or unhandled boundaries exist.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

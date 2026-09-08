@@ -1,108 +1,67 @@
 # 12. Integer to Roman - Solution Analysis
 
 ## Problem Understanding
-The problem asks to convert a given integer `num` into its corresponding Roman numeral string. 
-
-Roman numerals follow a place-value breakdown from highest to lowest. Standard symbols represent specific fixed values ($I=1, V=5, X=10, L=50, C=100, D=500, M=1000$). Normally, symbols are repeated or combined additively. However, when a digit in a decimal place begins with $4$ or $9$, a subtractive form is used ($IV=4, IX=9, XL=40, XC=90, CD=400, CM=900$) to prevent repeating a symbol four times.
-
-The problem bounds `num` strictly to $1 \le \text{num} \le 3999$.
+Convert an integer (1 ≤ num ≤ 3999) to its Roman numeral representation. Roman numerals use seven symbols (I, V, X, L, C, D, M) with specific additive and subtractive rules: symbols are written largest-to-smallest, but 4/9/40/90/400/900 use subtractive pairs (IV, IX, XL, XC, CD, CM). The input range guarantees the output fits in standard Roman numerals without overline notation. Order matters (descending value), duplicates are allowed for powers of ten up to three times, and the algorithm must handle all values in the range.
 
 ## Approach
-This solution uses a **Greedy Algorithm** backed by a static lookup table. 
+**Greedy with precomputed value-symbol pairs.** The solution encodes every Roman "digit" — both additive (1000, 500, 100, 50, 10, 5, 1) and subtractive (900, 400, 90, 40, 9, 4) — into a single list sorted descending by value. At each step it takes the largest symbol that fits into the remaining number, appends it, and subtracts its value. This works because Roman numerals are essentially a mixed-radix system where each decimal place is independent, and the subtractive forms are just the "digits" for 4 and 9 in each place. Brute force would try all combinations or simulate place-by-place division; the greedy list reduces that to a single linear pass over 13 fixed entries.
 
-Because Roman numeral representation is deterministic and always selects the largest possible value component at each step, listing all $13$ possible atomic building blocks (the $7$ standard symbols plus the $6$ subtractive pairs) in descending order allows us to greedily subtract the largest fitting value until `num` becomes $0$.
+**Key insight:** By baking the six subtractive forms into the value list alongside the seven base symbols, the algorithm never needs special-case logic for 4/9 — the greedy choice naturally picks CM before D, CD before C, etc.
 
 ## Algorithm
-1. Define a list of tuples containing integer values and their Roman numeral string equivalents sorted in strictly descending order from $1000$ down to $1$.
-2. Initialize an empty string `result`.
-3. Iterate through each `(value, roman)` pair in the list:
-   - While `num` is greater than or equal to `value`, append `roman` to `result` and subtract `value` from `num`.
+1. Define a constant list of (value, symbol) pairs ordered from largest to smallest, including all subtractive forms.
+2. Initialise an empty result string.
+3. For each (value, symbol) in the list:
+   a. While the remaining `num` ≥ `value`:
+      i. Append `symbol` to `result`.
+      ii. Subtract `value` from `num`.
 4. Return `result`.
 
 ## Line-by-Line Explanation
-
-```python
-        roman_tuples = [
-            (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
-            (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
-            (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')
-        ]
-```
-Defines all $13$ fundamental Roman numeral units in descending order. Including the subtractive forms directly in this list eliminates the need for conditional logic checking for $4$ or $9$.
-
-```python
-        result = ''
-```
-Initializes the output string buffer.
-
-```python
-        for value, roman in roman_tuples:
-```
-Iterates through the pre-defined mapping from largest value ($1000$) to smallest ($1$).
-
-```python
-            while num >= value:
-                result += roman
-                num -= value
-```
-Greedily consumes `value` from `num` as many times as possible. For each successful subtraction, it appends the matching `roman` string to `result`.
-
-```python
-        return result
-```
-Returns the fully constructed Roman numeral representation once `num` reaches $0$.
+- `roman_tuples = [...]`: Lookup table mapping every Roman "digit" (1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000) to its symbol(s), ordered so the greedy loop always picks the largest possible chunk.
+- `result = ''`: Accumulator for the output string.
+- `for value, roman in roman_tuples:`: Iterate over the 13 pairs once, high to low.
+- `while num >= value:`: Repeatedly consume the current value as many times as it fits (0–3 times for base symbols, 0–1 for subtractive forms).
+- `result += roman`: Append the corresponding symbol(s).
+- `num -= value`: Reduce the remaining number.
+- `return result`: Finished when `num` reaches 0.
 
 ## Dry Run
+Trace `num = 1994` (Example 3):
 
-Tracing `num = 1994`:
+| Step | value | roman | num before | num ≥ value? | Action | result after | num after |
+|------|-------|-------|------------|--------------|--------|--------------|-----------|
+| 1 | 1000 | M | 1994 | yes | append M, subtract 1000 | M | 994 |
+| 2 | 1000 | M | 994 | no | skip | M | 994 |
+| 3 | 900 | CM | 994 | yes | append CM, subtract 900 | MCM | 94 |
+| 4 | 500 | D | 94 | no | skip | MCM | 94 |
+| 5 | 400 | CD | 94 | no | skip | MCM | 94 |
+| 6 | 100 | C | 94 | no | skip | MCM | 94 |
+| 7 | 90 | XC | 94 | yes | append XC, subtract 90 | MCMXC | 4 |
+| 8 | 50 | L | 4 | no | skip | MCMXC | 4 |
+| 9 | 40 | XL | 4 | no | skip | MCMXC | 4 |
+| 10 | 10 | X | 4 | no | skip | MCMXC | 4 |
+| 11 | 9 | IX | 4 | no | skip | MCMXC | 4 |
+| 12 | 5 | V | 4 | no | skip | MCMXC | 4 |
+| 13 | 4 | IV | 4 | yes | append IV, subtract 4 | MCMXCIV | 0 |
+| 14 | 1 | I | 0 | no | skip | MCMXCIV | 0 |
 
-| `value` | `roman` | `num` (before) | Condition `num >= value` | `result` (after) | `num` (after) |
-|---|---|---|---|---|---|
-| 1000 | `'M'` | 1994 | True | `"M"` | 994 |
-| 1000 | `'M'` | 994 | False | `"M"` | 994 |
-| 900 | `'CM'` | 994 | True | `"MCM"` | 94 |
-| 900 | `'CM'` | 94 | False | `"MCM"` | 94 |
-| 500..100 | ... | 94 | False | `"MCM"` | 94 |
-| 90 | `'XC'` | 94 | True | `"MCMXC"` | 4 |
-| 90 | `'XC'` | 4 | False | `"MCMXC"` | 4 |
-| 50..5 | ... | 4 | False | `"MCMXC"` | 4 |
-| 4 | `'IV'` | 4 | True | `"MCMXCIV"` | 0 |
-| 4 | `'IV'` | 0 | False | `"MCMXCIV"` | 0 |
-| 1 | `'I'` | 0 | False | `"MCMXCIV"` | 0 |
-
-Final Output: `"MCMXCIV"`
+Output: `"MCMXCIV"`.
 
 ## Complexity
-
-- **Time Complexity:** $\mathcal{O}(1)$. Where $n$ is `num`. Because $n \le 3999$, the outer loop always runs exactly $13$ times. The inner `while` loop executes at most $15$ times total across all iterations (the longest generated string is $15$ characters for $3888$: `"MMMDCCCLXXXVIII"`). Thus, the runtime is strictly bounded by a constant.
-- **Space Complexity:** $\mathcal{O}(1)$. The size of `roman_tuples` is fixed at $13$ elements, and the maximum length of the output string `result` is $15$ characters.
+- Time: O(1) — the outer loop runs exactly 13 iterations (fixed table size), and the inner `while` executes at most 3 times per base symbol (since 4× would trigger a subtractive form earlier). Total appends ≤ 15 for the maximum input 3999 (MMMCMXCIX). With the constraint `num ≤ 3999`, this is constant time.
+- Space: O(1) — only the fixed 13-entry table and the output string (max length 15) are stored. No auxiliary structures scale with input.
 
 ## Edge Cases
-
-- **Minimum Bound (`num = 1`):** Handled correctly. The loop skips down to `(1, 'I')`, appends `'I'`, and terminates.
-- **Maximum Bound (`num = 3999`):** Handled correctly. Produces `"MMMDCCCXCIX"`.
-- **Subtractive Forms:** Values like $4, 9, 40, 90, 400, 900$ are handled naturally by the presence of these explicit entries in `roman_tuples`.
-- **Relaxed Constraint - Zero or Negative Inputs (`num <= 0`):** The `while` condition `num >= value` is never satisfied for positive values, returning an empty string `""`. Standard Roman numerals do not represent zero or negative numbers.
-- **Relaxed Constraint - Values $\ge 4000$:** The implementation would append $4$ or more `'M'` symbols (e.g., $4000 \to \text{"MMMM"}$), which violates standard Roman numeral notation where a vinculum (overline) is required for numbers $\ge 4000$.
+- **Minimum input (1):** Loop reaches the last pair (1, 'I'), appends once, returns "I".
+- **Maximum input (3999):** Produces "MMMCMXCIX" — three M, then CM, XC, IX. The table order ensures CM is chosen before D, etc.
+- **Values exactly on subtractive boundaries (4, 9, 40, 90, 400, 900):** The subtractive pair appears earlier in the list than the additive alternative, so it is picked (e.g., 900 triggers CM, not D + CCCC).
+- **Values requiring three repeats (3, 30, 300, 3000):** The `while` loop appends the base symbol up to three times before moving to the next lower value.
+- **No valid answer / empty input:** Impossible per constraints (`num ≥ 1`).
 
 ## Possible Improvements
-
-The implementation is efficient and optimal given the constraints. However, two minor technical modifications exist:
-
-1. **Avoid Repeated String Concatenation:** String concatenation (`result += roman`) creates a new string object on each iteration in Python. Using a list accumulator (`result_list.append(roman)`) followed by `''.join(result_list)` is generally preferred for Pythonic string construction, though for a maximum length of $15$ characters, the performance difference is negligible.
-2. **Direct Arithmetic / Direct Place-Value Lookup:** Instead of a `while` loop, you can calculate character frequency via integer division (`count = num // value`) or directly index into positional arrays for thousands, hundreds, tens, and ones:
-
-```python
-THOUSANDS = ["", "M", "MM", "MMM"]
-HUNDREDS  = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"]
-TENS      = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"]
-ONES      = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"]
-
-return THOUSANDS[num // 1000] + HUNDREDS[(num % 1000) // 100] + TENS[(num % 100) // 10] + ONES[num % 10]
-```
-
-This direct positional lookup eliminates loops entirely, running in pure $O(1)$ operations with zero loop overhead. However, the existing greedy approach remains completely optimal in asymptotic terms.
+The solution is already optimal for the given constraints. The 13-entry table is minimal (covers all distinct Roman "digits"), the greedy pass is a single loop with no backtracking, and both time and space are O(1) with tiny constants. A micro-optimisation would be to replace the `while` with integer division and string multiplication (`count = num // value; result += roman * count; num %= value`), reducing Python bytecode overhead, but the asymptotic complexity remains identical and the current code is clearer.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

@@ -1,87 +1,47 @@
 # 877. Stone Game - Solution Analysis
 
 ## Problem Understanding
-Alice and Bob play a game taking stone piles from either end of a row of piles. Alice moves first. They both play optimally, and the game ends when no piles remain. The player with the most total stones wins.
-
-The problem imposes four critical constraints:
-1. `piles.length` is an **even** integer $n$.
-2. `sum(piles)` is an **odd** integer, meaning a tie is mathematically impossible.
-3. Every `piles[i]` is a positive integer.
-4. Alice moves first.
-
-We need to return `True` if Alice wins, and `False` if Bob wins.
+Alice and Bob alternately take a pile from either end of a row with an even number of piles and an odd total stone count. Alice moves first. Both play optimally. The task is to return whether Alice wins. The constraints (even length, odd sum, positive integers) are the only inputs that matter; the actual values in `piles` do not affect the answer.
 
 ## Approach
-This solution uses a **Game Theory / Mathematical Strategy (Parity Argument)**.
-
-While stone games are commonly solved using Minimax or Dynamic Programming ($O(n^2)$ time and space), the given constraints enable a mathematical shortcut. 
-
-Because the number of piles $n$ is even, we can partition the array into two disjoint sets based on index parity:
-* **Set A (Even indices):** `piles[0], piles[2], ..., piles[n-2]`
-* **Set B (Odd indices):** `piles[1], piles[3], ..., piles[n-1]`
-
-Since the total number of stones across all piles is odd, `sum(Set A)` cannot equal `sum(Set B)`. One set strictly contains more stones than the other. 
-
-Because Alice plays first, she can force a win by choosing to take *all* elements of Set A or *all* elements of Set B:
-1. On turn 1, Alice can take `piles[0]` (an even index), leaving Bob with ends at indices $1$ and $n-1$ (both odd indices).
-2. Whatever odd index Bob picks, he exposes two even indices ($0$ and $n-2$ or $2$ and $n-1$) for Alice's next turn.
-3. Alice can repeat this to collect every element in Set A.
-4. Alternatively, Alice can pick `piles[n-1]` on turn 1 to collect every element in Set B.
-
-Because Alice can calculate both set sums before her first move, she will always pick the strategy corresponding to the strictly larger sum. Therefore, **Alice is guaranteed to win every game**, making `return True` universally correct.
+**Mathematical Game Theory / Parity Argument**.  
+The brute-force approach is minimax with memoisation (or interval DP) running in O(n²) time and space. The chosen approach exploits a structural property: because the number of piles is even, Alice can always force a win by committing to either all even-indexed piles or all odd-indexed piles. On her first move she picks the end belonging to the parity with the larger sum; thereafter she mirrors Bob’s choice (if Bob takes from the left, she takes from the right, and vice versa), preserving her chosen parity. Since the total sum is odd, one parity’s sum strictly exceeds half the total, guaranteeing Alice’s victory.  
+**Key insight:** With an even number of piles, the first player can always secure all piles of one index parity.
 
 ## Algorithm
-1. Rely on the game theory invariant: for any valid input under the constraints, Alice has a deterministic winning strategy.
-2. Return `True` in $O(1)$ time.
+1. Observe that `len(piles)` is even (given by constraints).
+2. Observe that `sum(piles)` is odd (given by constraints).
+3. Conclude that Alice can always win by the parity strategy described above.
+4. Return `True` unconditionally.
 
 ## Line-by-Line Explanation
-
-```python3
-class Solution:
-    def stoneGame(self, piles: List[int]) -> bool:
-        return True
-```
-* `return True`: Returns `True` immediately without inspecting `piles`, as Alice's first-mover parity advantage guarantees her victory under the problem constraints.
+- `class Solution:`: Boilerplate class required by LeetCode.
+- `def stoneGame(self, piles: List[int]) -> bool:`: Method signature; `piles` is accepted but never read.
+- `return True`: Directly returns the mathematically proven result for every valid input.
 
 ## Dry Run
+Trace the parity strategy on Example 1: `piles = [5, 3, 4, 5]`.
 
-### Example: `piles = [5, 3, 4, 5]`
-- Total elements $n = 4$ (even). Total sum = $17$ (odd).
-- Even-index sum (`piles[0] + piles[2]`): $5 + 4 = 9$
-- Odd-index sum (`piles[1] + piles[3]`): $3 + 5 = 8$
-- Winning strategy for Alice: collect all even-index piles (sum $9 > 8$).
+| Step | Remaining piles | Alice's parity choice | Alice takes | Bob takes | Alice total | Bob total |
+|------|-----------------|-----------------------|-------------|-----------|-------------|-----------|
+| 0    | [5, 3, 4, 5]    | even indices (0,2) sum=9 > odd sum=8 | 5 (index 0) | – | 5 | 0 |
+| 1    | [3, 4, 5]       | –                     | –           | 3 or 5    | 5           | 3 or 5    |
+| 2    | [4, 5] or [3, 4]| even indices          | 5 or 4      | –         | 10 or 9     | 3 or 5    |
 
-| Turn | Player | Choice | Picked Index | Piles Left | Alice Stones | Bob Stones |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | Alice | `piles[0]` ($5$) | $0$ (Even) | `[3, 4, 5]` | $5$ | $0$ |
-| 2 | Bob | `piles[3]` ($5$) | $3$ (Odd) | `[3, 4]` | $5$ | $5$ |
-| 3 | Alice | `piles[2]` ($4$) | $2$ (Even) | `[3]` | $9$ | $5$ |
-| 4 | Bob | `piles[1]` ($3$) | $1$ (Odd) | `[]` | $9$ | $8$ |
-
-Alice ends with $9$ stones, Bob ends with $8$ stones. Alice wins. Return value: `True`.
+Alice finishes with 9 or 10 stones, Bob with the rest (8 or 7). Alice wins. The code returns `True` without simulating this.
 
 ## Complexity
-
-- **Time Complexity:** $O(1)$. The function executes a single return statement regardless of the size of `piles`.
-- **Space Complexity:** $O(1)$. No auxiliary memory or data structures are allocated.
-
-($n$ refers to the number of elements in `piles`.)
+- Time: O(1) – the function returns immediately, independent of input size.
+- Space: O(1) – no auxiliary data structures are allocated.
 
 ## Edge Cases
-
-### Handled correctly by this solution:
-- **Minimum input size ($n = 2$):** e.g., `piles = [2, 1]`. Alice takes `piles[0]` ($2$) and wins immediately.
-- **Large array size ($n = 500$):** Executes in $O(1)$ time without overflow or TLE.
-- **Large individual pile values:** Sums are irrelevant to execution time since no addition is performed.
-
-### Conditions under which this strategy would fail (if constraints were relaxed):
-- **Odd $n$:** Alice can no longer control index parity throughout the game.
-- **Even total sum:** Ties become possible, so Alice might not be able to force a strict win.
-- **Bob goes first:** Bob would possess the parity advantage instead.
+- Minimum length (2 piles): e.g., `[1, 2]` → Alice takes 2, wins.
+- All piles equal is impossible because an even count of equal positive integers sums to an even number, violating the odd-sum constraint.
+- Any permutation or distribution of values is covered by the parity argument; no valid input breaks the guarantee.
 
 ## Possible Improvements
-This solution is already optimal in both time ($O(1)$) and space ($O(1)$). While dynamic programming ($O(n^2)$) or interval DP is typically taught for this class of problems (e.g., Stone Game VII), applying DP here would needlessly degrade efficiency.
+The solution is already optimal for the stated constraints—O(1) time and space cannot be improved. If the constraints were relaxed (odd number of piles, or even total sum), the parity strategy would fail and a DP/minimax solution would become necessary.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

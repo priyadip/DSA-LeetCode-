@@ -1,82 +1,56 @@
 # 217. Contains Duplicate - Solution Analysis
 
 ## Problem Understanding
-The goal is to determine whether an integer array `nums` contains any duplicate elements. We need to return `True` if at least one value appears two or more times, and `False` if every value in the array is distinct.
-
-The size of `nums` reaches up to $10^5$, which rules out brute-force nested loops ($O(n^2)$ time). The integers themselves span from $-10^9$ to $10^9$, so array indexing or direct lookup tables (like frequency arrays) cannot be used directly without unbounded memory allocation.
+Given an integer array `nums`, determine whether any value appears at least twice. The array length can reach 10^5 and values span -10^9 to 10^9, so an O(n^2) pairwise comparison would time out. Order is irrelevant; only the existence of a duplicate matters.
 
 ## Approach
-This solution uses a **Hash Set** via Python's built-in `set` data structure. 
-
-A hash set only stores unique elements. Passing a list into `set()` inserts each element into the set while discarding duplicates. Comparing the size of the generated set to the length of the original list allows us to determine if any elements were removed during set construction.
+**Hash Set for Duplicate Detection**. The brute-force approach checks every pair (O(n^2) time, O(1) space). Converting the list to a set removes duplicates in O(n) average time; if the set size is smaller than the original list, a duplicate existed. This trades O(n) extra space for linear time, which is optimal for the given constraints.  
+**Key insight**: a set's cardinality equals the number of distinct elements, so a length mismatch directly signals a duplicate.
 
 ## Algorithm
-1. Pass the entire list `nums` to `set()`, creating a set of unique elements.
-2. Measure the length of the resulting set using `len(set(nums))`.
-3. Compare `len(set(nums))` to `len(nums)` using the inequality operator `!=`.
-4. Return `True` if the set length is strictly smaller than the list length (indicating duplicates were dropped), or `False` if both lengths are equal.
+1. Construct a `set` from `nums` — this iterates once and keeps only unique values.
+2. Compare `len(nums)` with `len(set(nums))`.
+3. Return `True` if they differ (duplicate found), otherwise `False`.
 
 ## Line-by-Line Explanation
-```python
-class Solution:
-    def containsDuplicate(self, nums: List[int]) -> bool:
-        return len(nums) != len(set(nums))
-```
-
-- `return len(nums) != len(set(nums))`: 
-  - `set(nums)` iterates through all elements in `nums` and inserts them into a new hash set, automatically deduplicating values.
-  - `len(set(nums))` evaluates the count of unique values.
-  - `len(nums)` evaluates the total count of elements.
-  - `!=` evaluates to `True` if elements were filtered out (duplicates exist) and `False` if no elements were filtered out.
+- `return len(nums) != len(set(nums))`: builds a hash set of the input (O(n) time, O(n) space), then checks whether any element was discarded during deduplication; the boolean result is the answer.
 
 ## Dry Run
+Trace Example 1: `nums = [1,2,3,1]`
 
-### Example 1: `nums = [1, 2, 3, 1]`
+| Step | Operation | nums | set(nums) | len(nums) | len(set(nums)) | Result |
+|------|-----------|------|-----------|-----------|----------------|--------|
+| 1 | Create set | [1,2,3,1] | {1,2,3} | 4 | 3 | 4 != 3 → True |
 
-| Operation | Result / State |
-| :--- | :--- |
-| `len(nums)` | `4` |
-| `set(nums)` | `{1, 2, 3}` |
-| `len(set(nums))` | `3` |
-| `4 != 3` | `True` |
-
-### Example 2: `nums = [1, 2, 3, 4]`
-
-| Operation | Result / State |
-| :--- | :--- |
-| `len(nums)` | `4` |
-| `set(nums)` | `{1, 2, 3, 4}` |
-| `len(set(nums))` | `4` |
-| `4 != 4` | `False` |
+The code executes in a single expression: the set constructor iterates `nums` once, inserting each element into a hash table (duplicates are ignored), then the two lengths are compared.
 
 ## Complexity
-- **Time Complexity:** $O(n)$, where $n$ is the length of `nums`. Constructing a set from a list requires iterating through all $n$ items, with each insertion running in average $O(1)$ time. Length lookups on Python lists and sets are $O(1)$.
-- **Space Complexity:** $O(n)$. In the worst case where all elements are unique, the set created in memory will store all $n$ elements.
+- Time: O(n), where n = len(nums). Building a set from a list of length n requires n hash insertions/lookups, each O(1) average case.
+- Space: O(n), where n = len(nums). In the worst case (all elements distinct) the set stores n entries.
 
 ## Edge Cases
-- **Single-element array (`len(nums) == 1`):** `len(set(nums))` equals `1`, returning `1 != 1`, which correctly evaluates to `False`.
-- **All elements identical (e.g., `[5, 5, 5, 5]`):** `len(set(nums))` becomes `1`, returning `4 != 1`, which correctly evaluates to `True`.
-- **Negative values and zero:** Python's hashing mechanism correctly handles signed integers and large range bounds ($-10^9$ to $10^9$) without overflow.
-- **Lack of early exit:** If the first two elements are duplicate (e.g., `[1, 1, 2, 3, ..., 10^5]`), this solution still allocates memory for and processes all $10^5$ elements into the set before doing the length comparison.
+- **Single element** (`nums = [5]`): set becomes `{5}`, lengths both 1 → returns `False` (correct, no duplicate).
+- **All elements equal** (`nums = [2,2,2]`): set becomes `{2}`, lengths 3 vs 1 → returns `True` (correct).
+- **All distinct** (`nums = [1,2,3,4]`): set size equals list size → returns `False` (correct).
+- **Negative numbers / large magnitude**: Python's hash handles the full `[-10^9, 10^9]` range without collision issues affecting correctness.
+- **Maximum input size** (n = 10^5): O(n) time and space fit comfortably within typical limits.
+
+The constraints guarantee `nums.length >= 1`, so empty input is not a reachable case.
 
 ## Possible Improvements
-While `len(nums) != len(set(nums))` is idiomatic Python and runs extremely fast due to C-level set operations, it lacks an early-exit mechanism.
+The solution is already asymptotically optimal for the given constraints: any correct algorithm must inspect every element in the worst case, so Ω(n) time is a lower bound, and a hash set achieves O(n) time with O(n) space.
 
-If the array is large and a duplicate occurs near the beginning of the list, an iterative loop using a set lookup can return `True` immediately:
-
+A practical micro-optimisation for early-duplicate inputs would be an explicit loop with early exit:
 ```python
 seen = set()
-for num in nums:
-    if num in seen:
+for x in nums:
+    if x in seen:
         return True
-    seen.add(num)
+    seen.add(x)
 return False
 ```
-
-- **Trade-off:** The explicit `for` loop provides early termination, saving time and space when duplicates occur early. However, when all elements are distinct (or the duplicate is at the very end), the one-liner `len(nums) != len(set(nums))` is usually faster in Python runtime benchmarks because set construction happens entirely inside optimized C code rather than through Python bytecode loop iterations. 
-
-For the constraints given, the one-liner is already optimal in terms of asymptotic Big-O bounds.
+This avoids building the entire set when a duplicate appears early, but does not improve worst-case complexity. The one-liner `len(nums) != len(set(nums))` is idiomatic Python and preferred for clarity unless early exit is measurably beneficial for the expected data distribution.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
