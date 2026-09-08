@@ -1,147 +1,88 @@
 # 149. Max Points on a Line - Solution Analysis
 
 ## Problem Understanding
-
-The problem asks for the maximum number of points in a 2D plane that lie on a single straight line.
-
-Key constraints:
-- $1 \le N \le 300$, where $N$ is the number of points.
-- Coordinates $x_i, y_i$ range from $-10^4$ to $10^4$.
-- All points are guaranteed to be unique according to the constraints.
-
-Because $N \le 300$, an $O(N^2)$ time complexity algorithm is well within the execution time limit.
+Given an array of unique 2D points, find the maximum number of points that lie on a single straight line. The constraints (n ≤ 300, coordinates up to 10⁴) allow an O(n²) solution. Since all points are unique, duplicate handling is technically unnecessary but included for completeness. The core challenge is representing slopes exactly to avoid floating-point precision errors when grouping collinear points.
 
 ## Approach
-
-This solution uses an **Anchor Point + Hash Map (Slope Canonicalization)** pattern:
-
-1. **Slope Equivalence**: Two points $(x_i, y_i)$ and $(x_j, y_j)$ form a line with slope $\frac{\Delta y}{\Delta x} = \frac{y_j - y_i}{x_j - x_i}$. Any third point that forms the same slope with $(x_i, y_i)$ lies on the exact same line.
-2. **Avoiding Floating-Point Precision Issues**: Floating-point division (`dy / dx`) suffers from precision issues and cannot reliably distinguish nearly parallel lines. Instead, the slope is stored as a reduced fraction pair $(\frac{\Delta x}{\gcd(\Delta x, \Delta y)}, \frac{\Delta y}{\gcd(\Delta x, \Delta y)})$.
-3. **Iterative Anchor**: By picking each point $i$ as an anchor and counting the slopes to all subsequent points $j > i$, we find the maximum number of collinear points sharing that anchor.
+The solution uses a **hash map with slope normalization** pattern. For each point i, it computes the slope to every other point j > i, normalizes the slope vector (dx, dy) by dividing by their GCD, and counts occurrences of each normalized slope in a hash map. The most frequent slope from point i indicates the line through i with the most other points. This avoids the O(n³) brute force of checking all triplets for collinearity. The key insight is that two vectors represent the same slope iff their reduced forms (dx/gcd, dy/gcd) are identical, which handles vertical/horizontal lines and sign consistency without special cases.
 
 ## Algorithm
-
-1. If $N \le 2$, return $N$ immediately.
-2. Iterate `i` from `0` to $N - 1$ as the fixed anchor point.
-3. For each anchor `i`, initialize a hash map `slope_map`, an `overlap` counter, and `curr_max = 0`.
-4. Iterate `j` from `i + 1` to $N - 1$:
-   - Calculate $\Delta x = x_j - x_i$ and $\Delta y = y_j - y_i$.
-   - If $\Delta x = 0$ and $\Delta y = 0$, increment `overlap` (handles duplicate points).
-   - Compute `gcd_val = gcd(dx, dy)`.
-   - Reduce the pair to `(dx // gcd_val, dy // gcd_val)` and increment its count in `slope_map`.
-   - Update `curr_max` with the maximum count seen so far for anchor `i`.
-5. Update global `max_points` with `curr_max + overlap + 1` (the $+1$ accounts for anchor point `i`).
-6. Return `max_points`.
+1. If points ≤ 2, return the count (any 2 points define a line).
+2. Initialize global max_points = 0.
+3. For each point i from 0 to n-1:
+   a. Create empty hash map slope_map and set overlap = 0, curr_max = 0.
+   b. For each point j from i+1 to n-1:
+      i. Compute dx = x_j - x_i, dy = y_j - y_i.
+      ii. If dx == 0 and dy == 0: increment overlap (duplicate point).
+      iii. Else: compute gcd_val = gcd(dx, dy), normalize slope = (dx//gcd_val, dy//gcd_val).
+      iv. Increment slope_map[slope], update curr_max = max(curr_max, slope_map[slope]).
+   c. Update max_points = max(max_points, curr_max + overlap + 1).
+4. Return max_points.
 
 ## Line-by-Line Explanation
+`if len(points) <= 2: return len(points)`: Handles trivial cases where all points are collinear by definition.
 
-```python
-class Solution(object):
-    def maxPoints(self, points):
-        if len(points) <= 2:
-            return len(points)
-```
-Handles base cases directly: 0, 1, or 2 points are always collinear.
+`max_points = 0`: Tracks the global maximum across all anchor points.
 
-```python
-        max_points = 0
-```
-Tracks the global maximum number of collinear points found across all anchor iterations.
+`for i in range(len(points)):`: Iterates each point as the anchor for slope calculations.
 
-```python
-        for i in range(len(points)):
-            slope_map = defaultdict(int)
-            overlap = 0
-            curr_max = 0
-```
-Outer loop selects point `i` as the anchor. `slope_map` maps canonicalized slope tuples to counts. `overlap` tracks identical points, and `curr_max` stores the highest frequency of any single slope from anchor `i`.
+`slope_map = defaultdict(int)`: Maps normalized slope tuples to their frequency from point i.
 
-```python
-            for j in range(i + 1, len(points)):
-                dx = points[j][0] - points[i][0]
-                dy = points[j][1] - points[i][1]
-```
-Inner loop considers all subsequent points `j`. Calculates displacement vector $(\Delta x, \Delta y)$.
+`overlap = 0`: Counts duplicate points (always 0 per constraints, but kept for correctness).
 
-```python
-                if dx == 0 and dy == 0:
-                    overlap += 1
-                    continue
-```
-Handles duplicate coordinates if present.
+`curr_max = 0`: Tracks the maximum frequency of any single slope from point i.
 
-```python
-                gcd_val = self.gcd(dx, dy)
-                slope = (dx // gcd_val, dy // gcd_val)
-                slope_map[slope] += 1
-                curr_max = max(curr_max, slope_map[slope])
-```
-Computes the greatest common divisor to reduce $(\Delta x, \Delta y)$ to its simplest integer ratio `slope`. Updates frequency in `slope_map` and tracks `curr_max`.
+`for j in range(i + 1, len(points)):`: Only checks j > i to avoid double-counting pairs and self-comparison.
 
-```python
-            max_points = max(max_points, curr_max + overlap + 1)
-```
-After checking all $j > i$, computes total collinear points for anchor `i` (slope matches + duplicate points + anchor point itself) and updates `max_points`.
+`dx = points[j][0] - points[i][0]`: Computes x-difference for slope vector.
 
-```python
-        return max_points
-    
-    def gcd(self, a, b):
-        while b:
-            a, b = b, a % b
-        return a
-```
-Implements Euclidean GCD. In Python, because `%` preserves the sign of the divisor `b`, this custom GCD produces negative GCD values when $b < 0$. This implicitly normalizes directional vectors (e.g., $(-1, -1)$ and $(1, 1)$ both reduce to $(1, 1)$).
+`dy = points[j][1] - points[i][1]`: Computes y-difference for slope vector.
+
+`if dx == 0 and dy == 0: overlap += 1; continue`: Detects duplicate points (not possible per constraints).
+
+`gcd_val = self.gcd(dx, dy)`: Computes greatest common divisor to reduce the slope vector.
+
+`slope = (dx // gcd_val, dy // gcd_val)`: Normalizes slope to canonical integer representation; handles signs and vertical/horizontal lines uniformly.
+
+`slope_map[slope] += 1`: Increments count for this normalized slope.
+
+`curr_max = max(curr_max, slope_map[slope])`: Updates the most frequent slope count for this anchor.
+
+`max_points = max(max_points, curr_max + overlap + 1)`: Adds 1 for the anchor point itself; updates global maximum.
+
+`def gcd(self, a, b): while b: a, b = b, a % b; return a`: Euclidean algorithm for GCD; works with negative inputs because Python's modulo yields non-negative remainder when divisor is positive, but here a,b can be negative - however, the loop terminates correctly and returns a non-negative GCD since the final `a` is the last non-zero remainder. The sign of the normalized slope is preserved by the division `dx // gcd_val`, `dy // gcd_val`.
 
 ## Dry Run
+Trace Example 1: `points = [[1,1],[2,2],[3,3]]`
 
-Trace for `points = [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]` ($N=6$):
+| Step | i | j | dx | dy | gcd_val | slope | slope_map | curr_max | overlap | Action |
+|------|---|---|----|----|---------|-------|-----------|----------|---------|--------|
+| 1 | 0 | 1 | 1 | 1 | 1 | (1,1) | {(1,1):1} | 1 | 0 | store slope |
+| 2 | 0 | 2 | 2 | 2 | 2 | (1,1) | {(1,1):2} | 2 | 0 | increment slope |
+| 3 | 1 | 2 | 1 | 1 | 1 | (1,1) | {(1,1):1} | 1 | 0 | store slope |
 
-### Anchor $i = 0$ at `[1,1]`:
-
-| $j$ | Point | $\Delta x, \Delta y$ | $\text{gcd}(\Delta x, \Delta y)$ | Canonical Slope | `slope_map` state | `curr_max` |
-|---|---|---|---|---|---|---|
-| 1 | `[3,2]` | $(2, 1)$ | $1$ | $(2, 1)$ | `{(2,1): 1}` | 1 |
-| 2 | `[5,3]` | $(4, 2)$ | $2$ | $(2, 1)$ | `{(2,1): 2}` | 2 |
-| 3 | `[4,1]` | $(3, 0)$ | $3$ | $(1, 0)$ | `{(2,1): 2, (1,0): 1}` | 2 |
-| 4 | `[2,3]` | $(1, 2)$ | $1$ | $(1, 2)$ | `{(2,1): 2, (1,0): 1, (1,2): 1}` | 2 |
-| 5 | `[1,4]` | $(0, 3)$ | $3$ | $(0, 1)$ | `{(2,1): 2, ...}` | 2 |
-
-`max_points` = $\max(0, 2 + 0 + 1) = 3$.
-
----
-
-### Anchor $i = 1$ at `[3,2]`:
-
-| $j$ | Point | $\Delta x, \Delta y$ | $\text{gcd}(\Delta x, \Delta y)$ | Canonical Slope | `slope_map` state | `curr_max` |
-|---|---|---|---|---|---|---|
-| 2 | `[5,3]` | $(2, 1)$ | $1$ | $(2, 1)$ | `{(2,1): 1}` | 1 |
-| 3 | `[4,1]` | $(1, -1)$ | $-1$ | $(-1, 1)$ | `{(2,1): 1, (-1,1): 1}` | 1 |
-| 4 | `[2,3]` | $(-1, 1)$ | $1$ | $(-1, 1)$ | `{(2,1): 1, (-1,1): 2}` | 2 |
-| 5 | `[1,4]` | $(-2, 2)$ | $2$ | $(-1, 1)$ | `{(2,1): 1, (-1,1): 3}` | 3 |
-
-`max_points` = $\max(3, 3 + 0 + 1) = 4$.
-
-Iterations $i = 2, 3, 4, 5$ run similarly and yield counts $\le 4$. Final answer returned is **4**.
+After i=0: `max_points = max(0, 2+0+1) = 3`  
+After i=1: `max_points = max(3, 1+0+1) = 3`  
+Return 3.
 
 ## Complexity
-
-- **Time Complexity**: $\mathcal{O}(N^2 \log M)$, where $N$ is the number of points and $M = \max(|x|, |y|)$ is the coordinate boundary magnitude ($10^4$). For each pair of points, Euclidean GCD takes $\mathcal{O}(\log M)$ steps. With $N \le 300$, $N^2 \approx 90,000$ iterations, running in a few milliseconds.
-- **Space Complexity**: $\mathcal{O}(N)$. The `slope_map` stores at most $N - 1$ distinct slope entries for any single anchor point.
+- Time: O(n²), where n = len(points) ≤ 300. The double loop visits each pair once; GCD runs in O(log C) with C ≤ 10⁴, treated as O(1).
+- Space: O(n). The `slope_map` holds at most n‑1 entries per anchor point and is recreated each outer iteration.
 
 ## Edge Cases
-
-- **$N \le 2$**: Handled by the early check at line 3.
-- **Vertical Lines ($\Delta x = 0$)**: Handled correctly; $\gcd(0, \Delta y) = \Delta y$, yielding slope tuple `(0, 1)`.
-- **Horizontal Lines ($\Delta y = 0$)**: Handled correctly; $\gcd(\Delta x, 0) = \Delta x$, yielding slope tuple `(1, 0)`.
-- **Negative Displacements**: Python's floor division `//` combined with the sign of `%` in custom `gcd` handles negative slopes, ensuring anti-parallel vectors map to identical slope tuples.
+- **n = 1 or 2**: Handled by the initial guard `if len(points) <= 2`.
+- **All points collinear**: The slope map accumulates n‑1 entries for the first anchor, yielding correct max.
+- **Vertical lines (dx = 0)**: GCD normalises to `(0, 1)` for both positive and negative dy.
+- **Horizontal lines (dy = 0)**: Normalises to `(1, 0)`.
+- **Negative coordinates**: GCD and integer division produce a canonical slope tuple (e.g., (1,2) and (-1,-2) both become (1,2)).
+- **Duplicate points**: Constraints guarantee uniqueness, but the `overlap` counter would handle them if present.
 
 ## Possible Improvements
-
-1. **Use Standard Library `math.gcd`**: Custom Python `gcd` implementation is executed in interpreted bytecode. Standard library `math.gcd` is written in C and significantly faster.
-2. **Explicit Canonicalization**: Relying on Python's modulo behavior on negative numbers for sign normalization in `self.gcd` is obscure and non-portable. Explicitly normalizing sign (e.g., ensuring $\Delta y > 0$, or $\Delta y == 0$ and $\Delta x > 0$) is clearer and less fragile.
-3. **Early Loop Exit**: If $N - i \le \text{max\_points}$, no subsequent anchor point $i$ can produce a larger collinear set than `max_points`. Terminating the outer loop early when this condition holds avoids redundant work.
+- **Missing import**: `defaultdict` requires `from collections import defaultdict`; the snippet relies on LeetCode's environment.
+- **Redundant overlap logic**: Since points are unique, `overlap` is always 0; removing it simplifies the code.
+- **Use `math.gcd`**: The standard library `math.gcd` (Python ≥3.5) returns a non‑negative GCD and is implemented in C, slightly faster.
+- The algorithm is already optimal for the given constraints (O(n²) time, O(n) space); no asymptotic improvement exists.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

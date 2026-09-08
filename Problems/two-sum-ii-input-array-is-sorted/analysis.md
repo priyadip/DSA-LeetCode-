@@ -1,67 +1,56 @@
 # 167. Two Sum II - Input Array Is Sorted - Solution Analysis
 
 ## Problem Understanding
-
-Given a 1-indexed, non-decreasing sorted array of integers `numbers` and an integer `target`, the task is to find the two distinct indices whose values sum to `target`. The output must be the pair of 1-based indices `[index_1, index_2]` where `index_1 < index_2`. The constraints guarantee that `numbers.length >= 2`, exactly one valid solution exists, and the problem explicitly demands $O(1)$ extra space, which eliminates hash-map-based solutions.
+Given a sorted array `numbers` (1-indexed in the problem statement, 0-indexed in code), find two distinct elements that sum to `target`. The array is sorted in non-decreasing order, length is at least 2, and exactly one valid pair exists. The solution must use O(1) extra space, ruling out hash maps. Indices must be returned 1-indexed.
 
 ## Approach
+The solution uses the **two pointers** pattern. Because the array is sorted, we can start with one pointer at the beginning (`l`) and one at the end (`r`). If the sum is too small, we must increase it by moving `l` right (since all values to the right are ≥ current). If the sum is too large, we must decrease it by moving `r` left. This eliminates the need for a hash map and achieves O(1) space. The brute-force O(n²) scan or O(n) hash map approach would violate the constant-space constraint.
 
-The solution uses the **two pointers** pattern (converging from both ends).
-
-- **Brute force:** Check all pairs $(i, j)$ with $i < j$, taking $O(n^2)$ time and $O(1)$ space.
-- **Hash Map:** Store visited numbers in a hash map for $O(n)$ time, but this requires $O(n)$ auxiliary space, violating the problem's strict $O(1)$ memory constraint.
-- **Two Pointers:** Place one pointer at the start and one at the end. Because the array is sorted, the sum `numbers[l] + numbers[r]` behaves monotonically:
-  - If the sum is smaller than `target`, no element paired with `numbers[l]` can reach `target` (since `numbers[r]` is the largest available candidate), so incrementing `l` is strictly necessary and safe.
-  - If the sum is larger than `target`, no element paired with `numbers[r]` can reach `target` (since `numbers[l]` is the smallest available candidate), so decrementing `r` is strictly necessary and safe.
-
-**Key Insight:** Sorting establishes a monotonic relationship between pointer movements and the resulting sum, allowing you to discard an entire row or column of potential pairs in $O(1)$ time at each step.
+**Key insight:** In a sorted array, moving the left pointer right increases the sum, and moving the right pointer left decreases the sum, so we can greedily adjust the window toward the target.
 
 ## Algorithm
-
-1. Initialise left pointer `l = 0` and right pointer `r = len(numbers) - 1`.
-2. Loop while `l < r`:
-   1. Compute `total = numbers[l] + numbers[r]`.
-   2. If `total == target`, return `[l + 1, r + 1]` (converting 0-indexed positions to 1-indexed).
-   3. If `target > total`, the sum is too small; increment `l` by 1 to increase the sum.
-   4. Otherwise (`target < total`), the sum is too large; decrement `r` by 1 to decrease the sum.
+1. Initialize `l = 0` (leftmost index) and `r = len(numbers) - 1` (rightmost index).
+2. While `l < r`:
+   a. Compute `total = numbers[l] + numbers[r]`.
+   b. If `total == target`, return `[l + 1, r + 1]` (convert to 1-indexed).
+   c. If `total < target`, increment `l` to increase the sum.
+   d. If `total > target`, decrement `r` to decrease the sum.
+3. The loop is guaranteed to terminate because the problem guarantees exactly one solution.
 
 ## Line-by-Line Explanation
-
-- `l, r = 0, len(numbers)-1`: Initialises the search boundary covering the entire array with pointers at the smallest and largest elements.
-- `while l < r:`: Continues searching as long as two distinct indices remain to form a pair.
-- `total = numbers[l] + numbers[r]`: Computes the sum of the current candidate pair.
-- `if total == target:`: Checks whether the current pair matches the target sum.
-- `return [l+1, r+1]`: Returns the 1-based indices immediately upon finding the match.
-- `elif target > total:`: Detects an undershoot where the current sum is less than `target`.
-- `l += 1`: Moves the left pointer rightward to select a larger value, discarding `numbers[l]` from future consideration.
-- `else:`: Handles an overshoot where `total > target`.
-- `r -= 1`: Moves the right pointer leftward to select a smaller value, discarding `numbers[r]` from future consideration.
+- `l, r = 0, len(numbers)-1`: Set pointers to the array bounds.
+- `while l < r:`: Continue while pointers haven't crossed; they must be distinct indices.
+- `total = numbers[l] + numbers[r]`: Current pair sum.
+- `if total == target:`: Found the unique solution.
+- `return [l+1, r+1]`: Convert 0-indexed positions to 1-indexed as required.
+- `elif target > total:`: Sum too small; need a larger value.
+- `l += 1`: Move left pointer right to increase sum (array is sorted).
+- `else:`: Sum too large; need a smaller value.
+- `r -= 1`: Move right pointer left to decrease sum.
 
 ## Dry Run
+Example: `numbers = [2, 7, 11, 15]`, `target = 9`
 
-Trace for `numbers = [2, 7, 11, 15]`, `target = 9`:
-
-| Step | `l` | `r` | `numbers[l]` | `numbers[r]` | `total` | Comparison with `target` (9) | Action |
-|---|---|---|---|---|---|---|---|
-| 1 | 0 | 3 | 2 | 15 | 17 | `17 > 9` (`else`) | `r` becomes 2 |
-| 2 | 0 | 2 | 2 | 11 | 13 | `13 > 9` (`else`) | `r` becomes 1 |
-| 3 | 0 | 1 | 2 | 7 | 9 | `9 == 9` (`total == target`) | Return `[0+1, 1+1]` $\rightarrow$ `[1, 2]` |
+| Step | l | r | numbers[l] | numbers[r] | total | Action |
+|------|---|---|------------|------------|-------|--------|
+| 1    | 0 | 3 | 2          | 15         | 17    | total > target → r = 2 |
+| 2    | 0 | 2 | 2          | 11         | 13    | total > target → r = 1 |
+| 3    | 0 | 1 | 2          | 7          | 9     | total == target → return [1, 2] |
 
 ## Complexity
-
-- **Time:** $O(n)$, where $n$ is `len(numbers)`. At each iteration of the `while` loop, either `l` increments or `r` decrements, so the pointers converge in at most $n - 1$ steps.
-- **Space:** $O(1)$, because the algorithm only allocates two pointer variables (`l`, `r`) and an accumulator (`total`), requiring constant extra memory.
+- Time: O(n), where n = len(numbers). Each iteration moves either `l` or `r` by 1, and they start n-1 apart, so at most n-1 iterations.
+- Space: O(1). Only two integer pointers and a few scalars are used, independent of input size.
 
 ## Edge Cases
-
-- **Negative numbers and zeros (e.g., `numbers = [-3, -1, 0, 4]`, `target = -4`):** The non-decreasing order still guarantees that moving `l` right increases the value and moving `r` left decreases it, so arithmetic signs do not affect correctness.
-- **Duplicate elements (e.g., `numbers = [1, 2, 2, 4]`, `target = 4`):** If the answer uses identical values (`2 + 2 = 4`), the pointers converge on the two distinct duplicate indices without skipping them, because adjustments only happen when the sum is strictly less than or greater than `target`.
-- **Minimum size array (`len(numbers) == 2`):** The loop runs at least once, testing indices `0` and `1` directly.
+- **Minimum length (2)**: `l=0, r=1`; loop runs once, returns immediately.
+- **Negative numbers**: Works because sorting order and pointer logic hold for negatives (e.g., `[-1, 0]`, target `-1`).
+- **Duplicate values**: Since the array is non-decreasing, duplicates are adjacent; pointers skip over them correctly because moving `l` right or `r` left still changes the sum monotonically.
+- **Target at extremes**: If the pair is the first and last elements, found on first iteration. If the pair is adjacent in the middle, pointers converge until they meet at that pair.
+- **Already sorted / reverse sorted**: Input is guaranteed non-decreasing; reverse sorted would violate constraints.
 
 ## Possible Improvements
-
-The solution is already time-optimal ($O(n)$) and space-optimal ($O(1)$) under the problem constraints. No algorithmic or structural improvements are needed.
+The solution is already optimal for the given constraints: O(n) time and O(1) space match the theoretical lower bounds (must read input, cannot use extra space). Variable names `l` and `r` are standard for two-pointer patterns; renaming to `left`/`right` would be marginally clearer but not material. No redundant passes or structures exist.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

@@ -1,98 +1,60 @@
 # 128. Longest Consecutive Sequence - Solution Analysis
 
 ## Problem Understanding
-The problem asks for the length of the longest sequence of consecutive integers present anywhere within an unsorted array `nums`. The elements do not need to be contiguous in the original array. Duplicate values may appear, and the array can be empty. The primary constraint is that the algorithm must run in $O(n)$ time complexity, which rules out sorting the array (which takes $O(n \log n)$ time).
+Given an unsorted array of integers, find the length of the longest sequence of consecutive integers (e.g., 1,2,3,4). The array may contain duplicates and negative numbers; duplicates do not extend a sequence. The algorithm must run in O(n) time, ruling out sorting (O(n log n)) and requiring a hash-based approach to achieve constant-time lookups.
 
 ## Approach
-The solution uses a **Hash Set** look-up pattern.
-
-Converting `nums` into a hash set allows $O(1)$ average time lookups. To achieve overall linear time complexity, the algorithm must avoid redundant work—specifically, re-evaluating sub-sequences that are part of a longer sequence. 
-
-It accomplishes this by starting a sequence search **only** at numbers that represent the beginning of a sequence. A number `num` is the start of a sequence if and only if `num - 1` is not present in the set. Once a start element is found, it uses a `while` loop to count consecutive integers going upward until the sequence breaks.
+The solution uses a **hash set** for O(1) membership checks. The brute-force approach would sort the array (O(n log n)) then scan for consecutive runs, or for each element expand outward (O(n²) with a set). The key insight is that we only need to start counting from numbers that are the *beginning* of a sequence — i.e., where `num - 1` is absent — because any other number will be reached during the forward expansion from its sequence's start. This guarantees each element is visited at most twice (once as a potential start, once during expansion), yielding O(n) time.
 
 ## Algorithm
-1. Convert the input list `nums` into a hash set `s`.
-2. Initialize `ans = 0` to record the maximum sequence length found.
-3. Iterate over each unique element `num` in set `s`:
-   a. Check if `num - 1` exists in `s`. If it does, skip `num` because it cannot be the start of a longest sequence.
-   b. If `num - 1` is missing, `num` is a sequence start point. Initialize a tracking variable `curr = num`.
-   c. Increment `curr` by 1 continuously while `curr` is present in `s`.
-   d. Compute the sequence length as `curr - num` and update `ans` if `curr - num > ans`.
+1. Insert all numbers into a hash set `s` to deduplicate and enable O(1) lookups.
+2. Initialize `ans = 0` to track the maximum length found.
+3. Iterate over each unique `num` in `s`:
+   a. If `num - 1` is not in `s`, `num` is the start of a consecutive sequence.
+   b. Set `curr = num` and increment `curr` while `curr` exists in `s`.
+   c. The sequence length is `curr - num`; update `ans` if larger.
 4. Return `ans`.
 
 ## Line-by-Line Explanation
-```python3
-s = set(nums)
-```
-Constructs a hash set `s` from `nums`. This removes duplicates and enables $O(1)$ average lookups for presence checks.
-
-```python3
-ans = 0
-```
-Initializes the maximum sequence length to `0`. If `nums` is empty, the loop will not execute, returning `0`.
-
-```python3
-for num in s:
-```
-Iterates through each unique element in the set `s`. Iterating over `s` rather than `nums` avoids redundant checks on duplicate elements.
-
-```python3
-    if num - 1 not in s:
-```
-Guards the expansion logic. If `num - 1` exists in `s`, `num` is partway through a sequence and will be traversed when its start element is processed. Skipping it here ensures each sequence is traversed only once.
-
-```python3
-        curr = num
-```
-Sets `curr` to the start value of the sequence.
-
-```python3
-        while curr in s:
-            curr += 1
-```
-Extends the sequence upwards by incrementing `curr` until `curr` is no longer found in `s`.
-
-```python3
-        ans = max(ans, curr - num)
-```
-Calculates the sequence length using pointer subtraction (`curr - num`) and updates `ans` with the maximum length seen so far.
-
-```python3
-return ans
-```
-Returns the length of the longest consecutive sequence found.
+- `s = set(nums)`: Builds a hash set of unique values for O(1) containment checks and removes duplicates that would not affect sequence length.
+- `ans = 0`: Initializes the maximum sequence length tracker.
+- `for num in s:`: Iterates over each distinct number; using the set avoids redundant work on duplicates.
+- `if num - 1 not in s:`: Identifies sequence starts — only numbers without a predecessor can begin a new consecutive run.
+- `curr = num`: Sets a running pointer at the start of the sequence.
+- `while curr in s:`: Extends the sequence forward as long as the next integer exists in the set.
+- `curr += 1`: Advances the pointer to the next consecutive integer.
+- `ans = max(ans, curr - num)`: Computes the length of the sequence just traversed (`curr` stopped at the first missing integer, so `curr - num` is the count) and updates the global maximum.
+- `return ans`: Returns the length of the longest consecutive sequence found.
 
 ## Dry Run
-Input: `nums = [100, 4, 200, 1, 3, 2]`
-`s = {1, 2, 3, 4, 100, 200}`
-`ans = 0`
+Trace Example 1: `nums = [100,4,200,1,3,2]`. Set `s = {100, 4, 200, 1, 3, 2}`. Iteration order of a Python set is arbitrary; the table below shows one possible order.
 
-| `num` | `num - 1 in s` | `while` loop execution | `curr` after loop | `curr - num` | `ans` |
-|---|---|---|---|---|---|
-| `1` | `0 not in s` (True) | `curr` goes 1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ 4 $\rightarrow$ 5 | `5` | `5 - 1 = 4` | `4` |
-| `2` | `1 in s` (False) | Skipped | — | — | `4` |
-| `3` | `2 in s` (False) | Skipped | — | — | `4` |
-| `4` | `3 in s` (False) | Skipped | — | — | `4` |
-| `100` | `99 not in s` (True) | `curr` goes 100 $\rightarrow$ 101 | `101` | `101 - 100 = 1` | `4` |
-| `200` | `199 not in s` (True)| `curr` goes 200 $\rightarrow$ 201 | `201` | `201 - 200 = 1` | `4` |
+| Step | num | num-1 in s? | Is Start? | Inner Loop (curr values) | Length | ans |
+|------|-----|-------------|-----------|--------------------------|--------|-----|
+| 1 | 100 | False | Yes | 100 → 101 (stop) | 1 | 1 |
+| 2 | 4 | True | No | – | – | 1 |
+| 3 | 200 | False | Yes | 200 → 201 (stop) | 1 | 1 |
+| 4 | 1 | False | Yes | 1 → 2 → 3 → 4 → 5 (stop) | 4 | 4 |
+| 5 | 3 | True | No | – | – | 4 |
+| 6 | 2 | True | No | – | – | 4 |
 
-Output: `4`
+Final return value: `4`.
 
 ## Complexity
-- **Time Complexity:** $O(n)$, where $n$ is the length of `nums`. Creating the set `s` takes $O(n)$ time. In the worst-case scenario (e.g., all numbers are consecutive), every number is visited once in the outer `for` loop, and the inner `while` loop runs $n$ times in total across the entire execution (only for the single sequence start element). Thus, each element is looked up a constant number of times, making it $O(n)$ average time.
-- **Space Complexity:** $O(n)$ auxiliary space to store the set `s`, which contains up to $n$ unique elements.
+- Time: O(n), where n = len(nums). Each unique number is processed in the outer loop once. The inner `while` loop only runs for sequence starts (numbers where `num-1` is absent), and each element of a sequence is visited exactly once across all inner loops. Set lookups are O(1) average.
+- Space: O(n) for the hash set `s` storing all unique elements.
 
 ## Edge Cases
-- **Empty Array (`nums = []`):** Handled correctly. The loop does not execute, returning `ans = 0`.
-- **Single Element (`nums = [5]`):** Handled correctly. `4 not in s` is true, the `while` loop runs once for `curr = 5` and stops at `curr = 6`. `ans` becomes `6 - 5 = 1`.
-- **All Duplicate Elements (`nums = [2, 2, 2, 2]`):** Set deduplication reduces `s` to `{2}`. The search returns `1`.
-- **Large Integer Ranges:** Element values range between $-10^9$ and $10^9$. Python automatically handles arbitrarily large integers, so integer overflow does not occur during `curr += 1`.
+- **Empty input** (`nums = []`): set is empty, loop body never executes, returns `0`. Correct per constraints (`0 <= nums.length`).
+- **Single element** (`nums = [5]`): set size 1, `num-1` not in set, inner loop runs once, returns `1`.
+- **All duplicates** (`nums = [2,2,2]`): set becomes `{2}`, same as single element, returns `1`.
+- **Negative numbers / zero**: Handled naturally by set membership; e.g., `[-1,0,1]` yields sequence length 3.
+- **Multiple disjoint sequences**: Algorithm correctly computes each sequence length and keeps the maximum.
+- **Already consecutive / reverse sorted**: No difference; only the smallest element of each sequence triggers the inner loop.
 
 ## Possible Improvements
-This solution is already optimal in terms of both time ($O(n)$) and space ($O(n)$) complexity. 
-
-The commented-out alternative implementation using explicit `length = 1` incrementing is functionally identical to using `curr` pointer math (`curr - num`). The active version is slightly more concise.
+The solution is already optimal for the given constraints: O(n) time and O(n) space is the theoretical lower bound for this problem. The variable names (`s`, `ans`, `curr`) are terse but clear in context; renaming to `num_set`, `max_len`, `next_num` would improve readability marginally but is not required. No redundant passes or structures exist. The commented-out alternative using `length` and `num + length` is equivalent in complexity and performance.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

@@ -1,95 +1,52 @@
 # 219. Contains Duplicate II - Solution Analysis
 
 ## Problem Understanding
-The goal is to determine whether an integer array `nums` contains any duplicate values located at most $k$ indices apart. Specifically, we need to find if there exist two distinct indices $i$ and $j$ such that `nums[i] == nums[j]` and $|i - j| \le k$.
-
-### Constraints
-- $1 \le \text{nums.length} \le 10^5$: An $O(n^2)$ nested-loop comparison will result in a Time Limit Exceeded (TLE). We need a solution running in $O(n)$ or $O(n \log n)$ time.
-- $-10^9 \le \text{nums}[i] \le 10^9$: Values fit within standard signed 32-bit integers, but their range is large, so direct array indexing (bucket indexing) is not feasible.
-- $0 \le k \le 10^5$: If $k = 0$, the condition $|i - j| \le 0$ can never be satisfied for distinct indices $i \neq j$, so the answer must always be `False`.
+Given an array `nums` and integer `k`, determine if any value appears at two distinct indices `i` and `j` such that `|i - j| ≤ k`. The array length reaches 10^5, so O(n²) pairwise checks are impossible. Values range widely (±10^9), ruling out direct-address tables. Order matters only for index distance; duplicates outside the window are irrelevant.
 
 ## Approach
-This solution uses a **Hash Map** (dictionary) to track the most recent index where each number appeared.
-
-A simple hash set can check for duplicates across the entire array, but here the distance between indices matters. By mapping each value `x` to its *last seen index* `last[x]`, we only ever need to check the gap between the current index `i` and `last[x]`. 
-
-If `i - last[x] <= k`, we immediately return `True`. If `i - last[x] > k`, we overwrite `last[x] = i`. Overwriting is correct because any future occurrence of `x` at index $i' > i$ will be closer to $i$ than to `last[x]`, making $i$ the only relevant index going forward.
+**Hash map (dictionary) tracking last occurrence.**  
+Brute force would compare every pair within distance `k`, costing O(n·k) time — up to 10^10 operations. The hash map reduces this to O(n) by storing only the most recent index of each value. When we encounter `x` at index `i`, we only need to know whether `x` appeared in `[i-k, i-1]`; the latest occurrence is sufficient because any earlier one is farther away.  
+**Key insight:** For a fixed `i`, the closest previous `x` gives the smallest index difference, so keeping only the last index is both necessary and sufficient.
 
 ## Algorithm
-1. Initialize an empty hash map `last`.
-2. Iterate through `nums` with current index `i` and value `x`.
-3. Check if `x` is in `last` and whether `i - last[x] <= k`.
-4. If both conditions are true, return `True`.
-5. Otherwise, set or update `last[x] = i`.
-6. If the loop finishes without returning `True`, return `False`.
+1. Initialise an empty dictionary `last` mapping value → most recent index.
+2. Iterate through `nums` with index `i` and value `x`.
+3. If `x` exists in `last` and `i - last[x] ≤ k`, return `True`.
+4. Update `last[x] = i`.
+5. After the loop, return `False`.
 
 ## Line-by-Line Explanation
-```python3
-last = {}
-```
-Initializes an empty dictionary `last` to map each distinct number in `nums` to its most recently encountered index.
-
-```python3
-for i, x in enumerate(nums):
-```
-Uses `enumerate` to iterate through `nums`, providing the index `i` and the element `x` at each step.
-
-```python3
-if x in last and i - last[x] <= k:
-    return True
-```
-Checks if `x` has been seen previously. If it exists in `last`, Python's `and` operator evaluates short-circuit style, checking if the distance `i - last[x]` is within the threshold `k`. If so, a valid pair has been found and execution terminates immediately with `True`.
-
-```python3
-last[x] = i
-```
-Updates the entry for `x` in the dictionary to the current index `i`. If `x` was already present but further than $k$ steps away, this line updates its index to `i` so subsequent occurrences can be checked against this closer index.
-
-```python3
-return False
-```
-If the iteration completes without finding any pair satisfying the conditions, no such indices exist, so the function returns `False`.
+- `last = {}`: Dictionary to store the latest index where each number was seen.
+- `for i, x in enumerate(nums):`: Single pass over the array with index and value.
+- `if x in last and i - last[x] <= k:`: Checks whether `x` appeared before and the distance to that occurrence is within `k`.
+- `return True`: Found a valid pair; early exit.
+- `last[x] = i`: Records/updates the most recent index of `x` for future checks.
+- `return False`: No qualifying pair found after full scan.
 
 ## Dry Run
-Input: `nums = [1, 2, 3, 1]`, `k = 3`
+Example 1: `nums = [1,2,3,1], k = 3`
 
-| `i` | `x` | `x in last` | `i - last[x] <= k` | Action | `last` State |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `0` | `1` | `False` | N/A | Insert `1: 0` | `{1: 0}` |
-| `1` | `2` | `False` | N/A | Insert `2: 1` | `{1: 0, 2: 1}` |
-| `2` | `3` | `False` | N/A | Insert `3: 2` | `{1: 0, 2: 1, 3: 2}` |
-| `3` | `1` | `True` | `3 - 0 <= 3` (`True`) | Return `True` | Terminated |
-
-Output: `True`
+| Step | i | x | last before | Condition `i - last[x] <= k` | Action |
+|------|---|---|-------------|------------------------------|--------|
+| 1 | 0 | 1 | {} | N/A (not in last) | last[1]=0 |
+| 2 | 1 | 2 | {1:0} | N/A | last[2]=1 |
+| 3 | 2 | 3 | {1:0, 2:1} | N/A | last[3]=2 |
+| 4 | 3 | 1 | {1:0, 2:1, 3:2} | 3-0=3 ≤ 3 → True | return True |
 
 ## Complexity
-- **Time Complexity:** $O(n)$, where $n$ is the length of `nums`. The code traverses `nums` once. Dictionary lookup, insertion, and update operations run in $O(1)$ average time.
-- **Space Complexity:** $O(n)$ in the worst case where all elements in `nums` are distinct, causing the `last` dictionary to store $n$ key-value pairs.
+- **Time:** O(n) — one pass, each dictionary operation is O(1) average.
+- **Space:** O(min(n, m)) where m is the number of distinct values; worst case O(n) when all elements are unique.
 
 ## Edge Cases
-- **`k = 0`**: Because $i \neq j$, $i - \text{last}[x] \ge 1$. The condition `i - last[x] <= 0` will evaluate to `False` for all elements, returning `False` correctly.
-- **Single Element (`nums = [1]`)**: The loop runs once, `x in last` is `False`, and the function returns `False` correctly.
-- **Duplicates Outside Range $k$**: For `nums = [1, 0, 1, 1]` with `k = 1`, when `i = 2` (value `1`), `2 - 0 = 2 > 1`. `last[1]` gets updated from `0` to `2`. Then at `i = 3` (value `1`), `3 - 2 = 1 <= 1`, returning `True`. Updating the index on failure is essential for this to work.
+- **k = 0:** Condition `i - last[x] ≤ 0` never holds for distinct indices, correctly returns `False`.
+- **All elements equal, k ≥ 1:** First duplicate at distance 1 triggers `True`.
+- **No duplicates:** Loop completes, returns `False`.
+- **Duplicate exactly at distance k+1:** Not caught; later occurrences overwrite the index, but the newer index is closer to future elements, preserving correctness.
+- **Large n (10^5) with many distinct values:** Dictionary grows to O(n), within memory limits.
 
 ## Possible Improvements
-Instead of storing all unique elements in a hash map—which can take $O(n)$ space when $n \gg k$—you can use a **Sliding Window Set** that maintains at most $k$ elements:
-
-```python3
-class Solution:
-    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
-        seen = set()
-        for i, x in enumerate(nums):
-            if x in seen:
-                return True
-            seen.add(x)
-            if len(seen) > k:
-                seen.remove(nums[i - k])
-        return False
-```
-
-- **Space Complexity Improvement:** The sliding window set uses $O(\min(n, k))$ space, which reduces memory usage when $k \ll n$.
-- For the existing solution, time complexity is already optimal at $O(n)$.
+The solution is already optimal in time and space for the given constraints. A sliding-window set (maintaining at most `k+1` elements) would also be O(n) time and O(k) space, which is better when `k ≪ n`, but the current dictionary approach is simpler and equally fast in practice. No material improvement needed.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

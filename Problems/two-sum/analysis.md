@@ -1,96 +1,53 @@
 # 1. Two Sum - Solution Analysis
 
 ## Problem Understanding
-The goal is to find two distinct indices in an integer array `nums` whose values sum up to `target`. 
-
- Key constraints shaping the solution:
-- Array length $n$ ranges from $2$ to $10^4$.
-- Values and `target` can be negative, zero, or positive (between $-10^9$ and $10^9$).
-- Exactly one solution is guaranteed to exist.
-- You cannot use the same element twice (i.e., the two indices must be distinct).
+Given an array of integers `nums` and an integer `target`, return the indices of the two numbers that add up to `target`. Exactly one valid pair exists, the same element cannot be used twice, and order of the returned indices does not matter. Constraints: `2 <= len(nums) <= 10^4`, values and target fit in 32-bit signed integers. The `O(n^2)` brute-force pair enumeration is too slow for the upper bound, so a sub-quadratic solution is required.
 
 ## Approach
-This solution uses a **One-Pass Hash Map**. 
-
-A brute-force check requires two nested loops comparing all pairs, taking $O(n^2)$ time. Sorting the array and using two pointers reduces time to $O(n \log n)$, but loses the original 0-based index order unless extra pairs are stored.
-
-By using a hash map (dictionary) to store previously visited numbers and their indices, we can check if the complement `target - num` has already been seen in $O(1)$ average time as we iterate through the array once.
+**Pattern:** Hash map (dictionary) for constant-time complement lookup.  
+**Why it fits:** For each element `num` we need to know whether `target - num` has appeared earlier. A hash map provides `O(1)` average-case membership test and index retrieval, turning the problem into a single linear scan.  
+**Brute-force contrast:** Nested loops checking all pairs costs `O(n^2)` time and `O(1)` space. The hash map trades `O(n)` extra space for `O(n)` time.  
+**Key insight:** While iterating, the complement of the current number *must* have been seen earlier if the pair exists, so we only need to look backward.
 
 ## Algorithm
-1. Initialize an empty hash map `hashmap` to map numbers to their array indices.
-2. Iterate through `nums` using index $i$ and value `num`.
-3. Calculate the complement: `needed = target - num`.
-4. Check if `needed` exists as a key in `hashmap`.
-   - If present, return `[hashmap[needed], i]`.
-5. If not present, store `hashmap[num] = i` and proceed to the next element.
+1. Create an empty dictionary `hashmap` mapping number → its index.
+2. Iterate over `nums` with `enumerate` to get index `i` and value `num`.
+3. Compute `needed = target - num`.
+4. If `needed` is already a key in `hashmap`, return `[hashmap[needed], i]` (the earlier index and the current index).
+5. Otherwise, insert `num: i` into `hashmap` and continue.
+6. The problem guarantees a solution, so the loop always returns.
 
 ## Line-by-Line Explanation
-
-```python
-hashmap = {}
-```
-Creates an empty dictionary to store seen values as keys and their corresponding indices as values.
-
-```python
-for i, num in enumerate(nums):
-```
-Iterates through the list `nums`, retrieving both the zero-based index `i` and the element `num` at each step.
-
-```python
-needed = target - num
-```
-Calculates the required matching value `needed` such that `num + needed == target`.
-
-```python
-if needed in hashmap:
-    return [hashmap[needed], i]
-```
-Checks if `needed` was recorded in a previous iteration. If found, returns the saved index of `needed` alongside the current index `i`.
-
-```python
-hashmap[num] = i
-```
-If `needed` is not yet in the map, stores the current element `num` and its index `i` so future elements can reference it.
+- `hashmap = {}`: initializes the lookup table storing numbers we have already visited.
+- `for i, num in enumerate(nums):`: single pass over the array with both index and value.
+- `needed = target - num`: the value that would complete the pair with the current `num`.
+- `if needed in hashmap:`: constant-time check whether the complement was seen earlier.
+- `return [hashmap[needed], i]`: immediately returns the stored index of the complement and the current index.
+- `hashmap[num] = i`: records the current number and its index for future complement checks.
 
 ## Dry Run
-Tracing `nums = [2, 7, 11, 15]`, `target = 9`:
+Example 1: `nums = [2,7,11,15]`, `target = 9`
 
-| `i` | `num` | `needed` (`9 - num`) | `needed in hashmap`? | Action / Output | `hashmap` State After Step |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| `0` | `2` | `7` | No (`7` not in `{}`) | Insert `hashmap[2] = 0` | `{2: 0}` |
-| `1` | `7` | `2` | Yes (`2` in `{2: 0}`) | Return `[hashmap[2], 1]` $\rightarrow$ `[0, 1]` | `{2: 0}` |
-
-Execution terminates immediately at $i = 1$.
+| Step | i | num | needed | hashmap (before check) | Action |
+|------|---|-----|--------|------------------------|--------|
+| 1 | 0 | 2 | 7 | {} | 7 not in map → store 2→0 |
+| 2 | 1 | 7 | 2 | {2:0} | 2 found at index 0 → return [0,1] |
 
 ## Complexity
-- **Time Complexity:** $O(n)$, where $n$ is the number of elements in `nums`. The array is traversed at most once. Each hash map lookup and insertion takes $O(1)$ time on average.
-- **Space Complexity:** $O(n)$, because, in the worst case (where the matching pair is at the very end of the array), the hash map will store up to $n - 1$ elements.
+- **Time:** `O(n)` — one loop over `n` elements; each dictionary operation is `O(1)` average.
+- **Space:** `O(n)` — in the worst case (solution at the end) the map holds `n-1` entries.  
+`n` refers to `len(nums)`.
 
 ## Edge Cases
-- **Duplicate Elements:** Handles duplicates seamlessly (e.g., `nums = [3, 3]`, `target = 6`). At $i=0$, the map is populated with `{3: 0}`. At $i=1$, `needed = 3` matches key `3` in `hashmap` before the existing key is overwritten.
-- **Negative Integers:** Works without modification for negative numbers (e.g., `nums = [-3, 4, 3]`, `target = 0`), as Python handles arbitrary-precision integer arithmetic natively without 32-bit overflow concerns.
-- **Two-Element Input:** The minimum constraint size $n = 2$ is processed correctly on the second iteration without reaching an out-of-bounds state.
-- **Missing Solution:** If constraints were relaxed such that no solution existed, the loop would finish without returning anything (returning `None` implicitly).
+- **Duplicates** (e.g., `[3,3]`, target `6`): the first `3` is stored; when the second `3` is processed, `needed = 3` is found in the map, returning `[0,1]`. Correct because indices differ.
+- **Negative numbers / negative target**: arithmetic works identically; hash map keys handle negatives natively.
+- **Large values** (up to `10^9`): Python integers have arbitrary precision, no overflow.
+- **Minimum length (2)**: loop runs twice at most; solution found on second iteration.
+- **Solution at the very end**: map grows to `n-1` entries, still `O(n)` space.
 
 ## Possible Improvements
-The implementation is optimal in time and space complexity for this problem structure. 
-
-If the problem constraints did not guarantee a solution, an explicit `return []` or error raise at the end of the method would prevent returning `None`:
-
-```python
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        hashmap = {}
-        for i, num in enumerate(nums):
-            needed = target - num
-            if needed in hashmap:
-                return [hashmap[needed], i]
-            hashmap[num] = i
-        return []
-```
-
-Under the given constraint ("Only one valid answer exists"), the code as written is optimal.
+The solution is already optimal in asymptotic complexity for the given constraints. A two-pass version (build full map first, then scan) would also be `O(n)` time and space but does two passes and risks using the same index twice without an extra check. The current one-pass approach is cleaner and slightly faster in practice. Variable names (`hashmap`, `needed`, `i`, `num`) are clear and conventional; no renaming needed.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

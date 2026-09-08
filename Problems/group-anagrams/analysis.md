@@ -1,104 +1,55 @@
 # 49. Group Anagrams - Solution Analysis
 
 ## Problem Understanding
-
-The problem requires grouping an array of strings `strs` into sublists where each sublist contains strings that are anagrams of one another. Anagrams are strings that contain the exact same characters with the exact same frequencies, differing only in the order of characters.
-
-The key constraints are:
-- $N = \text{len}(strs) \le 10^4$
-- $K = \text{len}(strs[i]) \le 100$
-- Characters are strictly lowercase English letters (`'a'` through `'z'`).
-
-Because $K$ is small ($\le 100$), string transformations per word are cheap, but $N$ is up to $10^4$, requiring an efficient strategy for grouping identical character distributions.
+Given an array of strings, group all strings that are anagrams of each other. Anagrams share the same character multiset, so they produce identical sorted strings. The output order of groups and strings within groups does not matter. Constraints: up to 10⁴ strings, each up to length 100, lowercase letters only. Empty strings are valid inputs and must be handled.
 
 ## Approach
-
-This solution uses a **Hash Map with Sorting-Based Canonical Keys**.
-
-Two strings are anagrams if and only if sorting their characters results in identical strings. By sorting each word, we derive a unique canonical signature (`key`) for its anagram group. A hash map (`defaultdict`) maps this canonical string key to a list of original words that produce that key.
+The solution uses a **hash map with sorted string as key** (a form of canonical representation). Each string is sorted to produce a key; all anagrams map to the same key and are collected in a list. This avoids the O(n²) pairwise comparison of a brute-force approach. The key insight: *two strings are anagrams iff their sorted forms are identical*, so sorting provides a deterministic, hashable signature for each anagram class.
 
 ## Algorithm
-
-1. Initialize a hash map `save` where missing keys automatically map to empty lists.
-2. Iterate through each string `word` in `strs`:
-   a. Sort the characters of `word` lexicographically.
-   b. Rejoin the sorted characters into a single key string.
-   c. Append `word` to the list in `save` under `key`.
-3. Extract and return all value lists from `save`.
+1. Create a `defaultdict(list)` to map sorted-string keys to lists of original strings.
+2. Iterate over each word in `strs`:
+   - Compute `key = ''.join(sorted(word))`.
+   - Append the original `word` to `save[key]`.
+3. Return `list(save.values())` — the grouped anagrams.
 
 ## Line-by-Line Explanation
-
-```python
-save = defaultdict(list)
-```
-Initializes a `defaultdict` from Python's `collections` module. Accessing a missing key automatically initializes it with an empty list (`[]`), avoiding manual key existence checks.
-
-```python
-for word in strs:
-```
-Iterates through each string in the input list sequentially.
-
-```python
-    key = ''.join(sorted(word))
-```
-`sorted(word)` breaks `word` into a list of characters and sorts them in $O(K \log K)$ time. `''.join(...)` concatenates the sorted characters back into a string key. Anagrams like `"eat"`, `"tea"`, and `"ate"` all produce the key `"aet"`.
-
-```python
-    save[key].append(word)
-```
-Looks up `key` in `save` and appends the un-sorted `word` to the corresponding group.
-
-```python
-return list(save.values())
-```
-Retrieves all grouped anagram lists from the dictionary and returns them as a 2D list.
+- `save = defaultdict(list)`: initializes a dictionary that automatically creates an empty list for any new key.
+- `for word in strs:`: processes each input string once.
+- `key = ''.join(sorted(word))`: sorts the characters of `word` to form a canonical key; e.g., "eat" → "aet". This is the grouping criterion.
+- `save[key].append(word)`: adds the original word to the list for its anagram class.
+- `return list(save.values())`: extracts the grouped lists; order is arbitrary but acceptable.
 
 ## Dry Run
+Trace using Example 1: `strs = ["eat","tea","tan","ate","nat","bat"]`
 
-Input: `strs = ["eat", "tea", "tan", "ate", "nat", "bat"]`
+| Step | word | sorted(word) | key | save[key] after append |
+|------|------|--------------|-----|------------------------|
+| 1 | "eat" | "aet" | "aet" | ["eat"] |
+| 2 | "tea" | "aet" | "aet" | ["eat", "tea"] |
+| 3 | "tan" | "ant" | "ant" | ["tan"] |
+| 4 | "ate" | "aet" | "aet" | ["eat", "tea", "ate"] |
+| 5 | "nat" | "ant" | "ant" | ["tan", "nat"] |
+| 6 | "bat" | "abt" | "abt" | ["bat"] |
 
-| Iteration | `word` | `key` | `save` State |
-|---|---|---|---|
-| 1 | `"eat"` | `"aet"` | `{"aet": ["eat"]}` |
-| 2 | `"tea"` | `"aet"` | `{"aet": ["eat", "tea"]}` |
-| 3 | `"tan"` | `"ant"` | `{"aet": ["eat", "tea"], "ant": ["tan"]}` |
-| 4 | `"ate"` | `"aet"` | `{"aet": ["eat", "tea", "ate"], "ant": ["tan"]}` |
-| 5 | `"nat"` | `"ant"` | `{"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"]}` |
-| 6 | `"bat"` | `"abt"` | `{"aet": ["eat", "tea", "ate"], "ant": ["tan", "nat"], "abt": ["bat"]}` |
-
-Output: `[["eat", "tea", "ate"], ["tan", "nat"], ["bat"]]`
+Return `list(save.values())` → `[["eat","tea","ate"], ["tan","nat"], ["bat"]]` (order of groups and order within groups may vary).
 
 ## Complexity
-
-Let $N$ be the number of strings in `strs`, and $K$ be the maximum length of a string in `strs`.
-
-- **Time Complexity:** $O(N \cdot K \log K)$. Iterating over $N$ strings takes $O(N)$ steps. For each string of length up to $K$, sorting takes $O(K \log K)$ time and joining takes $O(K)$ time. Dictionary insertions and lookups take $O(K)$ average time due to hashing string keys of length $K$.
-- **Space Complexity:** $O(N \cdot K)$. The hash map stores all $N$ original strings across its values, which takes $O(N \cdot K)$ memory. The unique string keys also take up to $O(N \cdot K)$ space in the worst case (when all strings are distinct).
+- **Time:** O(n · k log k), where n = len(strs) (≤ 10⁴) and k = max length of a string (≤ 100). Each of the n strings is sorted, costing O(k log k); dictionary operations are O(1) amortised.
+- **Space:** O(n · k) to store all strings in the hash map (the keys are at most length k, and every input string is kept once in a list).
 
 ## Edge Cases
-
-- **Empty Strings (`strs = [""]`):** `sorted("")` returns `[]`, `''.join([])` returns `""`. The key `""` is valid and mapped to `[""]`.
-- **Single Character Strings (`strs = ["a"]`):** Handled cleanly without overhead.
-- **Duplicate Words in Input (`strs = ["a", "a"]`):** Both words generate key `"a"` and are grouped together in the same list `["a", "a"]`.
-- **No Anagram Matches:** Each word generates a distinct key, resulting in $N$ groups of size 1.
+- **Empty string** (`""`): `sorted("")` yields `""`, so all empty strings group together correctly.
+- **Single-character strings**: `sorted("a")` → `"a"`, works identically.
+- **All strings identical**: all map to the same key, producing one group containing every input string.
+- **Maximum constraints** (n=10⁴, k=100): 10⁴ × 100 log 100 ≈ 6.6·10⁵ character comparisons, well within limits.
+- **Already grouped input**: order of groups in the output is unspecified by the problem, so any order is accepted.
 
 ## Possible Improvements
-
-The solution can be optimized in time complexity by replacing sorting with character frequency counting.
-
-Since input strings contain only lowercase English letters, a fixed 26-element tuple representing character frequencies can serve as the map key:
-
-```python
-for word in strs:
-    count = [0] * 26
-    for ch in word:
-        count[ord(ch) - ord('a')] += 1
-    save[tuple(count)].append(word)
-```
-
-- **Frequency Counting Time Complexity:** $O(N \cdot K)$, because counting characters per word takes linear time $O(K)$ instead of $O(K \log K)$.
-- **Trade-off in Python:** Note that you already wrote and commented out this frequency-tuple approach in your solution file. In Python, Python's built-in `sorted()` is implemented in C (Timsort), whereas a pure Python `ord()` loop over 26 elements carries interpreter overhead. For $K \le 100$, string sorting is often practically as fast or faster in LeetCode's Python runtime, even though frequency counting has lower theoretical asymptotic complexity.
+- **Use character-count tuple as key** (the commented-out alternative): `tuple(cnt)` where `cnt` is a length-26 frequency array. This reduces per-string work from O(k log k) to O(k), giving overall O(n · k) time. For k ≤ 100 the difference is modest, but it is asymptotically faster and avoids the sort allocation.
+- **Rename `save` to `groups` or `anagram_map`** for clarity; `save` is vague.
+- The file contains three duplicated implementations in comments; remove dead code to reduce noise.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

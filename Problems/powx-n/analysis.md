@@ -1,100 +1,56 @@
 # 50. Pow(x, n) - Solution Analysis
 
 ## Problem Understanding
-The problem requires computing $x^n$, where $x$ is a floating-point base and $n$ is a 32-bit signed integer. The exponent $n$ can be positive, negative, or zero, with values ranging from $-2^{31}$ to $2^{31}-1$. 
-
-Because $|n|$ can be as large as $\approx 2 \times 10^9$, a linear loop multiplying $x$ by itself $n$ times would time out ($O(n)$ time complexity). The solution must process the exponent in sub-linear time.
+Compute x raised to the power n, where x is a float and n is a 32-bit signed integer (range ≈ ±2×10⁹). The exponent can be negative, requiring a reciprocal. A linear loop multiplying x n times would be far too slow for the upper bound, so the algorithm must run in O(log n) time. The constraints guarantee x ≠ 0 when n ≤ 0, avoiding division by zero.
 
 ## Approach
-This solution uses **Binary Exponentiation** (also known as Exponentiation by Squaring) in an iterative form. 
-
-The pattern relies on the binary representation of the exponent $n$:
-- If $n$ is even: $x^n = (x^2)^{n / 2}$
-- If $n$ is odd: $x^n = x \cdot (x^2)^{(n - 1) / 2}$
-
-By repeatedly squaring the base $x$ and halving the exponent $n$, the problem size is halved at each step, reducing the number of multiplications from $O(n)$ to $O(\log n)$.
+The solution uses **binary exponentiation** (also called exponentiation by squaring), an iterative divide-and-conquer pattern. The brute force approach multiplies x by itself n times, costing O(n) time — infeasible for n ≈ 2×10⁹. Binary exponentiation reduces this to O(log n) by exploiting the identity xⁿ = (x²)ⁿ/² when n is even, and xⁿ = x·(x²)⁽ⁿ⁻¹⁾/² when n is odd. The key insight: **each iteration halves the exponent while squaring the base, so only the bits of n matter**.
 
 ## Algorithm
-1. Check if $n = 0$; if so, return `1`.
-2. If $n < 0$, invert the base ($x \leftarrow 1 / x$) and negate the exponent ($n \leftarrow -n$).
-3. Initialize `result = 1`.
-4. Loop while $n > 0$:
-   a. If $n$ is odd (`n % 2 != 0`), multiply `result` by the current base $x$.
-   b. Square the base $x$ ($x \leftarrow x \cdot x$).
-   c. Integer divide $n$ by 2 ($n \leftarrow \lfloor n / 2 \rfloor$).
-5. Return `result`.
+1. Handle base case: if n == 0, return 1.
+2. If n is negative, invert x (x = 1/x) and make n positive (n = -n).
+3. Initialise result = 1.
+4. While n > 0:
+   a. If n is odd (n % 2 == 1), multiply result by current x.
+   b. Square x (x = x * x).
+   c. Halve n using integer division (n //= 2).
+5. Return result.
 
 ## Line-by-Line Explanation
-```python
-if n == 0:
-    return 1
-```
-Handles the zero-exponent base case directly ($x^0 = 1$).
-
-```python
-elif n < 0:
-    x = 1 / x
-    n = -n
-```
-Converts negative powers to positive ones using the rule $x^{-n} = (1/x)^n$. In Python, `n = -n` when $n = -2^{31}$ is safely handled because Python integers do not overflow fixed 32-bit boundaries.
-
-```python
-result = 1
-```
-Initializes the accumulator variable to 1 (the multiplicative identity).
-
-```python
-while n:
-```
-Runs the loop until all bits of $n$ have been processed (i.e., $n$ becomes `0`).
-
-```python
-if n % 2:
-    result *= x
-```
-Checks if the lowest bit of $n$ is set (i.e., $n$ is odd). If true, accumulates the current power of $x$ into `result`.
-
-```python
-x *= x
-n //= 2
-```
-Squares $x$ to represent the next power-of-two exponent ($x^1 \rightarrow x^2 \rightarrow x^4 \rightarrow x^8 \dots$) and shifts $n$ right by one bit (floored division by 2).
-
-```python
-return result
-```
-Returns the final calculated value of $x^n$.
+- `if n == 0: return 1`: Any number to the power 0 is 1; also terminates the negative-exponent conversion when n was 0.
+- `elif n < 0: x = 1 / x; n = -n`: Convert negative exponent to positive by taking reciprocal of base; now n ≥ 0 for the loop.
+- `result = 1`: Accumulator for the final product; starts at multiplicative identity.
+- `while n:`: Loop until all bits of n have been processed (n becomes 0).
+- `if n % 2: result *= x`: If the least-significant bit of n is 1, the current x contributes to the answer.
+- `x *= x`: Square the base for the next bit (corresponds to moving to the next higher power of two).
+- `n //= 2`: Right-shift n, discarding the bit just processed.
+- `return result`: The accumulated product equals xⁿ.
 
 ## Dry Run
-Tracing `x = 2.0`, `n = -2`:
+Example: x = 2.0, n = 10 (binary 1010)
 
-1. $n = -2 < 0$, so $x = 1 / 2.0 = 0.5$ and $n = -(-2) = 2$.
-2. Initial state: `result = 1`, `x = 0.5`, `n = 2`.
-
-| Iteration | `n` | `n % 2` | `result` (after update) | `x` (after update) | `n` (after update) |
-|---|---|---|---|---|---|
-| Start | 2 | - | 1.0 | 0.5 | 2 |
-| 1 | 2 | 0 (False) | 1.0 | 0.25 | 1 |
-| 2 | 1 | 1 (True) | 0.25 | 0.0625 | 0 |
-
-3. `while n` terminates ($n = 0$). Returns `result = 0.25`.
+| Step | n (dec) | n (bin) | n % 2 | x       | result | Action                     |
+|------|---------|---------|-------|---------|--------|----------------------------|
+| 0    | 10      | 1010    | 0     | 2.0     | 1      | skip multiply              |
+| 1    | 5       | 101     | 1     | 4.0     | 4.0    | result *= 4.0              |
+| 2    | 2       | 10      | 0     | 16.0    | 4.0    | skip multiply              |
+| 3    | 1       | 1       | 1     | 256.0   | 1024.0 | result *= 256.0            |
+| 4    | 0       | 0       | —     | —       | 1024.0 | loop ends, return 1024.0   |
 
 ## Complexity
-- **Time Complexity:** $O(\log n)$, where $n$ is the magnitude of the exponent. In each loop iteration, $n$ is divided by 2, requiring at most $\approx 32$ iterations for a 32-bit integer.
-- **Space Complexity:** $O(1)$. The algorithm uses a fixed number of scalar floating-point and integer variables (`x`, `n`, `result`), consuming constant extra space.
+- Time: O(log n), because the loop runs once per bit of n (at most 31 iterations for 32-bit n).
+- Space: O(1), only a constant number of scalar variables are used regardless of input size.
 
 ## Edge Cases
-- **$n = 0$:** Returns `1` immediately before entering the main loop.
-- **$n = -2^{31}$ (Minimum 32-bit signed integer):** In languages like C++ or Java, `n = -n` causes integer overflow because $2^{31}$ exceeds `INT_MAX`. Python handles arbitrary-precision integers automatically, so `n = -n` correctly yields $2^{31}$ without issue.
-- **$x = 0$:** If $n > 0$, `result` remains `0` after the first odd step, correctly producing `0`.
-- **Negative base $x$ with odd/even $n$:** Handled implicitly by repeated multiplication; signs update naturally.
+- **n = 0**: Returns 1 immediately, correct for all x (including x = 0, though constraints forbid 0⁰).
+- **n = -2³¹**: The negation `n = -n` would overflow a 32-bit signed integer, but Python's arbitrary-precision integers handle it safely. In languages with fixed-width integers this would be a bug.
+- **x = 0, n > 0**: Loop squares 0 repeatedly; result stays 0, correct.
+- **Large |n|**: Logarithmic loop handles the maximum constraint comfortably.
+- **Negative x**: Works without modification; squaring and multiplication preserve sign correctly.
 
 ## Possible Improvements
-The solution is already optimal in terms of time $O(\log n)$ and space $O(1)$ complexity. However, a couple of minor observations can be made:
-
-1. **Redundant check:** The initial `if n == 0: return 1` check is strictly unnecessary. If $n = 0$, `while n:` will evaluate to `False` immediately, and the code will fall through to return `result = 1`.
-2. **Precision in floating-point inversion:** Executing $x = 1 / x$ at the start causes precision loss to accumulate during subsequent multiplications for large $n$. Inverting at the end (`return 1 / result` after computing $x^{|n|}$) can yield slightly better floating-point accuracy, though both pass LeetCode's precision thresholds.
+The solution is already optimal in both time (O(log n)) and space (O(1)) for the given constraints. Variable names are clear (`result`, `x`, `n`). No redundant passes or structures exist. The only marginal improvement would be using `n & 1` and `n >>= 1` for bitwise operations, but Python's integer division and modulo are fast enough and more readable.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

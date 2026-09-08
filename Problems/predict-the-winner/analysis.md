@@ -1,121 +1,59 @@
 # 486. Predict the Winner - Solution Analysis
 
 ## Problem Understanding
-The problem asks whether Player 1 can guarantee a score greater than or equal to Player 2 in a turn-based game played on an integer array `nums`. 
-
-On each turn, the active player chooses a number from either the left or right end of the array, adds it to their score, and removes it from the array. Both players play optimally to maximize their final relative score margin (their score minus the opponent's score).
-
-Constraints:
-- $1 \le n \le 20$, where $n$ is `len(nums)`.
-- $0 \le nums[i] \le 10^7$.
-
-Because $n$ is small, subproblem results can be cached to evaluate game states without recalculating them.
-
----
+Two players alternately pick numbers from either end of an array, adding them to their own score. Player 1 starts. Both play optimally. Return `true` if Player 1's final score is at least Player 2's (ties count as a win for Player 1). The array length is at most 20, values up to 10^7. The small length allows O(n²) DP; the zero-sum nature means we only need to track the score difference the current player can secure.
 
 ## Approach
-This solution uses **Minimax Dynamic Programming** space-optimized to a 1D array.
-
-In a zero-sum game, a standard state definition is `dp[i][j]`: the maximum net score difference (`current_player_score - opponent_score`) the active player can achieve on the subarray `nums[i...j]`.
-
-The recursive relation is:
-$$\text{dp}[i][j] = \max(nums[i] - \text{dp}[i+1][j], \; nums[j] - \text{dp}[i][j-1])$$
-
-Notice that computing row `i` only depends on:
-1. `dp[i+1][j]` (the subproblem from the row below, i.e., index $i+1$).
-2. `dp[i][j-1]` (the subproblem from the current row, i.e., index $j-1$).
-
-By iterating the left boundary `i` backwards from $n-2$ down to $0$, and the right boundary `j` forwards from $i+1$ to $n-1$, we can overwrite a single 1D array `dp` of size $n$ in-place:
-- `dp[j]` before modification stores $\text{dp}[i+1][j]$.
-- `dp[j-1]` after modification stores $\text{dp}[i][j-1]$.
-
----
+**Pattern:** Dynamic Programming (interval DP) with space optimization to 1D.  
+**Why it fits:** The game state is fully defined by the remaining subarray `nums[i..j]`. The optimal score difference for the current player on that interval depends only on the two smaller intervals after taking the left or right end. This is a classic minimax/zero-sum game on an interval.  
+**Brute force:** Recursion exploring both choices at every turn gives O(2ⁿ) time.  
+**Chosen approach:** Bottom-up DP computes the maximum net score difference `dp[i][j]` the current player can achieve over the opponent on subarray `i..j`. The recurrence is `dp[i][j] = max(nums[i] - dp[i+1][j], nums[j] - dp[i][j-1])`. The 1D optimization overwrites `dp[j]` in place because row `i` only needs row `i+1` (old `dp[j]`) and the current row's left neighbour (new `dp[j-1]`).  
+**Key insight:** In a zero-sum game with perfect play, the current player's best net advantage equals the chosen end value minus the opponent's best net advantage on the remaining interval.
 
 ## Algorithm
-1. Initialize a 1D array `dp` as a copy of `nums`. Initially, `dp[i]` represents subproblems of length 1 where $i = j$ ($\text{dp}[i][i] = nums[i]$).
-2. Loop `i` backwards from `n - 2` down to `0` (left index of current subarray).
-3. Loop `j` forwards from `i + 1` up to `n - 1` (right index of current subarray).
-4. For each pair $(i, j)$, update `dp[j] = max(nums[i] - dp[j], nums[j] - dp[j - 1])`.
-5. Return `True` if `dp[-1] >= 0` (the net score margin for the full range $0 \dots n-1$ is non-negative), otherwise `False`.
-
----
+1. Let `n = len(nums)`. Initialise a 1D array `dp` as a copy of `nums`; `dp[i]` represents the net score difference for the single-element interval `[i, i]`.
+2. Iterate `i` from `n-2` down to `0` (expanding intervals leftward).
+3. For each `i`, iterate `j` from `i+1` to `n-1` (expanding intervals rightward).
+4. Update `dp[j] = max(nums[i] - dp[j], nums[j] - dp[j-1])`:
+   - `nums[i] - dp[j]`: take left end; `dp[j]` still holds the value for interval `[i+1, j]` from the previous outer iteration.
+   - `nums[j] - dp[j-1]`: take right end; `dp[j-1]` was just updated in this inner loop and now holds the value for interval `[i, j-1]`.
+5. After all loops, `dp[n-1]` holds the net score difference for the full array `[0, n-1]`. Return `true` if it is ≥ 0.
 
 ## Line-by-Line Explanation
-
-```python3
-n = len(nums)
-dp = nums[:]          # dp[i] = dp[i][i]
-```
-`n` stores the size of the array. `dp` is initialized as a clone of `nums`. Initially, `dp[i]` holds the base case where subarray length is $1$ ($i = j$). Picking `nums[i]` leaves no elements for the opponent, so net score difference is `nums[i]`.
-
-```python3
-for i in range(n - 2, -1, -1):
-    for j in range(i + 1, n):
-```
-The outer loop moves the start index `i` backward from `n-2` to `0`. The inner loop moves the end index `j` forward from `i+1` to `n-1`. This guarantees that for any subproblem $(i, j)$, both necessary subproblems $(i+1, j)$ and $(i, j-1)$ have already been computed.
-
-```python3
-        dp[j] = max(
-            nums[i] - dp[j],      # old dp[j] = dp[i+1][j]
-            nums[j] - dp[j - 1]   # dp[j-1] = dp[i][j-1]
-        )
-```
-Updates `dp[j]` for subarray `nums[i...j]`. 
-- `nums[i] - dp[j]` calculates taking the left element `nums[i]` minus opponent's optimal margin on `nums[i+1...j]`.
-- `nums[j] - dp[j - 1]` calculates taking the right element `nums[j]` minus opponent's optimal margin on `nums[i...j-1]`.
-
-```python3
-return dp[-1] >= 0
-```
-`dp[-1]` (which is `dp[n-1]`) holds the net score margin for the full array `nums[0...n-1]`. If it is $\ge 0$, Player 1 wins or ties, so return `True`.
-
----
+- `n = len(nums)`: length of the array.
+- `dp = nums[:]`: initialise DP with base cases `dp[i] = nums[i]` (interval of length 1, current player takes the only element).
+- `for i in range(n - 2, -1, -1):`: outer loop moves the left boundary leftwards, building longer intervals.
+- `for j in range(i + 1, n):`: inner loop moves the right boundary rightwards for the current left boundary.
+- `dp[j] = max(nums[i] - dp[j], nums[j] - dp[j - 1])`: core recurrence. `dp[j]` (old) is `dp[i+1][j]`; `dp[j-1]` (new) is `dp[i][j-1]`. The current player picks the end that maximises their net advantage.
+- `return dp[-1] >= 0`: `dp[n-1]` now holds the net advantage for the whole array; non-negative means Player 1 wins or ties.
 
 ## Dry Run
+Example: `nums = [1, 5, 2]`
 
-Trace for `nums = [1, 5, 2]` ($n = 3$):
+Initial: `dp = [1, 5, 2]`
 
-Initial state: `dp = [1, 5, 2]`
+| Step | i | j | nums[i] | nums[j] | old dp[j] (dp[i+1][j]) | new dp[j-1] (dp[i][j-1]) | left pick | right pick | new dp[j] | dp array after |
+|------|---|---|---------|---------|------------------------|--------------------------|-----------|------------|-----------|----------------|
+| 1    | 1 | 2 | 5       | 2       | 2                      | 5                        | 5-2=3     | 2-5=-3     | 3         | [1, 5, 3]      |
+| 2    | 0 | 1 | 1       | 5       | 5                      | 1                        | 1-5=-4    | 5-1=4      | 4         | [1, 4, 3]      |
+| 3    | 0 | 2 | 1       | 2       | 3                      | 4                        | 1-3=-2    | 2-4=-2     | -2        | [1, 4, -2]     |
 
-| Step | `i` | `j` | Subarray | Decision Calculation | `dp` State |
-|---|---|---|---|---|---|
-| Start | - | - | - | Initial base cases | `[1, 5, 2]` |
-| 1 | 1 | 2 | `[5, 2]` | `max(nums[1] - dp[2], nums[2] - dp[1])` = `max(5 - 2, 2 - 5) = 3` | `[1, 5, 3]` |
-| 2 | 0 | 1 | `[1, 5]` | `max(nums[0] - dp[1], nums[1] - dp[0])` = `max(1 - 5, 5 - 1) = 4` | `[1, 4, 3]` |
-| 3 | 0 | 2 | `[1, 5, 2]` | `max(nums[0] - dp[2], nums[2] - dp[1])` = `max(1 - 3, 2 - 4) = -2` | `[1, 4, -2]` |
-
-Final check: `dp[-1] >= 0` $\rightarrow$ `-2 >= 0` $\rightarrow$ `False`.
-
----
+Final `dp[-1] = -2 < 0` → return `False`. Matches example.
 
 ## Complexity
-
-- **Time Complexity:** $O(n^2)$ where $n$ is the length of `nums`. The double nested loop evaluates $\frac{n(n-1)}{2}$ subproblems, executing constant time operations $O(1)$ per state.
-- **Space Complexity:** $O(n)$ where $n$ is the length of `nums`. The state was optimized from a full $O(n^2)$ 2D matrix down to a single 1D array of size $n$.
-
----
+- **Time:** O(n²) — two nested loops over `n ≤ 20`, each iteration O(1).
+- **Space:** O(n) — single array of length `n` replaces the 2D table.
 
 ## Edge Cases
-
-- **Single element ($n = 1$):** `range(n - 2, -1, -1)` evaluates to `range(-1, -1, -1)`, which is empty. The loops do not execute, and `dp[-1] >= 0` evaluates `nums[0] >= 0` which returns `True`.
-- **All elements equal:** Player 1 can always control game progression to tie or win. Handled correctly.
-- **Zeros in array ($nums[i] = 0$):** Zero elements add no score margin; handled natively by standard subtraction logic.
-
----
+- **Single element (`n=1`):** Outer loop doesn't run; `dp[-1] = nums[0] ≥ 0` → `True`. Correct: Player 1 takes the only number and wins.
+- **All equal values:** e.g., `[5,5,5]`. DP computes net difference 5 (Player 1 gets two 5s, Player 2 gets one) → `True`.
+- **Large values up to 10⁷:** Python integers handle sums up to 20·10⁷ easily; no overflow.
+- **Already sorted / reverse sorted:** Order doesn't matter; DP examines all intervals.
+- **No valid answer:** Not applicable — game always terminates with a winner/tie.
 
 ## Possible Improvements
-
-For even-length arrays ($n \pmod 2 == 0$), Player 1 can **always** win or tie. 
-
-Player 1 can partition the array indices into two sets: odd indices and even indices. Player 1 can force picking *all* even-indexed numbers or *all* odd-indexed numbers throughout the game. Since total score is fixed, picking the set with the larger or equal sum guarantees a score $\ge$ Player 2's score.
-
-Adding an $O(1)$ parity check at the beginning avoids unnecessary dynamic programming loops for even lengths:
-
-```python3
-if len(nums) % 2 == 0:
-    return True
-```
+The solution is already optimal for the given constraints (n ≤ 20). The 1D DP achieves O(n²) time and O(n) space, which is the best asymptotic complexity for this problem. The commented-out recursive and 2D versions are functionally equivalent but use more space or recursion overhead. No material improvement is needed; variable names (`dp`, `i`, `j`) are standard for this pattern.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

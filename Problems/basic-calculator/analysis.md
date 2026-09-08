@@ -1,135 +1,82 @@
 # 224. Basic Calculator - Solution Analysis
 
 ## Problem Understanding
-
-The problem requires evaluating a mathematical expression string `s` containing non-negative integers, addition (`+`), subtraction (`-`), parentheses (`(` and `)`), and spaces. Subtraction can act as a unary operator (e.g., `"-1"` or `"-(2 + 3)"`), but addition is strictly binary.
-
-The key constraints are:
-- Expression length $n \le 3 \times 10^5$.
-- Expressions are guaranteed to be valid, but may contain nested parentheses and unary minuses.
-- No multiplication or division is involved, meaning all operators (`+` and `-`) have equal precedence and can be evaluated left-to-right, subject to parenthetical grouping.
+The input is a string `s` containing digits, `'+'`, `'-'`, `'('`, `')'`, and spaces. It represents a valid arithmetic expression where `'+'` and `'-'` are binary operators (except `'-'` can be unary), parentheses group sub‑expressions, and spaces are insignificant. The task is to evaluate the expression and return the integer result. Constraints: length up to 3·10⁵, no two consecutive operators, every intermediate value fits in a signed 32‑bit integer. The key challenge is handling parentheses which require saving and restoring the evaluation state.
 
 ## Approach
+**Pattern:** Stack‑based iterative parsing.  
+The expression contains only addition and subtraction (same precedence) and parentheses. A single left‑to‑right pass can evaluate it if we maintain a running `result` and the `sign` of the next operand. When a `'('` appears, the current `result` and `sign` are pushed onto a stack and reset for the sub‑expression. When a `')'` appears, the sub‑expression result is combined with the saved state. This avoids recursion and processes each character once.
 
-The solution uses a **Stack with Iterative Evaluation** pattern.
+**Brute force:** A recursive descent parser would also be O(n) time but uses the call stack (O(n) space) and is more verbose. Converting to RPN (Shunting‑Yard) would be O(n) time and space but overkill for only two operators.
 
-Since `+` and `-` share equal precedence, we can maintain a running `result` and a `sign` variable ($+1$ or $-1$). Parentheses temporarily override left-to-right evaluation. When an opening parenthesis `(` is encountered, the current context—the running `result` and the incoming `sign` multiplying the parenthesized sub-expression—is saved onto a stack. The state variables are then reset to evaluate the isolated sub-expression. When the matching closing parenthesis `)` is hit, the inner result is finalized, popped off the stack, and combined with the outer calculation.
+**Key insight:** Because `+` and `-` have equal precedence and are left‑associative, the expression can be evaluated by accumulating `sign * operand` into `result` whenever an operator or closing parenthesis is met; parentheses only require saving the current `result` and `sign` on a stack.
 
 ## Algorithm
-
-1. Initialize `stack = []`, `operand = 0`, `result = 0`, and `sign = 1`.
-2. Iterate through each character `char` in string `s`:
-   - If `char` is a digit, accumulate it into `operand` (`operand = operand * 10 + digit`).
-   - If `char` is `+` or `-`:
-     - Flush the completed `operand` into `result`: `result += sign * operand`.
-     - Reset `operand` to `0`.
-     - Update `sign` to `1` (for `+`) or `-1` (for `-`).
-   - If `char` is `(`:
-     - Push the current tuple `(result, sign)` onto `stack`.
-     - Reset `result` to `0` and `sign` to `1` to evaluate the inner scope independently.
-   - If `char` is `)`:
-     - Flush the remaining `operand` inside the parentheses into `result`.
-     - Reset `operand` to `0`.
-     - Pop `(prev_result, prev_sign)` from `stack`.
-     - Update `result = prev_result + prev_sign * result`.
-3. After the loop, flush the final accumulated `operand`: return `result + sign * operand`.
+1. Initialise `stack = []`, `operand = 0`, `result = 0`, `sign = 1`.
+2. For each character `char` in `s`:
+   - If `char` is a digit: `operand = operand * 10 + int(char)`.
+   - If `char == '+'`: `result += sign * operand`; `operand = 0`; `sign = 1`.
+   - If `char == '-'`: `result += sign * operand`; `operand = 0`; `sign = -1`.
+   - If `char == '('`: push `(result, sign)` onto `stack`; `result = 0`; `sign = 1`.
+   - If `char == ')'`: `result += sign * operand`; `operand = 0`; pop `(prev_result, prev_sign)`; `result = prev_result + prev_sign * result`.
+   - Spaces are ignored (no branch matches them).
+3. After the loop, return `result + sign * operand` (adds the last pending operand).
 
 ## Line-by-Line Explanation
-
-```python
-stack = []
-operand = 0
-result = 0  # Final result
-sign = 1  # Sign of the current operand
-```
-Initializes the tracking state. `stack` stores deferred contexts `(result, sign)` for outer scopes. `operand` builds multi-digit integers digit-by-digit. `sign` holds $+1$ or $-1$ for the next incoming value or sub-expression.
-
-```python
-for char in s:
-```
-Iterates through each character in the input string once.
-
-```python
-    if char.isdigit():
-        operand = operand * 10 + int(char)
-```
-Handles multi-digit numbers by shifting previous digits left by a factor of 10 and adding the current digit.
-
-```python
-    elif char == '+':
-        result += sign * operand
-        operand = 0
-        sign = 1
-    elif char == '-':
-        result += sign * operand
-        operand = 0
-        sign = -1
-```
-When encountering `+` or `-`, the current `operand` is multiplied by its `sign` and added to `result`. `operand` is reset to `0`, and `sign` is updated for the next term. Note that if `char == '-'` appears at the start of a scope (e.g., `"-2"` or `"(-3)"`), `operand` is `0`, so `result += sign * 0` effectively leaves `result` unchanged while setting `sign = -1` to handle unary minus.
-
-```python
-    elif char == '(':
-        stack.append((result, sign))
-        result = 0
-        sign = 1
-```
-Saves the outer evaluation context `(result, sign)` onto `stack`. It then resets `result = 0` and `sign = 1` so that the sub-expression inside `()` is evaluated as an isolated fresh scope.
-
-```python
-    elif char == ')':
-        result += sign * operand
-        operand = 0
-        prev_result, prev_sign = stack.pop()
-        result = prev_result + prev_sign * result
-```
-Completes the current scope: flushes any remaining `operand` into `result`, pops the outer context `(prev_result, prev_sign)`, and combines the inner result with the outer context.
-
-```python
-return result + sign * operand
-```
-Flushes the final `operand` remaining after the loop terminates and returns the total computed value.
+- `stack = []`: Holds tuples `(result_before_parenthesis, sign_before_parenthesis)`.
+- `operand = 0`: Accumulates the current number being read.
+- `result = 0`: Running total of the current level (inside current parentheses).
+- `sign = 1`: Sign (`+1` or `-1`) to apply to the next operand.
+- `for char in s:`: Iterate over every character.
+- `if char.isdigit(): operand = operand * 10 + int(char)`: Build multi‑digit numbers.
+- `elif char == '+': result += sign * operand; operand = 0; sign = 1`: Finalise the previous operand with its sign, reset for next, set sign positive.
+- `elif char == '-': result += sign * operand; operand = 0; sign = -1`: Same but sign negative (handles unary minus because `operand` is 0 at start or after `(`).
+- `elif char == '(': stack.append((result, sign)); result = 0; sign = 1`: Save current state, start fresh for sub‑expression.
+- `elif char == ')': result += sign * operand; operand = 0; prev_result, prev_sign = stack.pop(); result = prev_result + prev_sign * result`: Finish sub‑expression, combine with saved state.
+- `return result + sign * operand`: Add the last operand (if any) after the loop ends.
 
 ## Dry Run
+Example: `s = "(1+(4+5+2)-3)+(6+8)"` → expected 23.
 
-Trace for input `s = "2 - (1 + 2)"`:
-
-| Char | `operand` | `sign` | `result` | `stack` | Action |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Initial | `0` | `1` | `0` | `[]` | Setup |
-| `'2'` | `2` | `1` | `0` | `[]` | `operand = 2` |
-| `' '` | `2` | `1` | `0` | `[]` | Ignored |
-| `'-'` | `0` | `-1` | `2` | `[]` | `result += 1 * 2 = 2`, `sign = -1` |
-| `' '` | `0` | `-1` | `2` | `[]` | Ignored |
-| `'('` | `0` | `1` | `0` | `[(2, -1)]` | Push `(2, -1)`, reset `result = 0, sign = 1` |
-| `'1'` | `1` | `1` | `0` | `[(2, -1)]` | `operand = 1` |
-| `' '` | `1` | `1` | `0` | `[(2, -1)]` | Ignored |
-| `'+'` | `0` | `1` | `1` | `[(2, -1)]` | `result += 1 * 1 = 1`, `sign = 1` |
-| `' '` | `0` | `1` | `1` | `[(2, -1)]` | Ignored |
-| `'2'` | `2` | `1` | `1` | `[(2, -1)]` | `operand = 2` |
-| `')'` | `0` | `1` | `2 - 1 * 3 = -1` | `[]` | Inner `result = 1 + 1*2 = 3`. Pop `(2, -1)`, `result = 2 + (-1)*3 = -1` |
-
-**Final Return:** `result + sign * operand` = `-1 + 1 * 0 = -1`.
+| Step | char | operand | result | sign | stack (top at right) | Action |
+|------|------|---------|--------|------|----------------------|--------|
+| 1 | '(' | 0 | 0 | 1 | [(0, 1)] | push (0,1); reset result=0, sign=1 |
+| 2 | '1' | 1 | 0 | 1 | [(0, 1)] | build operand |
+| 3 | '+' | 0 | 1 | 1 | [(0, 1)] | result += 1*1=1; operand=0; sign=1 |
+| 4 | '(' | 0 | 0 | 1 | [(0, 1), (1, 1)] | push (1,1); reset result=0, sign=1 |
+| 5 | '4' | 4 | 0 | 1 | [(0, 1), (1, 1)] | build operand |
+| 6 | '+' | 0 | 4 | 1 | [(0, 1), (1, 1)] | result += 1*4=4; operand=0; sign=1 |
+| 7 | '5' | 5 | 4 | 1 | [(0, 1), (1, 1)] | build operand |
+| 8 | '+' | 0 | 9 | 1 | [(0, 1), (1, 1)] | result += 1*5=9; operand=0; sign=1 |
+| 9 | '2' | 2 | 9 | 1 | [(0, 1), (1, 1)] | build operand |
+|10 | ')' | 0 | 11 | 1 | [(0, 1)] | result += 1*2=11; pop (1,1); result = 1 + 1*11 = 12 |
+|11 | '-' | 0 | 12 | -1 | [(0, 1)] | result += 1*0=12; operand=0; sign=-1 |
+|12 | '3' | 3 | 12 | -1 | [(0, 1)] | build operand |
+|13 | ')' | 0 | 9 | 1 | [] | result += (-1)*3=9; pop (0,1); result = 0 + 1*9 = 9 |
+|14 | '+' | 0 | 9 | 1 | [] | result += 1*0=9; operand=0; sign=1 |
+|15 | '(' | 0 | 0 | 1 | [(9, 1)] | push (9,1); reset result=0, sign=1 |
+|16 | '6' | 6 | 0 | 1 | [(9, 1)] | build operand |
+|17 | '+' | 0 | 6 | 1 | [(9, 1)] | result += 1*6=6; operand=0; sign=1 |
+|18 | '8' | 8 | 6 | 1 | [(9, 1)] | build operand |
+|19 | ')' | 0 | 14 | 1 | [] | result += 1*8=14; pop (9,1); result = 9 + 1*14 = 23 |
+|20 | end | 0 | 23 | 1 | [] | return 23 + 1*0 = 23 |
 
 ## Complexity
-
-- **Time Complexity:** $\mathcal{O}(n)$, where $n$ is the length of string `s`. The algorithm processes each character of the string exactly once in a single pass.
-- **Space Complexity:** $\mathcal{O}(n)$ in the worst case. The stack depth depends on the maximum depth of nested parentheses. For a string like `(((((1)))))`, the stack stores $\mathcal{O}(n)$ tuples.
+- **Time:** O(n) where n = len(s). Each character is examined once; all operations inside the loop are O(1).
+- **Space:** O(n) worst‑case for the stack (e.g., `((((...)))`). The stack depth equals the maximum nesting level of parentheses, which can be Θ(n) in the worst case.
 
 ## Edge Cases
-
-- **Unary Minus at Start or Scope Boundary:** In expressions like `"-2 + 1"` or `"(-2 + 1)"`, the initial `operand` is `0`. The operator `-` executes `result += sign * 0` (no-op) and sets `sign = -1`, correctly attributing a negative sign to the following number.
-- **Spaces:** Ignored automatically since whitespace characters fall through all `if/elif` branches without altering state.
-- **Deep Nesting:** Correctly handled by appending to and popping from `stack` in LIFO order.
-- **Multi-digit Integers:** Constructed correctly via `operand = operand * 10 + int(char)`.
+- **Unary minus at start:** `"-12"` → first `'-'` adds `sign*operand` (0) to result, sets `sign=-1`, then digits build operand=12, final return gives -12. Works.
+- **Unary minus before parentheses:** `"-(3+2)"` → same logic, `sign=-1` saved on stack, sub‑expression evaluated, then combined with negative sign.
+- **Multiple digits:** `"123"` → operand builds to 123, no operator triggers addition until end, final return adds it.
+- **Spaces:** `" 2 - 1 "` → spaces match no branch, effectively skipped.
+- **Single number:** `"42"` → loop only builds operand, final return returns 42.
+- **Deep nesting:** Up to 3·10⁵ characters, stack may grow to ~1.5·10⁵; Python list handles it.
+- **Empty string:** Not possible per constraints (length ≥ 1).
 
 ## Possible Improvements
-
-The solution is already optimal in terms of time ($\mathcal{O}(n)$) and space ($\mathcal{O}(n)$) complexity. 
-
-Minor Python-specific implementation notes:
-- **Python 2/3 Compatibility:** The class uses `class Solution(object):` (Python 2 style), which is redundant in Python 3, though LeetCode accepts both.
-- **Whitespace handling:** The current code checks `char.isdigit()`, then specific operators, letting spaces fall through. An explicit `elif char == ' ': continue` is not strictly necessary but makes the non-action on spaces explicit.
+The solution is already optimal for the given constraints: O(n) time and O(n) space (worst‑case stack depth) is the best achievable for this problem because parentheses require saving state proportional to nesting depth. Variable names (`operand`, `result`, `sign`, `stack`) are clear and conventional. No redundant passes or structures exist. The only minor stylistic addition could be an explicit `elif char == ' ': continue` for readability, but the current implicit ignore is fine and slightly faster.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_

@@ -1,108 +1,61 @@
 # 238. Product of Array Except Self - Solution Analysis
 
 ## Problem Understanding
-The task is to return an array `answer` where `answer[i]` is the product of every element in the input array `nums` except `nums[i]`.
-
-The key constraints are:
-1. **Time Complexity:** Must run in $O(n)$ time.
-2. **Operation Constraint:** Division cannot be used (which rules out calculating the total product once and dividing by `nums[i]`).
-3. **Space Constraint:** The follow-up requests $O(1)$ extra space usage, excluding the output array itself.
-4. **Input Constraints:** `2 <= nums.length <= 10^5`, values range between `-30` and `30`, and all products fit within a standard 32-bit signed integer.
+Given an integer array `nums`, return an array `answer` where `answer[i]` is the product of all elements in `nums` except `nums[i]`. Division is forbidden. The algorithm must run in O(n) time. The output array does not count toward space complexity, so O(1) extra space is the follow-up target. Constraints: length up to 10^5, values between -30 and 30, products fit in 32-bit signed integer.
 
 ## Approach
-This solution uses the **Prefix and Suffix Products** pattern (a variation of the Prefix Sum pattern). 
-
-For any index `i`, the product of all elements except `nums[i]` is:
-$$\text{answer}[i] = (\text{product of all elements to the left of } i) \times (\text{product of all elements to the right of } i)$$
-
-Instead of allocating two extra arrays of size $n$ to precompute prefix and suffix products, this implementation:
-1. Uses the output array `ans` to build up the prefix products in a forward pass.
-2. Uses a single scalar variable `suffix` to accumulate products from right to left while updating `ans` in place.
-
-This satisfies both the $O(n)$ time limit and the $O(1)$ auxiliary space follow-up.
+The solution uses the **prefix/suffix product** pattern. The brute force would compute each `answer[i]` by multiplying all other elements, costing O(n²) time. The insight is that `answer[i] = (product of elements before i) × (product of elements after i)`. We can compute prefix products in a forward pass and suffix products in a backward pass, combining them without division. The code stores prefix products directly in the output array, then accumulates the suffix product in a single variable during the reverse pass, achieving O(1) extra space.
 
 ## Algorithm
-1. Create an output array `ans` of length $n$, pre-filled with `1`.
-2. **Prefix Pass:** Loop forward from index `1` to $n-1$. Set `ans[i]` to `ans[i - 1] * nums[i - 1]`, storing the product of all elements to the left of index `i`.
-3. Initialize a variable `suffix = 1`.
-4. **Suffix Pass:** Loop backward from index $n-1$ down to `0`. Multiply `ans[i]` by `suffix`, then update `suffix` by multiplying it by `nums[i]`.
+1. Let `n = len(nums)`. Initialise `ans = [1] * n`.
+2. **Forward pass (prefix):** For `i` from 1 to `n-1`, set `ans[i] = ans[i-1] * nums[i-1]`. After this, `ans[i]` holds the product of all elements before index `i`.
+3. Initialise `suffix = 1`.
+4. **Backward pass (suffix):** For `i` from `n-1` down to 0:
+   - Multiply `ans[i]` by `suffix` (now `ans[i]` = prefix × suffix).
+   - Update `suffix *= nums[i]` for the next iteration.
 5. Return `ans`.
 
 ## Line-by-Line Explanation
-```python
-n = len(nums)
-ans = [1] * n
-```
-Gets the length of the input array and initializes the output array `ans` with `1`s. `ans[0]` defaults to `1` because index `0` has no elements to its left.
-
-```python
-# prefix 
-for i in range(1, n):
-    ans[i] = ans[i - 1] * nums[i - 1]
-```
-Iterates from index `1` to `n - 1`. At each step `i`, `ans[i]` receives the product of all numbers before index `i`. For example, `ans[2]` becomes `nums[0] * nums[1]`.
-
-```python
-suffix = 1
-```
-Initializes the running multiplier for elements strictly to the right of the current index.
-
-```python
-# suffix 
-for i in range(n - 1, -1, -1):
-    ans[i] *= suffix
-    suffix *= nums[i]
-```
-Iterates backward from `n - 1` to `0`. 
-- `ans[i] *= suffix` multiplies the stored prefix product at `ans[i]` by the accumulated suffix product of all elements to the right of `i`.
-- `suffix *= nums[i]` updates `suffix` to include `nums[i]` before moving to index `i - 1`.
-
-```python
-return ans
-```
-Returns the completed array containing the product of elements except self for each index.
+- `n = len(nums)`: store array length for loop bounds.
+- `ans = [1] * n`: output array initialised with 1s; `ans[0]` correctly starts as 1 (empty prefix product).
+- `for i in range(1, n):`: forward pass skipping index 0.
+- `ans[i] = ans[i - 1] * nums[i - 1]`: builds prefix product incrementally; `ans[i]` becomes product of `nums[0..i-1]`.
+- `suffix = 1`: running product of elements to the right of current index; starts as 1 (empty suffix for last element).
+- `for i in range(n - 1, -1, -1):`: reverse iteration over all indices.
+- `ans[i] *= suffix`: combines prefix (already in `ans[i]`) with suffix product accumulated so far.
+- `suffix *= nums[i]`: extends suffix product leftward for the next iteration.
+- `return ans`: final array where each entry is product of all elements except self.
 
 ## Dry Run
+Example: `nums = [1, 2, 3, 4]`
 
-Given `nums = [1, 2, 3, 4]`:
-
-### Phase 1: Prefix Pass
-`ans` begins as `[1, 1, 1, 1]`.
-
-| `i` | `ans[i - 1]` | `nums[i - 1]` | `ans[i]` calculated as | `ans` state |
-|---|---|---|---|---|
-| 1 | 1 | 1 | `1 * 1 = 1` | `[1, 1, 1, 1]` |
-| 2 | 1 | 2 | `1 * 2 = 2` | `[1, 1, 2, 1]` |
-| 3 | 2 | 3 | `2 * 3 = 6` | `[1, 1, 2, 6]` |
-
-### Phase 2: Suffix Pass
-`suffix` begins at `1`.
-
-| `i` | `ans[i]` (before) | `suffix` (in) | `ans[i] *= suffix` | `nums[i]` | `suffix` (after) | `ans` state |
-|---|---|---|---|---|---|---|
-| 3 | 6 | 1 | `6 * 1 = 6` | 4 | `1 * 4 = 4` | `[1, 1, 2, 6]` |
-| 2 | 2 | 4 | `2 * 4 = 8` | 3 | `4 * 3 = 12` | `[1, 1, 8, 6]` |
-| 1 | 1 | 12 | `1 * 12 = 12` | 2 | `12 * 2 = 24` | `[1, 12, 8, 6]` |
-| 0 | 1 | 24 | `1 * 24 = 24` | 1 | `24 * 1 = 24` | `[24, 12, 8, 6]` |
-
-Final return value: `[24, 12, 8, 6]`
+| Step | i | nums[i] | ans before | suffix before | Action |
+|------|---|---------|------------|---------------|--------|
+| init | - | - | [1,1,1,1] | - | initialise |
+| fwd1 | 1 | 2 | [1,1,1,1] | - | ans[1] = 1*1 = 1 |
+| fwd2 | 2 | 3 | [1,1,1,1] | - | ans[2] = 1*2 = 2 |
+| fwd3 | 3 | 4 | [1,1,2,1] | - | ans[3] = 2*3 = 6 |
+| after fwd | - | - | [1,1,2,6] | - | prefixes done |
+| bwd1 | 3 | 4 | [1,1,2,6] | 1 | ans[3]=6*1=6; suffix=1*4=4 |
+| bwd2 | 2 | 3 | [1,1,2,6] | 4 | ans[2]=2*4=8; suffix=4*3=12 |
+| bwd3 | 1 | 2 | [1,1,8,6] | 12 | ans[1]=1*12=12; suffix=12*2=24 |
+| bwd4 | 0 | 1 | [1,12,8,6] | 24 | ans[0]=1*24=24; suffix=24*1=24 |
+| result | - | - | [24,12,8,6] | - | return |
 
 ## Complexity
-- **Time Complexity:** $O(n)$, where $n$ is the length of `nums`. The array is traversed twice sequentially (once forward, once backward).
-- **Space Complexity:** $O(1)$ auxiliary space. The output array `ans` is required by the problem statement and does not count toward extra space complexity. Only a single scalar integer `suffix` is allocated.
+- Time: O(n) — two linear passes over the array, each doing O(1) work per element.
+- Space: O(1) extra — only the `suffix` variable and loop indices; the output array `ans` is required and does not count.
 
 ## Edge Cases
-- **Array containing one zero (e.g., `[-1, 1, 0, -3, 3]`):**
-  The index containing `0` will evaluate to the product of all non-zero elements, while all other indices will evaluate to `0`. The algorithm handles this correctly without division-by-zero errors.
-- **Array containing multiple zeros (e.g., `[0, 2, 0]`):**
-  Every index will have at least one zero in its prefix or suffix, resulting in `[0, 0, 0]`. Handled correctly.
-- **Minimum length $n = 2$ (e.g., `[5, 10]`):**
-  The prefix loop runs once (`i = 1`), and the suffix loop runs twice (`i = 1`, then `i = 0`), producing `[10, 5]`.
-- **Negative numbers:** Sign rules hold over multiplication; two negatives yield a positive suffix/prefix naturally.
+- **Zeros in input:** Handled correctly. If one zero exists, all `answer[i]` become 0 except at the zero index where it equals the product of non-zero elements. If multiple zeros exist, all outputs are 0. The prefix/suffix logic naturally produces this without special casing.
+- **Negative numbers:** Handled correctly; sign propagates through multiplication.
+- **Minimum length (n=2):** Forward loop runs once (i=1), backward loop runs twice; works correctly.
+- **All equal elements:** No issue; products computed normally.
+- **Large n (10^5):** O(n) time and O(1) extra space fit constraints comfortably.
 
 ## Possible Improvements
-This solution is optimal in both time ($O(n)$) and space ($O(1)$ extra space). No further algorithmic improvements exist for this problem statement.
+The solution is already optimal for the given constraints: O(n) time and O(1) extra space match the follow-up requirement. No algorithmic improvement is possible. A minor readability tweak would be renaming `ans` to `prefix` during the first pass and `result` after, but the current name is clear enough. The code is clean and idiomatic.
 
 ---
 
-_Generated by leetvault using gemini (gemini-flash-latest)_
+_Generated by leetvault using nvidia (nvidia/nemotron-3-ultra-550b-a55b)_
