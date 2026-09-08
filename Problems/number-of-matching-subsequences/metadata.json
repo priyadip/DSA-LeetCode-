@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 792,
+  "lang": "python3",
+  "latest_submission_id": 2134856323,
+  "memory": "21.2 MB",
+  "memory_percentile": 59.77529999999999,
+  "paid_only": false,
+  "question_id": 808,
+  "runner": null,
+  "runtime": "218 ms",
+  "runtime_percentile": 80.56100000000013,
+  "timestamp": 1788855721,
+  "title": "Number of Matching Subsequences",
+  "title_slug": "number-of-matching-subsequences",
+  "total_correct": 53,
+  "total_testcases": 53,
+  "url": "https://leetcode.com/problems/number-of-matching-subsequences/"
+}

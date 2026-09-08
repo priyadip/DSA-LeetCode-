@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 1679,
+  "lang": "python3",
+  "latest_submission_id": 2135424724,
+  "memory": "32.2 MB",
+  "memory_percentile": 24.232799999999976,
+  "paid_only": false,
+  "question_id": 1798,
+  "runner": null,
+  "runtime": "460 ms",
+  "runtime_percentile": 72.32049999999992,
+  "timestamp": 1788887693,
+  "title": "Max Number of K-Sum Pairs",
+  "title_slug": "max-number-of-k-sum-pairs",
+  "total_correct": 51,
+  "total_testcases": 51,
+  "url": "https://leetcode.com/problems/max-number-of-k-sum-pairs/"
+}
