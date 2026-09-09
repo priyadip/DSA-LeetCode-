@@ -49,8 +49,10 @@ a:hover{text-decoration:underline}
   background:var(--easy);margin-right:6px}
 
 #main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
-section{padding:20px 24px;flex:1;min-height:0;min-width:0;display:flex;
-  flex-direction:column;gap:14px;overflow:hidden}
+section{padding:10px 12px;flex:1;min-height:0;min-width:0;display:flex;
+  flex-direction:column;gap:10px;overflow:hidden}
+/* The problem view is the panes and nothing else, so it gets the window edge to edge. */
+#view-problem{padding:8px;gap:8px}
 .page-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .page-head h1{font-size:20px;margin:0}
 .btn{border:1px solid var(--line);background:var(--panel-2);color:var(--text);
@@ -178,7 +180,7 @@ body.rail-hidden #rail{display:none}
   border:1px solid var(--line);background:var(--panel);color:var(--text);
   border-radius:8px;padding:5px 9px;cursor:pointer;font-size:14px}
 body.rail-hidden #rail-show{display:block}
-body.rail-hidden section{padding-left:56px}
+body.rail-hidden .page-head{padding-left:44px}
 #rail-show:hover{border-color:var(--accent)}
 
 /* Theme switch, in the rail beside the sidebar toggle. */
