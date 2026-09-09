@@ -1,0 +1,4112 @@
+{
+ "repo": "priyadip/DSA-LeetCode-",
+ "branch": "main",
+ "generated_at": "2026-09-09 10:36 UTC",
+ "problems": [
+  {
+   "id": 1,
+   "slug": "two-sum",
+   "title": "Two Sum",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/two-sum/",
+   "date": "2026-07-13",
+   "topics": [
+    "Array",
+    "Hash Table"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2066072746.py",
+     "id": 2066072746
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "slug": "longest-substring-without-repeating-characters",
+   "title": "Longest Substring Without Repeating Characters",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+   "date": "2026-08-18",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2111338626.py",
+     "id": 2111338626
+    },
+    {
+     "file": "submission_2080140789.py",
+     "id": 2080140789
+    },
+    {
+     "file": "submission_2080138797.py",
+     "id": 2080138797
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "slug": "median-of-two-sorted-arrays",
+   "title": "Median of Two Sorted Arrays",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+   "date": "2026-08-31",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Divide and Conquer"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125666771.py",
+     "id": 2125666771
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "slug": "longest-palindromic-substring",
+   "title": "Longest Palindromic Substring",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/longest-palindromic-substring/",
+   "date": "2026-09-04",
+   "topics": [
+    "Two Pointers",
+    "String",
+    "Dynamic Programming",
+    "Manacher"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131005107.py",
+     "id": 2131005107
+    },
+    {
+     "file": "submission_2131004441.py",
+     "id": 2131004441
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "slug": "reverse-integer",
+   "title": "Reverse Integer",
+   "difficulty": "Medium",
+   "lang": "python",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/reverse-integer/",
+   "date": "2024-05-14",
+   "topics": [
+    "Math"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1257899700.py",
+     "id": 1257899700
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "slug": "palindrome-number",
+   "title": "Palindrome Number",
+   "difficulty": "Easy",
+   "lang": "python",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/palindrome-number/",
+   "date": "2024-05-14",
+   "topics": [
+    "Math"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1257433670.py",
+     "id": 1257433670
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "slug": "container-with-most-water",
+   "title": "Container With Most Water",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/container-with-most-water/",
+   "date": "2026-08-14",
+   "topics": [
+    "Array",
+    "Two Pointers",
+    "Greedy"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2106160149.py",
+     "id": 2106160149
+    },
+    {
+     "file": "submission_2106158354.py",
+     "id": 2106158354
+    },
+    {
+     "file": "submission_2106152285.py",
+     "id": 2106152285
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "slug": "integer-to-roman",
+   "title": "Integer to Roman",
+   "difficulty": "Medium",
+   "lang": "python",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/integer-to-roman/",
+   "date": "2024-05-14",
+   "topics": [
+    "Hash Table",
+    "Math",
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1257905928.py",
+     "id": 1257905928
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "slug": "3sum",
+   "title": "3Sum",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/3sum/",
+   "date": "2026-08-14",
+   "topics": [
+    "Array",
+    "Two Pointers",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2106502602.py",
+     "id": 2106502602
+    }
+   ]
+  },
+  {
+   "id": 20,
+   "slug": "valid-parentheses",
+   "title": "Valid Parentheses",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/valid-parentheses/",
+   "date": "2026-08-25",
+   "topics": [
+    "String",
+    "Stack",
+    "Bracket Sequences"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120041396.py",
+     "id": 2120041396
+    }
+   ]
+  },
+  {
+   "id": 22,
+   "slug": "generate-parentheses",
+   "title": "Generate Parentheses",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/generate-parentheses/",
+   "date": "2026-08-25",
+   "topics": [
+    "String",
+    "Dynamic Programming",
+    "Backtracking",
+    "Bracket Sequences"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2119781423.py",
+     "id": 2119781423
+    }
+   ]
+  },
+  {
+   "id": 33,
+   "slug": "search-in-rotated-sorted-array",
+   "title": "Search in Rotated Sorted Array",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Binary Search"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125123329.py",
+     "id": 2125123329
+    },
+    {
+     "file": "submission_2125105038.py",
+     "id": 2125105038
+    }
+   ]
+  },
+  {
+   "id": 36,
+   "slug": "valid-sudoku",
+   "title": "Valid Sudoku",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/valid-sudoku/",
+   "date": "2026-08-04",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Matrix"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2093662016.py",
+     "id": 2093662016
+    },
+    {
+     "file": "submission_2080091805.py",
+     "id": 2080091805
+    }
+   ]
+  },
+  {
+   "id": 42,
+   "slug": "trapping-rain-water",
+   "title": "Trapping Rain Water",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/trapping-rain-water/",
+   "date": "2026-08-15",
+   "topics": [
+    "Array",
+    "Two Pointers",
+    "Dynamic Programming",
+    "Stack",
+    "Monotonic Stack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2107248131.py",
+     "id": 2107248131
+    },
+    {
+     "file": "submission_2106482009.py",
+     "id": 2106482009
+    },
+    {
+     "file": "submission_2106185859.py",
+     "id": 2106185859
+    }
+   ]
+  },
+  {
+   "id": 49,
+   "slug": "group-anagrams",
+   "title": "Group Anagrams",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/group-anagrams/",
+   "date": "2026-07-26",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "String",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2082407504.py",
+     "id": 2082407504
+    },
+    {
+     "file": "submission_2080084406.py",
+     "id": 2080084406
+    },
+    {
+     "file": "submission_2080083600.py",
+     "id": 2080083600
+    },
+    {
+     "file": "submission_2080083049.py",
+     "id": 2080083049
+    }
+   ]
+  },
+  {
+   "id": 50,
+   "slug": "powx-n",
+   "title": "Pow(x, n)",
+   "difficulty": "Medium",
+   "lang": "python",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/powx-n/",
+   "date": "2024-05-14",
+   "topics": [
+    "Math",
+    "Recursion"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1257729559.py",
+     "id": 1257729559
+    }
+   ]
+  },
+  {
+   "id": 70,
+   "slug": "climbing-stairs",
+   "title": "Climbing Stairs",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/climbing-stairs/",
+   "date": "2026-09-04",
+   "topics": [
+    "Math",
+    "Dynamic Programming",
+    "Memoization"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2130776977.py",
+     "id": 2130776977
+    },
+    {
+     "file": "submission_2130776028.py",
+     "id": 2130776028
+    },
+    {
+     "file": "submission_2130775735.py",
+     "id": 2130775735
+    },
+    {
+     "file": "submission_2130775393.py",
+     "id": 2130775393
+    },
+    {
+     "file": "submission_2130771221.py",
+     "id": 2130771221
+    },
+    {
+     "file": "submission_2130768276.py",
+     "id": 2130768276
+    },
+    {
+     "file": "submission_2130767996.py",
+     "id": 2130767996
+    }
+   ]
+  },
+  {
+   "id": 74,
+   "slug": "search-a-2d-matrix",
+   "title": "Search a 2D Matrix",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/search-a-2d-matrix/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Matrix"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125018240.py",
+     "id": 2125018240
+    }
+   ]
+  },
+  {
+   "id": 75,
+   "slug": "sort-colors",
+   "title": "Sort Colors",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/sort-colors/",
+   "date": "2026-08-18",
+   "topics": [
+    "Array",
+    "Two Pointers",
+    "Sorting",
+    "Quicksort",
+    "Bubble Sort"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2111800028.py",
+     "id": 2111800028
+    },
+    {
+     "file": "submission_2111798377.py",
+     "id": 2111798377
+    }
+   ]
+  },
+  {
+   "id": 76,
+   "slug": "minimum-window-substring",
+   "title": "Minimum Window Substring",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/minimum-window-substring/",
+   "date": "2026-08-24",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2118752981.py",
+     "id": 2118752981
+    }
+   ]
+  },
+  {
+   "id": 81,
+   "slug": "search-in-rotated-sorted-array-ii",
+   "title": "Search in Rotated Sorted Array II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/search-in-rotated-sorted-array-ii/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Binary Search"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125385929.py",
+     "id": 2125385929
+    }
+   ]
+  },
+  {
+   "id": 84,
+   "slug": "largest-rectangle-in-histogram",
+   "title": "Largest Rectangle in Histogram",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
+   "date": "2026-08-25",
+   "topics": [
+    "Array",
+    "Stack",
+    "Monotonic Stack",
+    "Range Minimum/Maximum Query"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120061887.py",
+     "id": 2120061887
+    },
+    {
+     "file": "submission_2120061756.py",
+     "id": 2120061756
+    },
+    {
+     "file": "submission_2120061645.py",
+     "id": 2120061645
+    },
+    {
+     "file": "submission_2120060474.py",
+     "id": 2120060474
+    },
+    {
+     "file": "submission_2120060354.py",
+     "id": 2120060354
+    },
+    {
+     "file": "submission_2120058852.py",
+     "id": 2120058852
+    }
+   ]
+  },
+  {
+   "id": 91,
+   "slug": "decode-ways",
+   "title": "Decode Ways",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/decode-ways/",
+   "date": "2026-09-04",
+   "topics": [
+    "String",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131026646.py",
+     "id": 2131026646
+    }
+   ]
+  },
+  {
+   "id": 115,
+   "slug": "distinct-subsequences",
+   "title": "Distinct Subsequences",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/distinct-subsequences/",
+   "date": "2026-09-07",
+   "topics": [
+    "String",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2133529584.py",
+     "id": 2133529584
+    },
+    {
+     "file": "submission_2133153195.py",
+     "id": 2133153195
+    }
+   ]
+  },
+  {
+   "id": 121,
+   "slug": "best-time-to-buy-and-sell-stock",
+   "title": "Best Time to Buy and Sell Stock",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+   "date": "2026-08-22",
+   "topics": [
+    "Array",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2116326046.py",
+     "id": 2116326046
+    },
+    {
+     "file": "submission_2116323472.py",
+     "id": 2116323472
+    },
+    {
+     "file": "submission_2116323287.py",
+     "id": 2116323287
+    },
+    {
+     "file": "submission_2116323065.py",
+     "id": 2116323065
+    }
+   ]
+  },
+  {
+   "id": 125,
+   "slug": "valid-palindrome",
+   "title": "Valid Palindrome",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/valid-palindrome/",
+   "date": "2026-08-13",
+   "topics": [
+    "Two Pointers",
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2105884011.py",
+     "id": 2105884011
+    },
+    {
+     "file": "submission_2105841285.py",
+     "id": 2105841285
+    },
+    {
+     "file": "submission_2105839847.py",
+     "id": 2105839847
+    }
+   ]
+  },
+  {
+   "id": 128,
+   "slug": "longest-consecutive-sequence",
+   "title": "Longest Consecutive Sequence",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/longest-consecutive-sequence/",
+   "date": "2026-07-24",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Union-Find"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2080094625.py",
+     "id": 2080094625
+    },
+    {
+     "file": "submission_2080093882.py",
+     "id": 2080093882
+    }
+   ]
+  },
+  {
+   "id": 139,
+   "slug": "word-break",
+   "title": "Word Break",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/word-break/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "String",
+    "Dynamic Programming",
+    "Trie",
+    "Memoization",
+    "Brute-Force Search"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131039173.py",
+     "id": 2131039173
+    }
+   ]
+  },
+  {
+   "id": 146,
+   "slug": "lru-cache",
+   "title": "LRU Cache",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/lru-cache/",
+   "date": "2026-08-26",
+   "topics": [
+    "Hash Table",
+    "Linked List",
+    "Design",
+    "Doubly-Linked List"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120965563.py",
+     "id": 2120965563
+    }
+   ]
+  },
+  {
+   "id": 148,
+   "slug": "sort-list",
+   "title": "Sort List",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/sort-list/",
+   "date": "2026-08-26",
+   "topics": [
+    "Linked List",
+    "Two Pointers",
+    "Divide and Conquer",
+    "Sorting",
+    "Merge Sort"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120379485.py",
+     "id": 2120379485
+    },
+    {
+     "file": "submission_2120379397.py",
+     "id": 2120379397
+    }
+   ]
+  },
+  {
+   "id": 149,
+   "slug": "max-points-on-a-line",
+   "title": "Max Points on a Line",
+   "difficulty": "Hard",
+   "lang": "python",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/max-points-on-a-line/",
+   "date": "2024-05-14",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Math",
+    "Geometry",
+    "Euclidean Algorithm",
+    "Greatest Common Divisor"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1257915573.py",
+     "id": 1257915573
+    }
+   ]
+  },
+  {
+   "id": 150,
+   "slug": "evaluate-reverse-polish-notation",
+   "title": "Evaluate Reverse Polish Notation",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
+   "date": "2026-08-25",
+   "topics": [
+    "Array",
+    "Math",
+    "Stack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2119773232.py",
+     "id": 2119773232
+    }
+   ]
+  },
+  {
+   "id": 151,
+   "slug": "reverse-words-in-a-string",
+   "title": "Reverse Words in a String",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/reverse-words-in-a-string/",
+   "date": "2026-09-07",
+   "topics": [
+    "Two Pointers",
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2134055252.py",
+     "id": 2134055252
+    }
+   ]
+  },
+  {
+   "id": 152,
+   "slug": "maximum-product-subarray",
+   "title": "Maximum Product Subarray",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-product-subarray/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131038070.py",
+     "id": 2131038070
+    },
+    {
+     "file": "submission_2131037881.py",
+     "id": 2131037881
+    }
+   ]
+  },
+  {
+   "id": 155,
+   "slug": "min-stack",
+   "title": "Min Stack",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/min-stack/",
+   "date": "2026-08-25",
+   "topics": [
+    "Stack",
+    "Design"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2119501788.py",
+     "id": 2119501788
+    },
+    {
+     "file": "submission_2119501530.py",
+     "id": 2119501530
+    },
+    {
+     "file": "submission_2119498544.py",
+     "id": 2119498544
+    },
+    {
+     "file": "submission_2119498395.py",
+     "id": 2119498395
+    }
+   ]
+  },
+  {
+   "id": 167,
+   "slug": "two-sum-ii-input-array-is-sorted",
+   "title": "Two Sum II - Input Array Is Sorted",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
+   "date": "2026-08-13",
+   "topics": [
+    "Array",
+    "Two Pointers",
+    "Binary Search"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2105906564.py",
+     "id": 2105906564
+    },
+    {
+     "file": "submission_2105906271.py",
+     "id": 2105906271
+    }
+   ]
+  },
+  {
+   "id": 189,
+   "slug": "rotate-array",
+   "title": "Rotate Array",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/rotate-array/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Math",
+    "Two Pointers"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125096597.py",
+     "id": 2125096597
+    },
+    {
+     "file": "submission_2125070817.py",
+     "id": 2125070817
+    },
+    {
+     "file": "submission_2125070569.py",
+     "id": 2125070569
+    }
+   ]
+  },
+  {
+   "id": 198,
+   "slug": "house-robber",
+   "title": "House Robber",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/house-robber/",
+   "date": "2026-04-26",
+   "topics": [
+    "Array",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1988887334.py",
+     "id": 1988887334
+    }
+   ]
+  },
+  {
+   "id": 209,
+   "slug": "minimum-size-subarray-sum",
+   "title": "Minimum Size Subarray Sum",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/minimum-size-subarray-sum/",
+   "date": "2026-08-18",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Sliding Window",
+    "Prefix Sum"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2111295223.py",
+     "id": 2111295223
+    },
+    {
+     "file": "submission_2111293559.py",
+     "id": 2111293559
+    },
+    {
+     "file": "submission_2111293431.py",
+     "id": 2111293431
+    },
+    {
+     "file": "submission_2111292405.py",
+     "id": 2111292405
+    }
+   ]
+  },
+  {
+   "id": 213,
+   "slug": "house-robber-ii",
+   "title": "House Robber II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/house-robber-ii/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2130985552.py",
+     "id": 2130985552
+    }
+   ]
+  },
+  {
+   "id": 217,
+   "slug": "contains-duplicate",
+   "title": "Contains Duplicate",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/contains-duplicate/",
+   "date": "2026-07-24",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2079747838.py",
+     "id": 2079747838
+    },
+    {
+     "file": "submission_2079747188.py",
+     "id": 2079747188
+    },
+    {
+     "file": "submission_2079746436.py",
+     "id": 2079746436
+    }
+   ]
+  },
+  {
+   "id": 219,
+   "slug": "contains-duplicate-ii",
+   "title": "Contains Duplicate II",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/contains-duplicate-ii/",
+   "date": "2026-07-24",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2079762151.py",
+     "id": 2079762151
+    },
+    {
+     "file": "submission_2079761684.py",
+     "id": 2079761684
+    },
+    {
+     "file": "submission_2079760072.py",
+     "id": 2079760072
+    }
+   ]
+  },
+  {
+   "id": 224,
+   "slug": "basic-calculator",
+   "title": "Basic Calculator",
+   "difficulty": "Hard",
+   "lang": "python",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/basic-calculator/",
+   "date": "2024-05-14",
+   "topics": [
+    "Math",
+    "String",
+    "Stack",
+    "Recursion"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1257919921.py",
+     "id": 1257919921
+    }
+   ]
+  },
+  {
+   "id": 238,
+   "slug": "product-of-array-except-self",
+   "title": "Product of Array Except Self",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/product-of-array-except-self/",
+   "date": "2026-07-24",
+   "topics": [
+    "Array",
+    "Prefix Sum"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2080088730.py",
+     "id": 2080088730
+    }
+   ]
+  },
+  {
+   "id": 239,
+   "slug": "sliding-window-maximum",
+   "title": "Sliding Window Maximum",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/sliding-window-maximum/",
+   "date": "2026-08-24",
+   "topics": [
+    "Array",
+    "Queue",
+    "Sliding Window",
+    "Heap (Priority Queue)",
+    "Monotonic Queue",
+    "Range Minimum/Maximum Query"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2118877925.py",
+     "id": 2118877925
+    },
+    {
+     "file": "submission_2118877668.py",
+     "id": 2118877668
+    },
+    {
+     "file": "submission_2118877523.py",
+     "id": 2118877523
+    },
+    {
+     "file": "submission_2118876937.py",
+     "id": 2118876937
+    },
+    {
+     "file": "submission_2118874507.py",
+     "id": 2118874507
+    }
+   ]
+  },
+  {
+   "id": 242,
+   "slug": "valid-anagram",
+   "title": "Valid Anagram",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/valid-anagram/",
+   "date": "2026-07-24",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2080077791.py",
+     "id": 2080077791
+    },
+    {
+     "file": "submission_2080077656.py",
+     "id": 2080077656
+    },
+    {
+     "file": "submission_2080076018.py",
+     "id": 2080076018
+    }
+   ]
+  },
+  {
+   "id": 300,
+   "slug": "longest-increasing-subsequence",
+   "title": "Longest Increasing Subsequence",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Dynamic Programming",
+    "Longest Increasing Subsequence"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131041231.py",
+     "id": 2131041231
+    }
+   ]
+  },
+  {
+   "id": 322,
+   "slug": "coin-change",
+   "title": "Coin Change",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/coin-change/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Dynamic Programming",
+    "Breadth-First Search",
+    "Knapsack Problem",
+    "Complete Knapsack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131035622.py",
+     "id": 2131035622
+    }
+   ]
+  },
+  {
+   "id": 334,
+   "slug": "increasing-triplet-subsequence",
+   "title": "Increasing Triplet Subsequence",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/increasing-triplet-subsequence/",
+   "date": "2026-09-07",
+   "topics": [
+    "Array",
+    "Greedy",
+    "Longest Increasing Subsequence"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2134257443.py",
+     "id": 2134257443
+    }
+   ]
+  },
+  {
+   "id": 345,
+   "slug": "reverse-vowels-of-a-string",
+   "title": "Reverse Vowels of a String",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/reverse-vowels-of-a-string/",
+   "date": "2026-09-07",
+   "topics": [
+    "Two Pointers",
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2133619472.py",
+     "id": 2133619472
+    },
+    {
+     "file": "submission_2133618025.py",
+     "id": 2133618025
+    }
+   ]
+  },
+  {
+   "id": 347,
+   "slug": "top-k-frequent-elements",
+   "title": "Top K Frequent Elements",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/top-k-frequent-elements/",
+   "date": "2026-07-23",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Divide and Conquer",
+    "Sorting",
+    "Heap (Priority Queue)",
+    "Bucket Sort",
+    "Counting",
+    "Quickselect"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2078799065.py",
+     "id": 2078799065
+    },
+    {
+     "file": "submission_2078798711.py",
+     "id": 2078798711
+    },
+    {
+     "file": "submission_2078798536.py",
+     "id": 2078798536
+    },
+    {
+     "file": "submission_2078798446.py",
+     "id": 2078798446
+    },
+    {
+     "file": "submission_2078797888.py",
+     "id": 2078797888
+    },
+    {
+     "file": "submission_2078790993.py",
+     "id": 2078790993
+    }
+   ]
+  },
+  {
+   "id": 385,
+   "slug": "mini-parser",
+   "title": "Mini Parser",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/mini-parser/",
+   "date": "2026-07-23",
+   "topics": [
+    "String",
+    "Stack",
+    "Depth-First Search"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2078831716.py",
+     "id": 2078831716
+    }
+   ]
+  },
+  {
+   "id": 394,
+   "slug": "decode-string",
+   "title": "Decode String",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/decode-string/",
+   "date": "2026-07-26",
+   "topics": [
+    "String",
+    "Stack",
+    "Recursion"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2082555964.py",
+     "id": 2082555964
+    },
+    {
+     "file": "submission_2082555539.py",
+     "id": 2082555539
+    },
+    {
+     "file": "submission_2078821131.py",
+     "id": 2078821131
+    },
+    {
+     "file": "submission_2078818769.py",
+     "id": 2078818769
+    }
+   ]
+  },
+  {
+   "id": 402,
+   "slug": "remove-k-digits",
+   "title": "Remove K Digits",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/remove-k-digits/",
+   "date": "2026-08-23",
+   "topics": [
+    "String",
+    "Stack",
+    "Greedy",
+    "Monotonic Stack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2117757298.py",
+     "id": 2117757298
+    },
+    {
+     "file": "submission_2117754518.py",
+     "id": 2117754518
+    }
+   ]
+  },
+  {
+   "id": 416,
+   "slug": "partition-equal-subset-sum",
+   "title": "Partition Equal Subset Sum",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/partition-equal-subset-sum/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Dynamic Programming",
+    "Knapsack Problem",
+    "0-1 Knapsack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131043794.py",
+     "id": 2131043794
+    }
+   ]
+  },
+  {
+   "id": 424,
+   "slug": "longest-repeating-character-replacement",
+   "title": "Longest Repeating Character Replacement",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+   "date": "2026-08-22",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2116346869.py",
+     "id": 2116346869
+    },
+    {
+     "file": "submission_2116346468.py",
+     "id": 2116346468
+    },
+    {
+     "file": "submission_2116344008.py",
+     "id": 2116344008
+    }
+   ]
+  },
+  {
+   "id": 443,
+   "slug": "string-compression",
+   "title": "String Compression",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/string-compression/",
+   "date": "2026-09-07",
+   "topics": [
+    "Two Pointers",
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2134358155.py",
+     "id": 2134358155
+    },
+    {
+     "file": "submission_2134349478.py",
+     "id": 2134349478
+    }
+   ]
+  },
+  {
+   "id": 485,
+   "slug": "max-consecutive-ones",
+   "title": "Max Consecutive Ones",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/max-consecutive-ones/",
+   "date": "2026-08-22",
+   "topics": [
+    "Array"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2116606261.py",
+     "id": 2116606261
+    },
+    {
+     "file": "submission_2116606099.py",
+     "id": 2116606099
+    },
+    {
+     "file": "submission_2116605265.py",
+     "id": 2116605265
+    }
+   ]
+  },
+  {
+   "id": 486,
+   "slug": "predict-the-winner",
+   "title": "Predict the Winner",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/predict-the-winner/",
+   "date": "2026-08-01",
+   "topics": [
+    "Array",
+    "Math",
+    "Dynamic Programming",
+    "Recursion",
+    "Minimax",
+    "Game Theory",
+    "Zero-Sum Game"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2089407726.py",
+     "id": 2089407726
+    },
+    {
+     "file": "submission_2089407335.py",
+     "id": 2089407335
+    },
+    {
+     "file": "submission_2089406590.py",
+     "id": 2089406590
+    },
+    {
+     "file": "submission_2089406204.py",
+     "id": 2089406204
+    },
+    {
+     "file": "submission_2089405716.py",
+     "id": 2089405716
+    }
+   ]
+  },
+  {
+   "id": 494,
+   "slug": "target-sum",
+   "title": "Target Sum",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/target-sum/",
+   "date": "2026-07-06",
+   "topics": [
+    "Array",
+    "Dynamic Programming",
+    "Backtracking",
+    "Knapsack Problem",
+    "0-1 Knapsack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2058275371.py",
+     "id": 2058275371
+    }
+   ]
+  },
+  {
+   "id": 567,
+   "slug": "permutation-in-string",
+   "title": "Permutation in String",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/permutation-in-string/",
+   "date": "2026-08-22",
+   "topics": [
+    "Hash Table",
+    "Two Pointers",
+    "String",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2116366397.py",
+     "id": 2116366397
+    },
+    {
+     "file": "submission_2116366081.py",
+     "id": 2116366081
+    }
+   ]
+  },
+  {
+   "id": 600,
+   "slug": "non-negative-integers-without-consecutive-ones",
+   "title": "Non-negative Integers without Consecutive Ones",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/",
+   "date": "2026-04-26",
+   "topics": [
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_1988894070.py",
+     "id": 1988894070
+    }
+   ]
+  },
+  {
+   "id": 605,
+   "slug": "can-place-flowers",
+   "title": "Can Place Flowers",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/can-place-flowers/",
+   "date": "2026-09-05",
+   "topics": [
+    "Array",
+    "Greedy"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131981175.py",
+     "id": 2131981175
+    },
+    {
+     "file": "submission_2131980607.py",
+     "id": 2131980607
+    },
+    {
+     "file": "submission_2131928961.py",
+     "id": 2131928961
+    },
+    {
+     "file": "submission_2131928722.py",
+     "id": 2131928722
+    },
+    {
+     "file": "submission_2131928553.py",
+     "id": 2131928553
+    },
+    {
+     "file": "submission_2131920718.py",
+     "id": 2131920718
+    }
+   ]
+  },
+  {
+   "id": 628,
+   "slug": "maximum-product-of-three-numbers",
+   "title": "Maximum Product of Three Numbers",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-product-of-three-numbers/",
+   "date": "2026-07-26",
+   "topics": [
+    "Array",
+    "Math",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2082364359.py",
+     "id": 2082364359
+    },
+    {
+     "file": "submission_2082123129.py",
+     "id": 2082123129
+    },
+    {
+     "file": "submission_2082122974.py",
+     "id": 2082122974
+    },
+    {
+     "file": "submission_2082122830.py",
+     "id": 2082122830
+    },
+    {
+     "file": "submission_2082121781.py",
+     "id": 2082121781
+    },
+    {
+     "file": "submission_2082121598.py",
+     "id": 2082121598
+    },
+    {
+     "file": "submission_2082117834.py",
+     "id": 2082117834
+    }
+   ]
+  },
+  {
+   "id": 643,
+   "slug": "maximum-average-subarray-i",
+   "title": "Maximum Average Subarray I",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-average-subarray-i/",
+   "date": "2026-08-18",
+   "topics": [
+    "Array",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2111234353.py",
+     "id": 2111234353
+    },
+    {
+     "file": "submission_2111231824.py",
+     "id": 2111231824
+    },
+    {
+     "file": "submission_2111231641.py",
+     "id": 2111231641
+    }
+   ]
+  },
+  {
+   "id": 645,
+   "slug": "set-mismatch",
+   "title": "Set Mismatch",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/set-mismatch/",
+   "date": "2026-08-23",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Bit Manipulation",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2117042544.py",
+     "id": 2117042544
+    },
+    {
+     "file": "submission_2117040905.py",
+     "id": 2117040905
+    }
+   ]
+  },
+  {
+   "id": 647,
+   "slug": "palindromic-substrings",
+   "title": "Palindromic Substrings",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/palindromic-substrings/",
+   "date": "2026-09-04",
+   "topics": [
+    "Two Pointers",
+    "String",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131012824.py",
+     "id": 2131012824
+    }
+   ]
+  },
+  {
+   "id": 650,
+   "slug": "2-keys-keyboard",
+   "title": "2 Keys Keyboard",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/2-keys-keyboard/",
+   "date": "2026-07-11",
+   "topics": [
+    "Math",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2063892049.py",
+     "id": 2063892049
+    },
+    {
+     "file": "submission_2063867170.py",
+     "id": 2063867170
+    },
+    {
+     "file": "submission_2063865340.py",
+     "id": 2063865340
+    }
+   ]
+  },
+  {
+   "id": 704,
+   "slug": "binary-search",
+   "title": "Binary Search",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/binary-search/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Binary Search"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125009047.py",
+     "id": 2125009047
+    }
+   ]
+  },
+  {
+   "id": 739,
+   "slug": "daily-temperatures",
+   "title": "Daily Temperatures",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/daily-temperatures/",
+   "date": "2026-08-25",
+   "topics": [
+    "Array",
+    "Stack",
+    "Monotonic Stack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120047701.py",
+     "id": 2120047701
+    }
+   ]
+  },
+  {
+   "id": 746,
+   "slug": "min-cost-climbing-stairs",
+   "title": "Min Cost Climbing Stairs",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/min-cost-climbing-stairs/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2130801768.py",
+     "id": 2130801768
+    },
+    {
+     "file": "submission_2130794603.py",
+     "id": 2130794603
+    }
+   ]
+  },
+  {
+   "id": 792,
+   "slug": "number-of-matching-subsequences",
+   "title": "Number of Matching Subsequences",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/number-of-matching-subsequences/",
+   "date": "2026-09-08",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "String",
+    "Binary Search",
+    "Dynamic Programming",
+    "Trie",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2134856323.py",
+     "id": 2134856323
+    },
+    {
+     "file": "submission_2134855022.py",
+     "id": 2134855022
+    }
+   ]
+  },
+  {
+   "id": 801,
+   "slug": "minimum-swaps-to-make-sequences-increasing",
+   "title": "Minimum Swaps To Make Sequences Increasing",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/",
+   "date": "2026-08-06",
+   "topics": [
+    "Array",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2096639131.py",
+     "id": 2096639131
+    }
+   ]
+  },
+  {
+   "id": 853,
+   "slug": "car-fleet",
+   "title": "Car Fleet",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/car-fleet/",
+   "date": "2026-08-25",
+   "topics": [
+    "Array",
+    "Stack",
+    "Sorting",
+    "Monotonic Stack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120051887.py",
+     "id": 2120051887
+    }
+   ]
+  },
+  {
+   "id": 875,
+   "slug": "koko-eating-bananas",
+   "title": "Koko Eating Bananas",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/koko-eating-bananas/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Binary Search"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125031078.py",
+     "id": 2125031078
+    },
+    {
+     "file": "submission_2125030941.py",
+     "id": 2125030941
+    },
+    {
+     "file": "submission_2125029783.py",
+     "id": 2125029783
+    }
+   ]
+  },
+  {
+   "id": 877,
+   "slug": "stone-game",
+   "title": "Stone Game",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/stone-game/",
+   "date": "2026-08-02",
+   "topics": [
+    "Array",
+    "Math",
+    "Dynamic Programming",
+    "Minimax",
+    "Game Theory",
+    "Zero-Sum Game"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2091396209.py",
+     "id": 2091396209
+    }
+   ]
+  },
+  {
+   "id": 879,
+   "slug": "profitable-schemes",
+   "title": "Profitable Schemes",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/profitable-schemes/",
+   "date": "2026-07-07",
+   "topics": [
+    "Array",
+    "Dynamic Programming",
+    "Knapsack Problem",
+    "0-1 Knapsack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2059540985.py",
+     "id": 2059540985
+    }
+   ]
+  },
+  {
+   "id": 940,
+   "slug": "distinct-subsequences-ii",
+   "title": "Distinct Subsequences II",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/distinct-subsequences-ii/",
+   "date": "2026-09-07",
+   "topics": [
+    "String",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2133541644.py",
+     "id": 2133541644
+    }
+   ]
+  },
+  {
+   "id": 981,
+   "slug": "time-based-key-value-store",
+   "title": "Time Based Key-Value Store",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/time-based-key-value-store/",
+   "date": "2026-08-30",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Binary Search",
+    "Design"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125437919.py",
+     "id": 2125437919
+    }
+   ]
+  },
+  {
+   "id": 994,
+   "slug": "rotting-oranges",
+   "title": "Rotting Oranges",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/rotting-oranges/",
+   "date": "2026-08-26",
+   "topics": [
+    "Array",
+    "Breadth-First Search",
+    "Matrix"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120900899.py",
+     "id": 2120900899
+    }
+   ]
+  },
+  {
+   "id": 1071,
+   "slug": "greatest-common-divisor-of-strings",
+   "title": "Greatest Common Divisor of Strings",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/greatest-common-divisor-of-strings/",
+   "date": "2026-09-06",
+   "topics": [
+    "Math",
+    "String",
+    "Euclidean Algorithm",
+    "Greatest Common Divisor"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2132736336.py",
+     "id": 2132736336
+    },
+    {
+     "file": "submission_2132733502.py",
+     "id": 2132733502
+    }
+   ]
+  },
+  {
+   "id": 1081,
+   "slug": "smallest-subsequence-of-distinct-characters",
+   "title": "Smallest Subsequence of Distinct Characters",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/",
+   "date": "2026-07-19",
+   "topics": [
+    "String",
+    "Stack",
+    "Greedy",
+    "Monotonic Stack"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2073536411.py",
+     "id": 2073536411
+    },
+    {
+     "file": "submission_2073535825.py",
+     "id": 2073535825
+    }
+   ]
+  },
+  {
+   "id": 1140,
+   "slug": "stone-game-ii",
+   "title": "Stone Game II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/stone-game-ii/",
+   "date": "2026-08-09",
+   "topics": [
+    "Array",
+    "Math",
+    "Dynamic Programming",
+    "Minimax",
+    "Prefix Sum",
+    "Game Theory",
+    "Zero-Sum Game"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2100727401.py",
+     "id": 2100727401
+    }
+   ]
+  },
+  {
+   "id": 1260,
+   "slug": "shift-2d-grid",
+   "title": "Shift 2D Grid",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/shift-2d-grid/",
+   "date": "2026-07-20",
+   "topics": [
+    "Array",
+    "Matrix",
+    "Simulation"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2074636863.py",
+     "id": 2074636863
+    },
+    {
+     "file": "submission_2074636654.py",
+     "id": 2074636654
+    },
+    {
+     "file": "submission_2074636499.py",
+     "id": 2074636499
+    },
+    {
+     "file": "submission_2074631931.py",
+     "id": 2074631931
+    },
+    {
+     "file": "submission_2074631769.py",
+     "id": 2074631769
+    },
+    {
+     "file": "submission_2074631094.py",
+     "id": 2074631094
+    },
+    {
+     "file": "submission_2074626653.py",
+     "id": 2074626653
+    },
+    {
+     "file": "submission_2074626455.py",
+     "id": 2074626455
+    },
+    {
+     "file": "submission_2074625350.py",
+     "id": 2074625350
+    }
+   ]
+  },
+  {
+   "id": 1291,
+   "slug": "sequential-digits",
+   "title": "Sequential Digits",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/sequential-digits/",
+   "date": "2026-07-13",
+   "topics": [
+    "Enumeration"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2066039662.py",
+     "id": 2066039662
+    }
+   ]
+  },
+  {
+   "id": 1331,
+   "slug": "rank-transform-of-an-array",
+   "title": "Rank Transform of an Array",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/rank-transform-of-an-array/",
+   "date": "2026-07-12",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2065196849.py",
+     "id": 2065196849
+    }
+   ]
+  },
+  {
+   "id": 1386,
+   "slug": "cinema-seat-allocation",
+   "title": "Cinema Seat Allocation",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/cinema-seat-allocation/",
+   "date": "2026-08-19",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Greedy",
+    "Bit Manipulation"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2112259392.py",
+     "id": 2112259392
+    },
+    {
+     "file": "submission_2112259202.py",
+     "id": 2112259202
+    },
+    {
+     "file": "submission_2112258304.py",
+     "id": 2112258304
+    },
+    {
+     "file": "submission_2112255778.py",
+     "id": 2112255778
+    },
+    {
+     "file": "submission_2112255611.py",
+     "id": 2112255611
+    }
+   ]
+  },
+  {
+   "id": 1402,
+   "slug": "reducing-dishes",
+   "title": "Reducing Dishes",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/reducing-dishes/",
+   "date": "2026-08-06",
+   "topics": [
+    "Array",
+    "Dynamic Programming",
+    "Greedy",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2096624468.py",
+     "id": 2096624468
+    }
+   ]
+  },
+  {
+   "id": 1406,
+   "slug": "stone-game-iii",
+   "title": "Stone Game III",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/stone-game-iii/",
+   "date": "2026-08-03",
+   "topics": [
+    "Array",
+    "Math",
+    "Dynamic Programming",
+    "Minimax",
+    "Game Theory",
+    "Zero-Sum Game"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2092102134.py",
+     "id": 2092102134
+    }
+   ]
+  },
+  {
+   "id": 1423,
+   "slug": "maximum-points-you-can-obtain-from-cards",
+   "title": "Maximum Points You Can Obtain from Cards",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Sliding Window",
+    "Prefix Sum"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2124931367.py",
+     "id": 2124931367
+    },
+    {
+     "file": "submission_2124931165.py",
+     "id": 2124931165
+    }
+   ]
+  },
+  {
+   "id": 1431,
+   "slug": "kids-with-the-greatest-number-of-candies",
+   "title": "Kids With the Greatest Number of Candies",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/",
+   "date": "2026-09-06",
+   "topics": [
+    "Array"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2132747832.py",
+     "id": 2132747832
+    },
+    {
+     "file": "submission_2132745246.py",
+     "id": 2132745246
+    }
+   ]
+  },
+  {
+   "id": 1464,
+   "slug": "maximum-product-of-two-elements-in-an-array",
+   "title": "Maximum Product of Two Elements in an Array",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-product-of-two-elements-in-an-array/",
+   "date": "2026-07-27",
+   "topics": [
+    "Array",
+    "Sorting",
+    "Heap (Priority Queue)"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2083131597.py",
+     "id": 2083131597
+    }
+   ]
+  },
+  {
+   "id": 1470,
+   "slug": "shuffle-the-array",
+   "title": "Shuffle the Array",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/shuffle-the-array/",
+   "date": "2026-08-22",
+   "topics": [
+    "Array"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2116595661.py",
+     "id": 2116595661
+    }
+   ]
+  },
+  {
+   "id": 1510,
+   "slug": "stone-game-iv",
+   "title": "Stone Game IV",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/stone-game-iv/",
+   "date": "2026-08-11",
+   "topics": [
+    "Math",
+    "Dynamic Programming",
+    "Minimax",
+    "Game Theory",
+    "Nim Game",
+    "Sprague\u2013Grundy Theorem",
+    "Zero-Sum Game"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2103295503.py",
+     "id": 2103295503
+    }
+   ]
+  },
+  {
+   "id": 1563,
+   "slug": "stone-game-v",
+   "title": "Stone Game V",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/stone-game-v/",
+   "date": "2026-08-17",
+   "topics": [
+    "Array",
+    "Math",
+    "Dynamic Programming",
+    "Game Theory"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2110062023.py",
+     "id": 2110062023
+    },
+    {
+     "file": "submission_2110061708.py",
+     "id": 2110061708
+    }
+   ]
+  },
+  {
+   "id": 1679,
+   "slug": "max-number-of-k-sum-pairs",
+   "title": "Max Number of K-Sum Pairs",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/max-number-of-k-sum-pairs/",
+   "date": "2026-09-08",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Two Pointers",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2135424724.py",
+     "id": 2135424724
+    },
+    {
+     "file": "submission_2135424333.py",
+     "id": 2135424333
+    },
+    {
+     "file": "submission_2135421315.py",
+     "id": 2135421315
+    }
+   ]
+  },
+  {
+   "id": 1768,
+   "slug": "merge-strings-alternately",
+   "title": "Merge Strings Alternately",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/merge-strings-alternately/",
+   "date": "2026-09-05",
+   "topics": [
+    "Two Pointers",
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2132001626.py",
+     "id": 2132001626
+    },
+    {
+     "file": "submission_2131996846.py",
+     "id": 2131996846
+    }
+   ]
+  },
+  {
+   "id": 1851,
+   "slug": "minimum-interval-to-include-each-query",
+   "title": "Minimum Interval to Include Each Query",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/minimum-interval-to-include-each-query/",
+   "date": "2026-07-11",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Sweep Line",
+    "Sorting",
+    "Heap (Priority Queue)"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2063845447.py",
+     "id": 2063845447
+    },
+    {
+     "file": "submission_2063829158.py",
+     "id": 2063829158
+    }
+   ]
+  },
+  {
+   "id": 1872,
+   "slug": "stone-game-viii",
+   "title": "Stone Game VIII",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/stone-game-viii/",
+   "date": "2026-08-24",
+   "topics": [
+    "Array",
+    "Math",
+    "Dynamic Programming",
+    "Minimax",
+    "Prefix Sum",
+    "Game Theory",
+    "Zero-Sum Game"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2118303830.py",
+     "id": 2118303830
+    }
+   ]
+  },
+  {
+   "id": 1927,
+   "slug": "sum-game",
+   "title": "Sum Game",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/sum-game/",
+   "date": "2026-08-23",
+   "topics": [
+    "Math",
+    "String",
+    "Greedy",
+    "Game Theory"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2117172058.py",
+     "id": 2117172058
+    },
+    {
+     "file": "submission_2117171867.py",
+     "id": 2117171867
+    },
+    {
+     "file": "submission_2117171067.py",
+     "id": 2117171067
+    }
+   ]
+  },
+  {
+   "id": 1929,
+   "slug": "concatenation-of-array",
+   "title": "Concatenation of Array",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/concatenation-of-array/",
+   "date": "2026-08-22",
+   "topics": [
+    "Array",
+    "Simulation"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2116588405.py",
+     "id": 2116588405
+    }
+   ]
+  },
+  {
+   "id": 1979,
+   "slug": "find-greatest-common-divisor-of-array",
+   "title": "Find Greatest Common Divisor of Array",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-greatest-common-divisor-of-array/",
+   "date": "2026-07-18",
+   "topics": [
+    "Array",
+    "Math",
+    "Number Theory",
+    "Euclidean Algorithm",
+    "Greatest Common Divisor"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2072273831.py",
+     "id": 2072273831
+    },
+    {
+     "file": "submission_2072273589.py",
+     "id": 2072273589
+    },
+    {
+     "file": "submission_2072270453.py",
+     "id": 2072270453
+    },
+    {
+     "file": "submission_2072270225.py",
+     "id": 2072270225
+    },
+    {
+     "file": "submission_2072269816.py",
+     "id": 2072269816
+    }
+   ]
+  },
+  {
+   "id": 2029,
+   "slug": "stone-game-ix",
+   "title": "Stone Game IX",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/stone-game-ix/",
+   "date": "2026-08-16",
+   "topics": [
+    "Array",
+    "Math",
+    "Greedy",
+    "Minimax",
+    "Counting",
+    "Game Theory",
+    "Nim Game",
+    "Zero-Sum Game"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2109053105.py",
+     "id": 2109053105
+    }
+   ]
+  },
+  {
+   "id": 2058,
+   "slug": "find-the-minimum-and-maximum-number-of-nodes-between-critical-points",
+   "title": "Find the Minimum and Maximum Number of Nodes Between Critical Points",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-the-minimum-and-maximum-number-of-nodes-between-critical-points/",
+   "date": "2026-08-31",
+   "topics": [
+    "Linked List"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2125656252.py",
+     "id": 2125656252
+    }
+   ]
+  },
+  {
+   "id": 2091,
+   "slug": "removing-minimum-and-maximum-from-array",
+   "title": "Removing Minimum and Maximum From Array",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/removing-minimum-and-maximum-from-array/",
+   "date": "2026-08-30",
+   "topics": [
+    "Array",
+    "Greedy"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2124912831.py",
+     "id": 2124912831
+    },
+    {
+     "file": "submission_2124911214.py",
+     "id": 2124911214
+    },
+    {
+     "file": "submission_2124911092.py",
+     "id": 2124911092
+    },
+    {
+     "file": "submission_2124910838.py",
+     "id": 2124910838
+    }
+   ]
+  },
+  {
+   "id": 2213,
+   "slug": "longest-substring-of-one-repeating-character",
+   "title": "Longest Substring of One Repeating Character",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/longest-substring-of-one-repeating-character/",
+   "date": "2026-08-13",
+   "topics": [
+    "Array",
+    "String",
+    "Segment Tree",
+    "Ordered Set"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2105499012.py",
+     "id": 2105499012
+    }
+   ]
+  },
+  {
+   "id": 2414,
+   "slug": "length-of-the-longest-alphabetical-continuous-substring",
+   "title": "Length of the Longest Alphabetical Continuous Substring",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/length-of-the-longest-alphabetical-continuous-substring/",
+   "date": "2026-08-14",
+   "topics": [
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2106653367.py",
+     "id": 2106653367
+    },
+    {
+     "file": "submission_2106653127.py",
+     "id": 2106653127
+    }
+   ]
+  },
+  {
+   "id": 2904,
+   "slug": "shortest-and-lexicographically-smallest-beautiful-string",
+   "title": "Shortest and Lexicographically Smallest Beautiful String",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/shortest-and-lexicographically-smallest-beautiful-string/",
+   "date": "2026-08-26",
+   "topics": [
+    "String",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2120355257.py",
+     "id": 2120355257
+    }
+   ]
+  },
+  {
+   "id": 2948,
+   "slug": "make-lexicographically-smallest-array-by-swapping-elements",
+   "title": "Make Lexicographically Smallest Array by Swapping Elements",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/make-lexicographically-smallest-array-by-swapping-elements/",
+   "date": "2026-08-29",
+   "topics": [
+    "Array",
+    "Union-Find",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2123701779.py",
+     "id": 2123701779
+    },
+    {
+     "file": "submission_2123701518.py",
+     "id": 2123701518
+    },
+    {
+     "file": "submission_2123698642.py",
+     "id": 2123698642
+    },
+    {
+     "file": "submission_2123698489.py",
+     "id": 2123698489
+    }
+   ]
+  },
+  {
+   "id": 2958,
+   "slug": "length-of-longest-subarray-with-at-most-k-frequency",
+   "title": "Length of Longest Subarray With at Most K Frequency",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/length-of-longest-subarray-with-at-most-k-frequency/",
+   "date": "2026-08-12",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2104615658.py",
+     "id": 2104615658
+    }
+   ]
+  },
+  {
+   "id": 2996,
+   "slug": "smallest-missing-integer-greater-than-sequential-prefix-sum",
+   "title": "Smallest Missing Integer Greater Than Sequential Prefix Sum",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-missing-integer-greater-than-sequential-prefix-sum/",
+   "date": "2026-08-11",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2103297637.py",
+     "id": 2103297637
+    }
+   ]
+  },
+  {
+   "id": 3014,
+   "slug": "minimum-number-of-pushes-to-type-word-i",
+   "title": "Minimum Number of Pushes to Type Word I",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-i/",
+   "date": "2026-07-30",
+   "topics": [
+    "Math",
+    "String",
+    "Greedy"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2087496620.py",
+     "id": 2087496620
+    },
+    {
+     "file": "submission_2087495130.py",
+     "id": 2087495130
+    }
+   ]
+  },
+  {
+   "id": 3016,
+   "slug": "minimum-number-of-pushes-to-type-word-ii",
+   "title": "Minimum Number of Pushes to Type Word II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/minimum-number-of-pushes-to-type-word-ii/",
+   "date": "2026-07-31",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Greedy",
+    "Sorting",
+    "Counting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2088914021.py",
+     "id": 2088914021
+    },
+    {
+     "file": "submission_2088752101.py",
+     "id": 2088752101
+    }
+   ]
+  },
+  {
+   "id": 3069,
+   "slug": "distribute-elements-into-two-arrays-i",
+   "title": "Distribute Elements Into Two Arrays I",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/distribute-elements-into-two-arrays-i/",
+   "date": "2026-08-20",
+   "topics": [
+    "Array",
+    "Simulation"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2114036321.py",
+     "id": 2114036321
+    }
+   ]
+  },
+  {
+   "id": 3090,
+   "slug": "maximum-length-substring-with-two-occurrences",
+   "title": "Maximum Length Substring With Two Occurrences",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-length-substring-with-two-occurrences/",
+   "date": "2026-08-14",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2106604582.py",
+     "id": 2106604582
+    },
+    {
+     "file": "submission_2106604486.py",
+     "id": 2106604486
+    },
+    {
+     "file": "submission_2106604370.py",
+     "id": 2106604370
+    },
+    {
+     "file": "submission_2106602183.py",
+     "id": 2106602183
+    }
+   ]
+  },
+  {
+   "id": 3116,
+   "slug": "kth-smallest-amount-with-single-denomination-combination",
+   "title": "Kth Smallest Amount With Single Denomination Combination",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/kth-smallest-amount-with-single-denomination-combination/",
+   "date": "2026-08-21",
+   "topics": [
+    "Array",
+    "Math",
+    "Binary Search",
+    "Bit Manipulation",
+    "Combinatorics",
+    "Number Theory"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2114634573.py",
+     "id": 2114634573
+    }
+   ]
+  },
+  {
+   "id": 3210,
+   "slug": "find-the-encrypted-string",
+   "title": "Find the Encrypted String",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-the-encrypted-string/",
+   "date": "2026-08-14",
+   "topics": [
+    "String"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2106692331.py",
+     "id": 2106692331
+    },
+    {
+     "file": "submission_2106692215.py",
+     "id": 2106692215
+    },
+    {
+     "file": "submission_2106690454.py",
+     "id": 2106690454
+    },
+    {
+     "file": "submission_2106688539.py",
+     "id": 2106688539
+    },
+    {
+     "file": "submission_2106629534.py",
+     "id": 2106629534
+    }
+   ]
+  },
+  {
+   "id": 3302,
+   "slug": "find-the-lexicographically-smallest-valid-sequence",
+   "title": "Find the Lexicographically Smallest Valid Sequence",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-the-lexicographically-smallest-valid-sequence/",
+   "date": "2026-08-08",
+   "topics": [
+    "Two Pointers",
+    "String",
+    "Dynamic Programming",
+    "Greedy"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2099248444.py",
+     "id": 2099248444
+    }
+   ]
+  },
+  {
+   "id": 3310,
+   "slug": "remove-methods-from-project",
+   "title": "Remove Methods From Project",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/remove-methods-from-project/",
+   "date": "2026-08-05",
+   "topics": [
+    "Depth-First Search",
+    "Breadth-First Search",
+    "Graph Theory"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2094852852.py",
+     "id": 2094852852
+    },
+    {
+     "file": "submission_2094852632.py",
+     "id": 2094852632
+    }
+   ]
+  },
+  {
+   "id": 3312,
+   "slug": "sorted-gcd-pair-queries",
+   "title": "Sorted GCD Pair Queries",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/sorted-gcd-pair-queries/",
+   "date": "2026-07-20",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Math",
+    "Binary Search",
+    "Combinatorics",
+    "Counting",
+    "Number Theory",
+    "Prefix Sum",
+    "Euclidean Algorithm",
+    "Greatest Common Divisor"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2074882762.py",
+     "id": 2074882762
+    },
+    {
+     "file": "submission_2071340104.py",
+     "id": 2071340104
+    },
+    {
+     "file": "submission_2071334626.py",
+     "id": 2071334626
+    },
+    {
+     "file": "submission_2071334247.py",
+     "id": 2071334247
+    }
+   ]
+  },
+  {
+   "id": 3320,
+   "slug": "count-the-number-of-winning-sequences",
+   "title": "Count The Number of Winning Sequences",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/count-the-number-of-winning-sequences/",
+   "date": "2026-08-05",
+   "topics": [
+    "String",
+    "Dynamic Programming"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2095097016.py",
+     "id": 2095097016
+    }
+   ]
+  },
+  {
+   "id": 3336,
+   "slug": "find-the-number-of-subsequences-with-equal-gcd",
+   "title": "Find the Number of Subsequences With Equal GCD",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-the-number-of-subsequences-with-equal-gcd/",
+   "date": "2026-07-15",
+   "topics": [
+    "Array",
+    "Math",
+    "Dynamic Programming",
+    "Number Theory",
+    "Euclidean Algorithm",
+    "Greatest Common Divisor"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2069047492.py",
+     "id": 2069047492
+    },
+    {
+     "file": "submission_2069041698.py",
+     "id": 2069041698
+    },
+    {
+     "file": "submission_2069021592.py",
+     "id": 2069021592
+    },
+    {
+     "file": "submission_2068996482.py",
+     "id": 2068996482
+    },
+    {
+     "file": "submission_2068989790.py",
+     "id": 2068989790
+    },
+    {
+     "file": "submission_2068986828.py",
+     "id": 2068986828
+    }
+   ]
+  },
+  {
+   "id": 3345,
+   "slug": "smallest-divisible-digit-product-i",
+   "title": "Smallest Divisible Digit Product I",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-divisible-digit-product-i/",
+   "date": "2026-08-06",
+   "topics": [
+    "Math",
+    "Enumeration"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2096612257.py",
+     "id": 2096612257
+    }
+   ]
+  },
+  {
+   "id": 3348,
+   "slug": "smallest-divisible-digit-product-ii",
+   "title": "Smallest Divisible Digit Product II",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-divisible-digit-product-ii/",
+   "date": "2026-08-07",
+   "topics": [
+    "Math",
+    "String",
+    "Backtracking",
+    "Greedy",
+    "Number Theory"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2097577159.py",
+     "id": 2097577159
+    },
+    {
+     "file": "submission_2097576640.py",
+     "id": 2097576640
+    },
+    {
+     "file": "submission_2097576366.py",
+     "id": 2097576366
+    },
+    {
+     "file": "submission_2097575392.py",
+     "id": 2097575392
+    },
+    {
+     "file": "submission_2097575081.py",
+     "id": 2097575081
+    }
+   ]
+  },
+  {
+   "id": 3471,
+   "slug": "find-the-largest-almost-missing-integer",
+   "title": "Find the Largest Almost Missing Integer",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-the-largest-almost-missing-integer/",
+   "date": "2026-08-18",
+   "topics": [
+    "Array",
+    "Hash Table"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2111125661.py",
+     "id": 2111125661
+    },
+    {
+     "file": "submission_2111117295.py",
+     "id": 2111117295
+    }
+   ]
+  },
+  {
+   "id": 3499,
+   "slug": "maximize-active-section-with-trade-i",
+   "title": "Maximize Active Section with Trade I",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximize-active-section-with-trade-i/",
+   "date": "2026-07-21",
+   "topics": [
+    "String",
+    "Enumeration"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2075949671.py",
+     "id": 2075949671
+    },
+    {
+     "file": "submission_2075941631.py",
+     "id": 2075941631
+    }
+   ]
+  },
+  {
+   "id": 3501,
+   "slug": "maximize-active-section-with-trade-ii",
+   "title": "Maximize Active Section with Trade II",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximize-active-section-with-trade-ii/",
+   "date": "2026-07-22",
+   "topics": [
+    "Array",
+    "String",
+    "Binary Search",
+    "Segment Tree"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2077391023.py",
+     "id": 2077391023
+    }
+   ]
+  },
+  {
+   "id": 3513,
+   "slug": "number-of-unique-xor-triplets-i",
+   "title": "Number of Unique XOR Triplets I",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/number-of-unique-xor-triplets-i/",
+   "date": "2026-07-23",
+   "topics": [
+    "Array",
+    "Math",
+    "Bit Manipulation"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2077810204.py",
+     "id": 2077810204
+    }
+   ]
+  },
+  {
+   "id": 3514,
+   "slug": "number-of-unique-xor-triplets-ii",
+   "title": "Number of Unique XOR Triplets II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/number-of-unique-xor-triplets-ii/",
+   "date": "2026-07-24",
+   "topics": [
+    "Array",
+    "Math",
+    "Bit Manipulation",
+    "Enumeration"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2079409194.py",
+     "id": 2079409194
+    }
+   ]
+  },
+  {
+   "id": 3517,
+   "slug": "smallest-palindromic-rearrangement-i",
+   "title": "Smallest Palindromic Rearrangement I",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-palindromic-rearrangement-i/",
+   "date": "2026-07-28",
+   "topics": [
+    "String",
+    "Sorting",
+    "Counting Sort"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2084283160.py",
+     "id": 2084283160
+    },
+    {
+     "file": "submission_2084281898.py",
+     "id": 2084281898
+    },
+    {
+     "file": "submission_2084281043.py",
+     "id": 2084281043
+    },
+    {
+     "file": "submission_2084280806.py",
+     "id": 2084280806
+    },
+    {
+     "file": "submission_2084267557.py",
+     "id": 2084267557
+    },
+    {
+     "file": "submission_2084267257.py",
+     "id": 2084267257
+    },
+    {
+     "file": "submission_2084263132.py",
+     "id": 2084263132
+    }
+   ]
+  },
+  {
+   "id": 3518,
+   "slug": "smallest-palindromic-rearrangement-ii",
+   "title": "Smallest Palindromic Rearrangement II",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-palindromic-rearrangement-ii/",
+   "date": "2026-07-29",
+   "topics": [
+    "Hash Table",
+    "Math",
+    "String",
+    "Combinatorics",
+    "Counting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2086059056.py",
+     "id": 2086059056
+    }
+   ]
+  },
+  {
+   "id": 3536,
+   "slug": "maximum-product-of-two-digits",
+   "title": "Maximum Product of Two Digits",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-product-of-two-digits/",
+   "date": "2026-07-25",
+   "topics": [
+    "Math",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2080463533.py",
+     "id": 2080463533
+    }
+   ]
+  },
+  {
+   "id": 3568,
+   "slug": "minimum-moves-to-clean-the-classroom",
+   "title": "Minimum Moves to Clean the Classroom",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/minimum-moves-to-clean-the-classroom/",
+   "date": "2026-09-01",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Bit Manipulation",
+    "Breadth-First Search",
+    "Matrix"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2126997208.py",
+     "id": 2126997208
+    }
+   ]
+  },
+  {
+   "id": 3622,
+   "slug": "check-divisibility-by-digit-sum-and-product",
+   "title": "Check Divisibility by Digit Sum and Product",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/check-divisibility-by-digit-sum-and-product/",
+   "date": "2026-08-22",
+   "topics": [
+    "Math"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2116201131.py",
+     "id": 2116201131
+    }
+   ]
+  },
+  {
+   "id": 3658,
+   "slug": "gcd-of-odd-and-even-sums",
+   "title": "GCD of Odd and Even Sums",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/gcd-of-odd-and-even-sums/",
+   "date": "2026-07-15",
+   "topics": [
+    "Math",
+    "Number Theory"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2068933926.py",
+     "id": 2068933926
+    }
+   ]
+  },
+  {
+   "id": 3702,
+   "slug": "longest-subsequence-with-non-zero-bitwise-xor",
+   "title": "Longest Subsequence With Non-Zero Bitwise XOR",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/longest-subsequence-with-non-zero-bitwise-xor/",
+   "date": "2026-08-18",
+   "topics": [
+    "Array",
+    "Bit Manipulation"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2111733477.py",
+     "id": 2111733477
+    }
+   ]
+  },
+  {
+   "id": 3718,
+   "slug": "smallest-missing-multiple-of-k",
+   "title": "Smallest Missing Multiple of K",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-missing-multiple-of-k/",
+   "date": "2026-08-25",
+   "topics": [
+    "Array",
+    "Hash Table"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2119467143.py",
+     "id": 2119467143
+    },
+    {
+     "file": "submission_2119466952.py",
+     "id": 2119466952
+    },
+    {
+     "file": "submission_2119412155.py",
+     "id": 2119412155
+    },
+    {
+     "file": "submission_2119409585.py",
+     "id": 2119409585
+    },
+    {
+     "file": "submission_2119409397.py",
+     "id": 2119409397
+    }
+   ]
+  },
+  {
+   "id": 3720,
+   "slug": "lexicographically-smallest-permutation-greater-than-target",
+   "title": "Lexicographically Smallest Permutation Greater Than Target",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/lexicographically-smallest-permutation-greater-than-target/",
+   "date": "2026-08-27",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Greedy",
+    "Counting",
+    "Enumeration"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2121975038.py",
+     "id": 2121975038
+    },
+    {
+     "file": "submission_2121934690.py",
+     "id": 2121934690
+    },
+    {
+     "file": "submission_2121923227.py",
+     "id": 2121923227
+    }
+   ]
+  },
+  {
+   "id": 3731,
+   "slug": "find-missing-elements",
+   "title": "Find Missing Elements",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-missing-elements/",
+   "date": "2026-08-04",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Sorting"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2094252994.py",
+     "id": 2094252994
+    },
+    {
+     "file": "submission_2093623187.py",
+     "id": 2093623187
+    },
+    {
+     "file": "submission_2093622947.py",
+     "id": 2093622947
+    },
+    {
+     "file": "submission_2093622765.py",
+     "id": 2093622765
+    },
+    {
+     "file": "submission_2093622628.py",
+     "id": 2093622628
+    },
+    {
+     "file": "submission_2093621654.py",
+     "id": 2093621654
+    },
+    {
+     "file": "submission_2093618020.py",
+     "id": 2093618020
+    }
+   ]
+  },
+  {
+   "id": 3734,
+   "slug": "lexicographically-smallest-palindromic-permutation-greater-than-target",
+   "title": "Lexicographically Smallest Palindromic Permutation Greater Than Target",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/lexicographically-smallest-palindromic-permutation-greater-than-target/",
+   "date": "2026-08-28",
+   "topics": [
+    "Two Pointers",
+    "String",
+    "Enumeration"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2122819049.py",
+     "id": 2122819049
+    },
+    {
+     "file": "submission_2122816953.py",
+     "id": 2122816953
+    },
+    {
+     "file": "submission_2122816845.py",
+     "id": 2122816845
+    }
+   ]
+  },
+  {
+   "id": 3867,
+   "slug": "sum-of-gcd-of-formed-pairs",
+   "title": "Sum of GCD of Formed Pairs",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/sum-of-gcd-of-formed-pairs/",
+   "date": "2026-07-16",
+   "topics": [
+    "Array",
+    "Math",
+    "Two Pointers",
+    "Sorting",
+    "Simulation",
+    "Number Theory"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2069840459.py",
+     "id": 2069840459
+    },
+    {
+     "file": "submission_2069840346.py",
+     "id": 2069840346
+    },
+    {
+     "file": "submission_2069839218.py",
+     "id": 2069839218
+    },
+    {
+     "file": "submission_2069836547.py",
+     "id": 2069836547
+    }
+   ]
+  },
+  {
+   "id": 3875,
+   "slug": "construct-uniform-parity-array-i",
+   "title": "Construct Uniform Parity Array I",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/construct-uniform-parity-array-i/",
+   "date": "2026-09-02",
+   "topics": [
+    "Array",
+    "Math"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2128302278.py",
+     "id": 2128302278
+    }
+   ]
+  },
+  {
+   "id": 3876,
+   "slug": "construct-uniform-parity-array-ii",
+   "title": "Construct Uniform Parity Array II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/construct-uniform-parity-array-ii/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Math"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2130730672.py",
+     "id": 2130730672
+    },
+    {
+     "file": "submission_2130728523.py",
+     "id": 2130728523
+    },
+    {
+     "file": "submission_2130717779.py",
+     "id": 2130717779
+    },
+    {
+     "file": "submission_2130697804.py",
+     "id": 2130697804
+    },
+    {
+     "file": "submission_2129590947.py",
+     "id": 2129590947
+    }
+   ]
+  },
+  {
+   "id": 3903,
+   "slug": "smallest-stable-index-i",
+   "title": "Smallest Stable Index I",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-stable-index-i/",
+   "date": "2026-09-04",
+   "topics": [
+    "Array",
+    "Prefix Sum"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2130649789.py",
+     "id": 2130649789
+    },
+    {
+     "file": "submission_2130645180.py",
+     "id": 2130645180
+    },
+    {
+     "file": "submission_2130643768.py",
+     "id": 2130643768
+    },
+    {
+     "file": "submission_2130639525.py",
+     "id": 2130639525
+    }
+   ]
+  },
+  {
+   "id": 3904,
+   "slug": "smallest-stable-index-ii",
+   "title": "Smallest Stable Index II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/smallest-stable-index-ii/",
+   "date": "2026-09-05",
+   "topics": [
+    "Array",
+    "Prefix Sum"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2131883696.py",
+     "id": 2131883696
+    }
+   ]
+  }
+ ],
+ "course": []
+}
