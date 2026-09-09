@@ -191,3 +191,44 @@ body.rail-hidden section{padding-left:56px}
   background:var(--panel-2)}
 .md summary{cursor:pointer;font-weight:600;color:var(--text)}
 .md details[open] summary{margin-bottom:8px}
+
+/* Code colours, selectable in Settings. Kept as their own variables rather than reusing the
+   page palette: a reader may want a light page with a dark editor, or the reverse. */
+:root{--c-com:#8b949e;--c-str:#a5d6ff;--c-key:#ff7b72;--c-num:#79c0ff;--c-fn:#d2a8ff;--c-dec:#ffa657}
+:root[data-code="github-light"]{--c-com:#6e7781;--c-str:#0a3069;--c-key:#cf222e;
+  --c-num:#0550ae;--c-fn:#8250df;--c-dec:#953800}
+:root[data-code="dracula"]{--c-com:#6272a4;--c-str:#f1fa8c;--c-key:#ff79c6;
+  --c-num:#bd93f9;--c-fn:#50fa7b;--c-dec:#ffb86c}
+:root[data-code="monokai"]{--c-com:#75715e;--c-str:#e6db74;--c-key:#f92672;
+  --c-num:#ae81ff;--c-fn:#a6e22e;--c-dec:#fd971f}
+:root[data-code="solarized"]{--c-com:#93a1a1;--c-str:#2aa198;--c-key:#859900;
+  --c-num:#d33682;--c-fn:#268bd2;--c-dec:#b58900}
+:root[data-code="mono"]{--c-com:var(--muted);--c-str:var(--text);--c-key:var(--text);
+  --c-num:var(--text);--c-fn:var(--text);--c-dec:var(--text)}
+.t-com{color:var(--c-com);font-style:italic}
+.t-str{color:var(--c-str)}
+.t-key{color:var(--c-key)}
+.t-num{color:var(--c-num)}
+.t-fn{color:var(--c-fn)}
+.t-dec{color:var(--c-dec)}
+
+/* Settings */
+#view-settings{max-width:640px}
+.setting{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.setting label{font-weight:600}
+.setting .muted{font-weight:400}
+.setting select{background:var(--panel-2);color:var(--text);border:1px solid var(--line);
+  border-radius:8px;padding:6px 10px;font:inherit;font-size:13px;min-width:180px}
+#code-preview{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px;overflow:auto}
+
+/* Nested arrangement. A box is a flex container that behaves exactly like a pane to its
+   own parent, which is what lets any tree of rows and columns be resized by one handle. */
+#panes{display:flex}
+.box{display:flex;flex:1 1 0;min-width:0;min-height:0}
+.box.row{flex-direction:row}
+.box.col{flex-direction:column}
+.split.row{cursor:col-resize}
+.split.col{cursor:row-resize}
+.split.col::after{inset:4px 0}
