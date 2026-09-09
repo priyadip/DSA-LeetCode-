@@ -21,6 +21,10 @@
   }
 }
 *{box-sizing:border-box}
+/* `section{display:flex}` below is more specific than the hidden attribute's own
+   display:none, so a hidden view still rendered - every screen stacked onto one page and
+   the problem panes got a third of the window. The attribute has to win. */
+[hidden]{display:none !important}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--text);
   font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -83,7 +87,7 @@ td.title{white-space:normal;min-width:260px}
 
 /* Three panes, each resizable by dragging the strip between them. Flex-basis is what the
    drag actually writes, so the panes keep filling the row at any window size. */
-#panes{display:flex;flex:1;min-height:0;gap:0}
+#panes{display:flex;flex:1 1 auto;min-height:0;gap:0}
 .pane{flex:1 1 0;min-width:120px;display:flex;flex-direction:column;
   background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
 .pane-head{display:flex;align-items:center;gap:8px;padding:8px 12px;
