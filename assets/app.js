@@ -505,7 +505,9 @@ function route() {
 /* ---------- boot --------------------------------------------------------- */
 async function main() {
   try {
-    DATA = await (await fetch("assets/index.json")).json();
+    // Revalidate every time: sync rewrites this on each run, and a stale catalogue
+    // paired with a fresh page is a confusing way to see yesterday's problems.
+    DATA = await (await fetch("assets/index.json", { cache: "no-cache" })).json();
   } catch {
     document.body.innerHTML =
       "<p style='padding:24px'>Could not load assets/index.json. Run <code>leetvault site</code>.</p>";
