@@ -116,9 +116,11 @@ td.title{white-space:normal;min-width:260px}
 .md blockquote{border-left:3px solid var(--line);margin:0;padding-left:12px;color:var(--muted)}
 pre code.code{display:block;white-space:pre}
 
-.notes{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  padding:10px 14px}
-.notes summary{cursor:pointer;font-weight:600}
+/* Notes live in a modal rather than a strip under the panes: this page is the question,
+   the code and the analysis, and a permanent band at the bottom is height taken from all
+   three for something usually collapsed. */
+.notes-panel{height:min(560px,80vh)}
+#notes-modal .modal-body{display:block;overflow:auto;padding:16px 20px}
 
 #course-wrap{display:flex;flex:1;min-height:0}
 #course-tree{flex:0 0 300px;min-width:160px;overflow:auto;background:var(--panel);
@@ -178,10 +180,14 @@ body.rail-hidden #rail{display:none}
 body.rail-hidden #rail-show{display:block}
 body.rail-hidden section{padding-left:56px}
 #rail-show:hover{border-color:var(--accent)}
-/* The notes block sizes to its content so it can never squeeze the panes above it. */
-.notes{flex:0 0 auto;max-height:38vh;overflow:auto}
 
 /* Theme switch, in the rail beside the sidebar toggle. */
 #theme-toggle{border:1px solid var(--line);background:transparent;color:var(--muted);
   cursor:pointer;border-radius:6px;padding:3px 8px;font-size:12px;line-height:1.4}
 #theme-toggle:hover{border-color:var(--accent);color:var(--text)}
+
+/* Hints, as LeetCode writes them and GitHub renders them: collapsed until asked for. */
+.md details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:10px 0;
+  background:var(--panel-2)}
+.md summary{cursor:pointer;font-weight:600;color:var(--text)}
+.md details[open] summary{margin-bottom:8px}

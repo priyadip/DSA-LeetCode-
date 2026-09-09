@@ -67,6 +67,19 @@ function markdown(src) {
       continue;
     }
 
+    // LeetCode's hints arrive as <details>/<summary>, which GitHub renders natively.
+    // Escaping them shows the reader raw markup, so exactly these three forms pass through
+    // - they carry no scripting and no attributes - while every other tag stays escaped.
+    if (/^\s*<details>\s*$/i.test(line)) { flush(); out.push("<details>"); i++; continue; }
+    if (/^\s*<\/details>\s*$/i.test(line)) { flush(); out.push("</details>"); i++; continue; }
+    const summary = line.match(/^\s*<summary>(.*)<\/summary>\s*$/i);
+    if (summary) {
+      flush();
+      out.push(`<summary>${inline(summary[1])}</summary>`);
+      i++;
+      continue;
+    }
+
     const heading = line.match(/^(#{1,6})\s+(.*)$/);
     if (heading) {
       flush();
@@ -281,17 +294,31 @@ async function openCourse(path) {
 /* ---------- resizable panes --------------------------------------------- */
 /* Sizes are per-layout in localStorage: a split you dragged is a preference, and having it
    reset on every navigation would make the feature useless. */
+const PANES = ["pane-q", "pane-c", "pane-a"];
+
+/* Proportions, never pixel widths. Widths saved on one window size cannot fill another, so
+ * a layout dragged on a narrow window left a band of dead space on a wide one - and a
+ * layout from a wide window overflowed a narrow one. Ratios fill whatever they are given. */
+function applyRatios(ratios) {
+  const total = ratios.reduce((a, b) => a + b, 0) || 1;
+  PANES.forEach((id, n) => { $(id).style.flex = `${ratios[n] / total} 1 0`; });
+}
+
 function restoreSplits() {
   const saved = JSON.parse(localStorage.getItem("lv.splits") || "null");
-  if (!saved) return;
-  ["pane-q", "pane-c", "pane-a"].forEach((id, n) => {
-    if (saved[n]) $(id).style.flex = `0 0 ${saved[n]}px`;
-  });
+  if (!Array.isArray(saved) || saved.length !== PANES.length || saved.some((n) => !(n > 0))) {
+    applyRatios([1, 1, 1]);
+    return;
+  }
+  applyRatios(saved);
 }
 
 function saveSplits() {
-  localStorage.setItem("lv.splits", JSON.stringify(
-    ["pane-q", "pane-c", "pane-a"].map((id) => $(id).getBoundingClientRect().width)));
+  const widths = PANES.map((id) => $(id).getBoundingClientRect().width);
+  localStorage.setItem("lv.splits", JSON.stringify(widths));
+  // Back to ratios straight away, so the row keeps filling the window after a drag rather
+  // than staying frozen at the pixel widths the drag produced.
+  applyRatios(widths);
 }
 
 function wireSplit(handle) {
@@ -381,6 +408,8 @@ async function main() {
   $("next").onclick = () => neighbour(1);
   $("btn-history").onclick = openHistory;
   $("m-close").onclick = $("modal-scrim").onclick = () => { $("modal").hidden = true; };
+  $("btn-notes").onclick = () => { $("notes-modal").hidden = false; };
+  $("n-close").onclick = $("notes-scrim").onclick = () => { $("notes-modal").hidden = true; };
 
   document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => {
     const src = { q: "q-body", c: "c-body", a: "a-body" }[b.dataset.copy];
@@ -422,7 +451,11 @@ async function main() {
 
   document.querySelectorAll(".split").forEach(wireSplit);
   addEventListener("keydown", (e) => {
-    if (e.key === "Escape") { $("drawer").hidden = true; $("modal").hidden = true; }
+    if (e.key === "Escape") {
+      $("drawer").hidden = true;
+      $("modal").hidden = true;
+      $("notes-modal").hidden = true;
+    }
     // A single key to reclaim the window, and the same key to get the rail back.
     if (e.key === "\\" && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
       setRail(!document.body.classList.contains("rail-hidden"));

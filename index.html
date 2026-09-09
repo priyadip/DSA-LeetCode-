@@ -65,6 +65,7 @@
       <span class="spacer"></span>
       <button class="btn ghost" id="prev">← Prev</button>
       <button class="btn ghost" id="next">Next →</button>
+      <button class="btn ghost" id="btn-notes">Notes</button>
       <a class="btn" id="p-leetcode" href="#" target="_blank" rel="noopener">LeetCode</a>
     </header>
 
@@ -92,11 +93,6 @@
       </div>
     </div>
 
-    <details class="notes" id="notes-box">
-      <summary>Notes <span class="muted sm">(your own notes.md)</span></summary>
-      <div class="md" id="n-body"></div>
-      <a class="btn ghost sm" id="n-edit" href="#" target="_blank" rel="noopener">Edit on GitHub</a>
-    </details>
   </section>
 
   <!-- My Course -->
@@ -126,6 +122,21 @@
     <div id="drawer-list"></div>
   </div>
   <div class="drawer-scrim" id="drawer-scrim"></div>
+</div>
+
+<!-- Notes modal: kept off the page so the three panes own the whole window -->
+<div id="notes-modal" hidden>
+  <div class="modal-panel notes-panel">
+    <div class="modal-head">
+      <strong>Notes <span class="muted sm">(your own notes.md)</span></strong>
+      <span>
+        <a class="btn ghost sm" id="n-edit" href="#" target="_blank" rel="noopener">Edit on GitHub</a>
+        <button class="btn ghost sm" id="n-close">✕</button>
+      </span>
+    </div>
+    <div class="modal-body md" id="n-body"></div>
+  </div>
+  <div class="drawer-scrim" id="notes-scrim"></div>
 </div>
 
 <!-- History modal -->
