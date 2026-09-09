@@ -404,9 +404,16 @@ function buildLayout(name) {
   const sizes = readSizes();
   const spec = LAYOUTS[layoutName].spec;
 
+  // Hold the elements before detaching them. getElementById cannot find a node that is no
+  // longer in the document, so looking them up after the removal below returns null - the
+  // whole script then died on the first pane and the page rendered as bare HTML.
+  const panes = Object.fromEntries(
+    Object.entries(PANE_IDS).map(([key, id]) => [key, $(id)]),
+  );
+
   const build = (node, path) => {
     if (typeof node === "string") {
-      const el = $(PANE_IDS[node]);
+      const el = panes[node];
       el.dataset.key = node;
       el.style.flex = `${sizes[node] || 1} 1 0`;
       return el;
@@ -429,7 +436,7 @@ function buildLayout(name) {
 
   // Detach the panes first: they are reused across layouts, not rebuilt, so their scroll
   // position and rendered content survive a rearrangement.
-  Object.values(PANE_IDS).forEach((id) => $(id).remove());
+  Object.values(panes).forEach((el) => el.remove());
   $("panes").replaceChildren(build(spec, "b"));
   $("panes").querySelectorAll(".split").forEach(wireSplit);
   localStorage.setItem("lv.layout", layoutName);
