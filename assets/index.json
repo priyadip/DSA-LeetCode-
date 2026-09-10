@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-10 14:50 UTC",
+ "generated_at": "2026-09-10 14:52 UTC",
  "problems": [
   {
    "id": 1,
@@ -4009,6 +4009,27 @@
     {
      "file": "submission_2136553873.py",
      "id": 2136553873
+    }
+   ]
+  },
+  {
+   "id": 3871,
+   "slug": "count-commas-in-range-ii",
+   "title": "Count Commas in Range II",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/count-commas-in-range-ii/",
+   "date": "2026-09-10",
+   "topics": [
+    "Math"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2137603510.py",
+     "id": 2137603510
     }
    ]
   },
