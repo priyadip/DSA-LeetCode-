@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-10 14:52 UTC",
+ "generated_at": "2026-09-11 09:56 UTC",
  "problems": [
   {
    "id": 1,
@@ -2966,6 +2966,29 @@
     {
      "file": "submission_2105499012.py",
      "id": 2105499012
+    }
+   ]
+  },
+  {
+   "id": 2265,
+   "slug": "count-nodes-equal-to-average-of-subtree",
+   "title": "Count Nodes Equal to Average of Subtree",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/count-nodes-equal-to-average-of-subtree/",
+   "date": "2026-09-11",
+   "topics": [
+    "Tree",
+    "Depth-First Search",
+    "Binary Tree"
+   ],
+   "has_analysis": false,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2138410278.py",
+     "id": 2138410278
     }
    ]
   },
