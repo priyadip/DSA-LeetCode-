@@ -1,0 +1,19 @@
+{
+  "difficulty": "Easy",
+  "frontend_id": 3483,
+  "lang": "python3",
+  "latest_submission_id": 2138418260,
+  "memory": "19.4 MB",
+  "memory_percentile": 20.439600000000006,
+  "paid_only": false,
+  "question_id": 3799,
+  "runner": null,
+  "runtime": "7 ms",
+  "runtime_percentile": 97.3626,
+  "timestamp": 1789120351,
+  "title": "Unique 3-Digit Even Numbers",
+  "title_slug": "unique-3-digit-even-numbers",
+  "total_correct": 930,
+  "total_testcases": 930,
+  "url": "https://leetcode.com/problems/unique-3-digit-even-numbers/"
+}
