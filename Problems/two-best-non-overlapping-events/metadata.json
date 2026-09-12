@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 2054,
+  "lang": "python3",
+  "latest_submission_id": 2139417304,
+  "memory": "67.2 MB",
+  "memory_percentile": 63.71449999999997,
+  "paid_only": false,
+  "question_id": 2164,
+  "runner": null,
+  "runtime": "173 ms",
+  "runtime_percentile": 64.85779999999995,
+  "timestamp": 1789211138,
+  "title": "Two Best Non-Overlapping Events",
+  "title_slug": "two-best-non-overlapping-events",
+  "total_correct": 65,
+  "total_testcases": 65,
+  "url": "https://leetcode.com/problems/two-best-non-overlapping-events/"
+}

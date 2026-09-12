@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-12 11:03 UTC",
+ "generated_at": "2026-09-12 11:07 UTC",
  "problems": [
   {
    "id": 1,
@@ -2887,6 +2887,31 @@
     {
      "file": "submission_2109053105.py",
      "id": 2109053105
+    }
+   ]
+  },
+  {
+   "id": 2054,
+   "slug": "two-best-non-overlapping-events",
+   "title": "Two Best Non-Overlapping Events",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/two-best-non-overlapping-events/",
+   "date": "2026-09-12",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Dynamic Programming",
+    "Sorting",
+    "Heap (Priority Queue)"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2139417304.py",
+     "id": 2139417304
     }
    ]
   },
