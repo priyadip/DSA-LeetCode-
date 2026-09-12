@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 3414,
+  "lang": "python3",
+  "latest_submission_id": 2139288361,
+  "memory": "74.6 MB",
+  "memory_percentile": 61.01729999999996,
+  "paid_only": false,
+  "question_id": 3562,
+  "runner": null,
+  "runtime": "1417 ms",
+  "runtime_percentile": 84.74589999999996,
+  "timestamp": 1789200880,
+  "title": "Maximum Score of Non-overlapping Intervals",
+  "title_slug": "maximum-score-of-non-overlapping-intervals",
+  "total_correct": 581,
+  "total_testcases": 581,
+  "url": "https://leetcode.com/problems/maximum-score-of-non-overlapping-intervals/"
+}

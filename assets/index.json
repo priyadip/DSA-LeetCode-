@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-12 08:16 UTC",
+ "generated_at": "2026-09-12 08:38 UTC",
  "problems": [
   {
    "id": 1,
@@ -3521,6 +3521,30 @@
    ]
   },
   {
+   "id": 3414,
+   "slug": "maximum-score-of-non-overlapping-intervals",
+   "title": "Maximum Score of Non-overlapping Intervals",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-score-of-non-overlapping-intervals/",
+   "date": "2026-09-12",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Dynamic Programming",
+    "Sorting"
+   ],
+   "has_analysis": false,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2139288361.py",
+     "id": 2139288361
+    }
+   ]
+  },
+  {
    "id": 3471,
    "slug": "find-the-largest-almost-missing-integer",
    "title": "Find the Largest Almost Missing Integer",
@@ -3561,7 +3585,7 @@
     "Recursion",
     "Enumeration"
    ],
-   "has_analysis": false,
+   "has_analysis": true,
    "has_notes": true,
    "history": [
     {
