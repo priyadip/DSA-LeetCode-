@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 1235,
+  "lang": "python3",
+  "latest_submission_id": 2141396944,
+  "memory": "34 MB",
+  "memory_percentile": 57.94709999999991,
+  "paid_only": false,
+  "question_id": 1352,
+  "runner": null,
+  "runtime": "88 ms",
+  "runtime_percentile": 83.38909999999993,
+  "timestamp": 1789377499,
+  "title": "Maximum Profit in Job Scheduling",
+  "title_slug": "maximum-profit-in-job-scheduling",
+  "total_correct": 35,
+  "total_testcases": 35,
+  "url": "https://leetcode.com/problems/maximum-profit-in-job-scheduling/"
+}

@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-12 11:07 UTC",
+ "generated_at": "2026-09-14 10:14 UTC",
  "problems": [
   {
    "id": 1,
@@ -2058,6 +2058,54 @@
    ]
   },
   {
+   "id": 835,
+   "slug": "image-overlap",
+   "title": "Image Overlap",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/image-overlap/",
+   "date": "2026-09-14",
+   "topics": [
+    "Array",
+    "Matrix"
+   ],
+   "has_analysis": false,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2141399462.py",
+     "id": 2141399462
+    },
+    {
+     "file": "submission_2141399256.py",
+     "id": 2141399256
+    }
+   ]
+  },
+  {
+   "id": 836,
+   "slug": "rectangle-overlap",
+   "title": "Rectangle Overlap",
+   "difficulty": "Easy",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/rectangle-overlap/",
+   "date": "2026-09-14",
+   "topics": [
+    "Math",
+    "Geometry"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2141397886.py",
+     "id": 2141397886
+    }
+   ]
+  },
+  {
    "id": 853,
    "slug": "car-fleet",
    "title": "Car Fleet",
@@ -2310,6 +2358,30 @@
     {
      "file": "submission_2100727401.py",
      "id": 2100727401
+    }
+   ]
+  },
+  {
+   "id": 1235,
+   "slug": "maximum-profit-in-job-scheduling",
+   "title": "Maximum Profit in Job Scheduling",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-profit-in-job-scheduling/",
+   "date": "2026-09-14",
+   "topics": [
+    "Array",
+    "Binary Search",
+    "Dynamic Programming",
+    "Sorting"
+   ],
+   "has_analysis": false,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2141396944.py",
+     "id": 2141396944
     }
    ]
   },
@@ -3983,7 +4055,7 @@
    "lang": "python3",
    "ext": "py",
    "url": "https://leetcode.com/problems/find-missing-elements/",
-   "date": "2026-08-04",
+   "date": "2026-09-12",
    "topics": [
     "Array",
     "Hash Table",
@@ -3992,6 +4064,10 @@
    "has_analysis": true,
    "has_notes": true,
    "history": [
+    {
+     "file": "submission_2139934142.py",
+     "id": 2139934142
+    },
     {
      "file": "submission_2094252994.py",
      "id": 2094252994

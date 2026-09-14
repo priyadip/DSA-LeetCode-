@@ -1,0 +1,19 @@
+{
+  "difficulty": "Medium",
+  "frontend_id": 835,
+  "lang": "python3",
+  "latest_submission_id": 2141399462,
+  "memory": "20 MB",
+  "memory_percentile": 14.360300000000002,
+  "paid_only": false,
+  "question_id": 864,
+  "runner": null,
+  "runtime": "195 ms",
+  "runtime_percentile": 74.15110000000007,
+  "timestamp": 1789377695,
+  "title": "Image Overlap",
+  "title_slug": "image-overlap",
+  "total_correct": 60,
+  "total_testcases": 60,
+  "url": "https://leetcode.com/problems/image-overlap/"
+}
