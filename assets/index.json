@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-14 16:31 UTC",
+ "generated_at": "2026-09-15 11:55 UTC",
  "problems": [
   {
    "id": 1,
@@ -3111,6 +3111,42 @@
     {
      "file": "submission_2106653127.py",
      "id": 2106653127
+    }
+   ]
+  },
+  {
+   "id": 2472,
+   "slug": "maximum-number-of-non-overlapping-palindrome-substrings",
+   "title": "Maximum Number of Non-overlapping Palindrome Substrings",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-number-of-non-overlapping-palindrome-substrings/",
+   "date": "2026-09-15",
+   "topics": [
+    "Two Pointers",
+    "String",
+    "Dynamic Programming",
+    "Greedy"
+   ],
+   "has_analysis": false,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2142348479.py",
+     "id": 2142348479
+    },
+    {
+     "file": "submission_2142346079.py",
+     "id": 2142346079
+    },
+    {
+     "file": "submission_2142341720.py",
+     "id": 2142341720
+    },
+    {
+     "file": "submission_2142341461.py",
+     "id": 2142341461
     }
    ]
   },

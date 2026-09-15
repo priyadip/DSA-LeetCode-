@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 2472,
+  "lang": "python3",
+  "latest_submission_id": 2142348479,
+  "memory": "19.5 MB",
+  "memory_percentile": 59.793800000000005,
+  "paid_only": false,
+  "question_id": 2559,
+  "runner": null,
+  "runtime": "19 ms",
+  "runtime_percentile": 52.06169999999999,
+  "timestamp": 1789457626,
+  "title": "Maximum Number of Non-overlapping Palindrome Substrings",
+  "title_slug": "maximum-number-of-non-overlapping-palindrome-substrings",
+  "total_correct": 56,
+  "total_testcases": 56,
+  "url": "https://leetcode.com/problems/maximum-number-of-non-overlapping-palindrome-substrings/"
+}
