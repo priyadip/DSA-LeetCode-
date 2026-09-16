@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-15 21:19 UTC",
+ "generated_at": "2026-09-16 16:27 UTC",
  "problems": [
   {
    "id": 1,
@@ -2722,6 +2722,50 @@
     {
      "file": "submission_2110061708.py",
      "id": 2110061708
+    }
+   ]
+  },
+  {
+   "id": 1621,
+   "slug": "number-of-sets-of-k-non-overlapping-line-segments",
+   "title": "Number of Sets of K Non-Overlapping Line Segments",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/",
+   "date": "2026-09-16",
+   "topics": [
+    "Math",
+    "Dynamic Programming",
+    "Combinatorics",
+    "Prefix Sum"
+   ],
+   "has_analysis": false,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2143645172.py",
+     "id": 2143645172
+    },
+    {
+     "file": "submission_2143644247.py",
+     "id": 2143644247
+    },
+    {
+     "file": "submission_2143642958.py",
+     "id": 2143642958
+    },
+    {
+     "file": "submission_2143642842.py",
+     "id": 2143642842
+    },
+    {
+     "file": "submission_2143642283.py",
+     "id": 2143642283
+    },
+    {
+     "file": "submission_2143629373.py",
+     "id": 2143629373
     }
    ]
   },

@@ -1,0 +1,26 @@
+{
+  "difficulty": "Medium",
+  "failed_testcases": [
+    {
+      "expected_output": "5",
+      "input": "4\n2",
+      "status": "Runtime Error"
+    }
+  ],
+  "frontend_id": 1621,
+  "lang": "python3",
+  "latest_submission_id": 2143645172,
+  "memory": "19.4 MB",
+  "memory_percentile": 86.2068,
+  "paid_only": false,
+  "question_id": 1725,
+  "runner": null,
+  "runtime": "483 ms",
+  "runtime_percentile": 51.72390000000001,
+  "timestamp": 1789562565,
+  "title": "Number of Sets of K Non-Overlapping Line Segments",
+  "title_slug": "number-of-sets-of-k-non-overlapping-line-segments",
+  "total_correct": 68,
+  "total_testcases": 68,
+  "url": "https://leetcode.com/problems/number-of-sets-of-k-non-overlapping-line-segments/"
+}
