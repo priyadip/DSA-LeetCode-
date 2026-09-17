@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-17 12:26 UTC",
+ "generated_at": "2026-09-17 12:40 UTC",
  "problems": [
   {
    "id": 1,
@@ -2667,6 +2667,43 @@
     {
      "file": "submission_2116595661.py",
      "id": 2116595661
+    }
+   ]
+  },
+  {
+   "id": 1477,
+   "slug": "find-two-non-overlapping-sub-arrays-each-with-target-sum",
+   "title": "Find Two Non-overlapping Sub-arrays Each With Target Sum",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/",
+   "date": "2026-09-17",
+   "topics": [
+    "Array",
+    "Hash Table",
+    "Binary Search",
+    "Dynamic Programming",
+    "Sliding Window"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2144704363.py",
+     "id": 2144704363
+    },
+    {
+     "file": "submission_2144704117.py",
+     "id": 2144704117
+    },
+    {
+     "file": "submission_2144701772.py",
+     "id": 2144701772
+    },
+    {
+     "file": "submission_2144700881.py",
+     "id": 2144700881
     }
    ]
   },
