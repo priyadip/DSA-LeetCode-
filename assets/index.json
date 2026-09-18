@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-17 12:40 UTC",
+ "generated_at": "2026-09-18 14:41 UTC",
  "problems": [
   {
    "id": 1,
@@ -2731,6 +2731,30 @@
     {
      "file": "submission_2103295503.py",
      "id": 2103295503
+    }
+   ]
+  },
+  {
+   "id": 1520,
+   "slug": "maximum-number-of-non-overlapping-substrings",
+   "title": "Maximum Number of Non-Overlapping Substrings",
+   "difficulty": "Hard",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/maximum-number-of-non-overlapping-substrings/",
+   "date": "2026-09-18",
+   "topics": [
+    "Hash Table",
+    "String",
+    "Greedy",
+    "Sorting"
+   ],
+   "has_analysis": false,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2145816722.py",
+     "id": 2145816722
     }
    ]
   },

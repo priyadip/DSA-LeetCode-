@@ -1,0 +1,19 @@
+{
+  "difficulty": "Hard",
+  "frontend_id": 1520,
+  "lang": "python3",
+  "latest_submission_id": 2145816722,
+  "memory": "20.6 MB",
+  "memory_percentile": 30.53099999999999,
+  "paid_only": false,
+  "question_id": 1644,
+  "runner": null,
+  "runtime": "212 ms",
+  "runtime_percentile": 57.078800000000086,
+  "timestamp": 1789741512,
+  "title": "Maximum Number of Non-Overlapping Substrings",
+  "title_slug": "maximum-number-of-non-overlapping-substrings",
+  "total_correct": 285,
+  "total_testcases": 285,
+  "url": "https://leetcode.com/problems/maximum-number-of-non-overlapping-substrings/"
+}
