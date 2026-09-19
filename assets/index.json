@@ -1,7 +1,7 @@
 {
  "repo": "priyadip/DSA-LeetCode-",
  "branch": "main",
- "generated_at": "2026-09-18 14:41 UTC",
+ "generated_at": "2026-09-19 12:11 UTC",
  "problems": [
   {
    "id": 1,
@@ -2525,6 +2525,28 @@
    ]
   },
   {
+   "id": 1401,
+   "slug": "circle-and-rectangle-overlapping",
+   "title": "Circle and Rectangle Overlapping",
+   "difficulty": "Medium",
+   "lang": "python3",
+   "ext": "py",
+   "url": "https://leetcode.com/problems/circle-and-rectangle-overlapping/",
+   "date": "2026-09-19",
+   "topics": [
+    "Math",
+    "Geometry"
+   ],
+   "has_analysis": true,
+   "has_notes": true,
+   "history": [
+    {
+     "file": "submission_2146618701.py",
+     "id": 2146618701
+    }
+   ]
+  },
+  {
    "id": 1402,
    "slug": "reducing-dishes",
    "title": "Reducing Dishes",
@@ -2749,7 +2771,7 @@
     "Greedy",
     "Sorting"
    ],
-   "has_analysis": false,
+   "has_analysis": true,
    "has_notes": true,
    "history": [
     {
